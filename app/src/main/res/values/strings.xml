@@ -1,3 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">Saransklife</string>
+
+    <string name="app_name">Saransklife</string>
+    <string name="title_activity_main">MainActivity</string>
+
+	<string-array name="sections">
+		<item>Главная</item>
+		<item>О городе</item>
+		<item>Путеводитель</item>
+		<item>Афиша</item>
+		<item>Справочник</item>
+		<item>О приложении</item>
+	</string-array>
+
 </resources>

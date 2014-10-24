@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.support.v4.app.FragmentManager;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -18,7 +20,7 @@ import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
 @EActivity(R.layout.activity_main)
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity {
 
 	@Pref Preferences_ preferences;
 	@InstanceState int currentSelectedPosition;
@@ -88,10 +90,10 @@ public class MainActivity extends Activity {
 			drawerLayout.closeDrawer(listDrawer);
 		}
 
-//		FragmentManager fragmentManager = getFragmentManager();
-//		fragmentManager.beginTransaction()
-//				.replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-//				.commit();
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		fragmentManager.beginTransaction()
+				.replace(R.id.container, new MainFragment_())
+				.commit();
 	}
 
 	@Override

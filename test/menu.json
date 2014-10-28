@@ -1,0 +1,324 @@
+{
+    "result": true,
+    "error": null,
+    "error_code": null,
+    "response": [
+        {
+            "id": null,
+            "name": "О городе",
+            "slug": "city-about",
+            "module": "page",
+            "child": [
+                {
+                    "id": null,
+                    "name": "История города",
+                    "slug": "city-history",
+                    "module": "page",
+                    "child": [],
+                    "data": null
+                },
+                {
+                    "id": null,
+                    "name": "Развитие индустрии",
+                    "slug": "city-industry",
+                    "module": "page",
+                    "child": [],
+                    "data": null
+                },
+                {
+                    "id": null,
+                    "name": "Транспортное обеспечение",
+                    "slug": "city-infrastructure",
+                    "module": "page",
+                    "child": [],
+                    "data": null
+                },
+                {
+                    "id": null,
+                    "name": "Культура и туризм",
+                    "slug": "city-culture",
+                    "module": "page",
+                    "child": [],
+                    "data": null
+                },
+                {
+                    "id": null,
+                    "name": "Достопримечательности",
+                    "slug": "city-sight",
+                    "module": "page",
+                    "child": [],
+                    "data": null
+                },
+                {
+                    "id": null,
+                    "name": "Спортивные достижения",
+                    "slug": "city-sport",
+                    "module": "page",
+                    "child": [],
+                    "data": null
+                }
+            ],
+            "data": null
+        },
+        {
+            "id": null,
+            "name": "Путеводитель",
+            "slug": "guide-book",
+            "module": "place",
+            "child": [
+                {
+                    "id": null,
+                    "name": "Гостиницы",
+                    "slug": "hotel",
+                    "module": "place",
+                    "child": [],
+                    "data": null
+                },
+                {
+                    "id": null,
+                    "name": "Достопримечательности",
+                    "slug": "sight",
+                    "module": "place",
+                    "child": [
+                        {
+                            "id": null,
+                            "name": "Памятники",
+                            "slug": "monument",
+                            "module": "page",
+                            "child": [],
+                            "data": null
+                        },
+                        {
+                            "id": null,
+                            "name": "Храмы",
+                            "slug": "temple",
+                            "module": "page",
+                            "child": [],
+                            "data": null
+                        }
+                    ],
+                    "data": null
+                },
+                {
+                    "id": null,
+                    "name": "Покушать",
+                    "slug": "eat",
+                    "module": "place",
+                    "child": [
+                        {
+                            "id": null,
+                            "name": "Фастфуд",
+                            "slug": "fastfood",
+                            "module": "page",
+                            "child": [],
+                            "data": null
+                        },
+                        {
+                            "id": null,
+                            "name": "Кафе",
+                            "slug": "cafe",
+                            "module": "page",
+                            "child": [],
+                            "data": null
+                        },
+                        {
+                            "id": null,
+                            "name": "Рестораны",
+                            "slug": "restarurant",
+                            "module": "page",
+                            "child": [],
+                            "data": null
+                        },
+                        {
+                            "id": null,
+                            "name": "Бары",
+                            "slug": "bar",
+                            "module": "page",
+                            "child": [],
+                            "data": null
+                        }
+                    ],
+                    "data": null
+                },
+                {
+                    "id": null,
+                    "name": "Музеи",
+                    "slug": "museum",
+                    "module": "place",
+                    "child": [],
+                    "data": null
+                },
+                {
+                    "id": null,
+                    "name": "Театры",
+                    "slug": "theatre",
+                    "module": "place",
+                    "child": [],
+                    "data": null
+                },
+                {
+                    "id": null,
+                    "name": "Парки и сады",
+                    "slug": "park",
+                    "module": "place",
+                    "child": [],
+                    "data": null
+                },
+                {
+                    "id": null,
+                    "name": "Развлечения",
+                    "slug": "entertainment",
+                    "module": "place",
+                    "child": [],
+                    "data": null
+                },
+                {
+                    "id": null,
+                    "name": "Места отдыха",
+                    "slug": "relaxplace",
+                    "module": "place",
+                    "child": [],
+                    "data": null
+                },
+                {
+                    "id": null,
+                    "name": "Бани и сауны",
+                    "slug": "bath",
+                    "module": "place",
+                    "child": [],
+                    "data": null
+                },
+                {
+                    "id": null,
+                    "name": "Спорт",
+                    "slug": "sport",
+                    "module": "place",
+                    "child": [],
+                    "data": null
+                },
+                {
+                    "id": null,
+                    "name": "Авто",
+                    "slug": "auto",
+                    "module": "place",
+                    "child": [],
+                    "data": null
+                },
+                {
+                    "id": null,
+                    "name": "Торговые центры",
+                    "slug": "supermarket",
+                    "module": "place",
+                    "child": [],
+                    "data": null
+                }
+            ],
+            "data": null
+        },
+        {
+            "id": null,
+            "name": "Афиша",
+            "slug": "event",
+            "module": "event",
+            "child": [],
+            "data": null
+        },
+        {
+            "id": null,
+            "name": "Справочник",
+            "slug": "reference-book",
+            "module": "reference",
+            "child": [
+                {
+                    "id": 1,
+                    "name": "Службы экстренной помощи",
+                    "slug": "emergency",
+                    "module": "reference",
+                    "child": [],
+                    "data": null
+                },
+                {
+                    "id": 2,
+                    "name": "Аварийные службы",
+                    "slug": "emergency-help",
+                    "module": "reference",
+                    "child": [],
+                    "data": null
+                },
+                {
+                    "id": 3,
+                    "name": "Справочные службы",
+                    "slug": "info",
+                    "module": "reference",
+                    "child": [],
+                    "data": null
+                },
+                {
+                    "id": 4,
+                    "name": "Городские службы",
+                    "slug": "city",
+                    "module": "reference",
+                    "child": [],
+                    "data": null
+                },
+                {
+                    "id": 6,
+                    "name": "Службы такси",
+                    "slug": "taxi",
+                    "module": "reference",
+                    "child": [],
+                    "data": null
+                },
+                {
+                    "id": 11,
+                    "name": "Частные мед. центры",
+                    "slug": "med-center-private",
+                    "module": "reference",
+                    "child": [],
+                    "data": null
+                },
+                {
+                    "id": 8,
+                    "name": "Медицинские учреждения",
+                    "slug": "med-city",
+                    "module": "reference",
+                    "child": [],
+                    "data": null
+                },
+                {
+                    "id": 7,
+                    "name": "Министерства",
+                    "slug": "ministry",
+                    "module": "reference",
+                    "child": [],
+                    "data": null
+                },
+                {
+                    "id": 12,
+                    "name": "Аварийные комиссары",
+                    "slug": "auto-kommisar",
+                    "module": "reference",
+                    "child": [],
+                    "data": null
+                },
+                {
+                    "id": 13,
+                    "name": "Эвакуаторы",
+                    "slug": "wrecker",
+                    "module": "reference",
+                    "child": [],
+                    "data": null
+                }
+            ],
+            "data": null
+        },
+        {
+            "id": null,
+            "name": "О приложении",
+            "slug": "about",
+            "module": "about",
+            "child": [],
+            "data": null
+        }
+    ]
+}

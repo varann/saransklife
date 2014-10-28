@@ -1,27 +1,36 @@
 package ru.saransklife;
 
-import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
-import android.support.v4.app.FragmentManager;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.ItemClick;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.rest.RestService;
 import org.androidannotations.annotations.sharedpreferences.Pref;
+
+import java.util.List;
+
+import ru.saransklife.api.RestApiClient;
+import ru.saransklife.api.model.ApiMenuItem;
+import ru.saransklife.api.model.MenuResponse;
 
 @EActivity(R.layout.activity_main)
 public class MainActivity extends FragmentActivity {
 
+	@RestService RestApiClient apiClient;
 	@Pref Preferences_ preferences;
 	@InstanceState int currentSelectedPosition;
 
@@ -34,10 +43,9 @@ public class MainActivity extends FragmentActivity {
 	@AfterViews
 	void afterViews() {
 
-		userLearnedDrawer = preferences.navigationDrawerLearned().get();
+		getMenu();
 
-		listDrawer.setAdapter(new SectionsAdapter(this, R.layout.list_drawer_item));
-		listDrawer.setItemChecked(currentSelectedPosition, true);
+		userLearnedDrawer = preferences.navigationDrawerLearned().get();
 
 		drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
@@ -63,6 +71,19 @@ public class MainActivity extends FragmentActivity {
 			this.drawerLayout.openDrawer(listDrawer);
 		}
 
+	}
+
+	@Background
+	void getMenu() {
+		MenuResponse menuResponse = apiClient.getMenu();
+		List<ApiMenuItem> menu = menuResponse.getResponse();
+		updateMenu(menu);
+	}
+
+	@UiThread
+	void updateMenu(List<ApiMenuItem> menu) {
+		listDrawer.setAdapter(new SectionsAdapter(this, R.layout.list_drawer_item, menu));
+		listDrawer.setItemChecked(currentSelectedPosition, true);
 	}
 
 	@Override

@@ -2,17 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 			  android:layout_width="match_parent"
 			  android:layout_height="wrap_content"
-	android:orientation="horizontal"
-	android:paddingTop="@dimen/drawer_icon_padding"
-	android:paddingBottom="@dimen/drawer_icon_padding"
-	android:paddingLeft="12dp">
+			  android:orientation="horizontal"
+			  android:paddingBottom="@dimen/drawer_icon_padding"
+			  android:paddingLeft="12dp"
+			  android:paddingTop="@dimen/drawer_icon_padding">
 
 	<ImageView
 		android:id="@+id/icon"
 		android:layout_width="@dimen/drawer_icon_size"
 		android:layout_height="@dimen/drawer_icon_size"
 		android:layout_gravity="center"
-		android:scaleType="center"/>
+		android:scaleType="fitCenter"/>
 
 	<TextView
 		android:id="@+id/title"

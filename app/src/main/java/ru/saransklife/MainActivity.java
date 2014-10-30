@@ -13,24 +13,23 @@ import android.widget.ListView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.rest.RestService;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import java.util.List;
 
-import ru.saransklife.api.RestApiClient;
-import ru.saransklife.api.model.ApiMenuItem;
-import ru.saransklife.api.model.MenuResponse;
+import ru.saransklife.dao.SectionItem;
+import ru.saransklife.menu.SectionsAdapter;
 
 @EActivity(R.layout.activity_main)
 public class MainActivity extends FragmentActivity {
 
-	@RestService RestApiClient apiClient;
+	@Bean Dao dao;
 	@Pref Preferences_ preferences;
 	@InstanceState int currentSelectedPosition;
 
@@ -75,13 +74,11 @@ public class MainActivity extends FragmentActivity {
 
 	@Background
 	void getMenu() {
-		MenuResponse menuResponse = apiClient.getMenu();
-		List<ApiMenuItem> menu = menuResponse.getResponse();
-		updateMenu(menu);
+		updateMenu(dao.getRootMenuItems());
 	}
 
 	@UiThread
-	void updateMenu(List<ApiMenuItem> menu) {
+	void updateMenu(List<SectionItem> menu) {
 		listDrawer.setAdapter(new SectionsAdapter(this, R.layout.list_drawer_item, menu));
 		listDrawer.setItemChecked(currentSelectedPosition, true);
 	}

@@ -17,14 +17,14 @@ public class SaransklifeDaoGenerator {
 
 		Schema schema = new Schema(1, "ru.saransklife.dao");
 
-		Entity menuItem = schema.addEntity("MenuItem");
-		menuItem.addIdProperty();
-		menuItem.addStringProperty("name");
-		menuItem.addStringProperty("slug");
-		menuItem.addStringProperty("module");
+		Entity sectionItem = schema.addEntity("SectionItem");
+		sectionItem.addIdProperty();
+		sectionItem.addStringProperty("name");
+		sectionItem.addStringProperty("slug");
+		sectionItem.addStringProperty("module");
 
-		Property parentId = menuItem.addLongProperty("parentId").getProperty();
-		ToMany itemToItems = menuItem.addToMany(menuItem, parentId);
+		Property parentId = sectionItem.addLongProperty("parentId").getProperty();
+		ToMany itemToItems = sectionItem.addToMany(sectionItem, parentId);
 		itemToItems.setName("children");
 
 		String outDir = "app/src/dao/java";

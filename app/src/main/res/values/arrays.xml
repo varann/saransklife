@@ -1,13 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<string-array name="section_icons">
-		<item>@drawable/white_icon_home</item>
-		<item>@drawable/white_icon_city_about</item>
-		<item>@drawable/white_icon_place</item>
-		<item>@drawable/white_icon_event</item>
-		<item>@drawable/white_icon_reference_book</item>
-		<item>@drawable/white_icon_about</item>
-	</string-array>
-
 </resources>

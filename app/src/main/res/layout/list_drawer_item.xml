@@ -12,7 +12,7 @@
 		android:layout_width="@dimen/drawer_icon_size"
 		android:layout_height="@dimen/drawer_icon_size"
 		android:layout_gravity="center"
-		android:scaleType="fitCenter"/>
+		android:scaleType="centerCrop"/>
 
 	<TextView
 		android:id="@+id/title"

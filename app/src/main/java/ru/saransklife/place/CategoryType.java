@@ -18,7 +18,8 @@ public enum CategoryType {
 	BATH(R.drawable.gray_icon_bath),
 	SPORT(R.drawable.gray_icon_sport),
 	AUTO(R.drawable.gray_icon_auto),
-	SUPERMARKET(R.drawable.gray_icon_supermarket);
+	SUPERMARKET(R.drawable.gray_icon_supermarket),
+	OTHER(0);
 	//TODO Добавить тип other
 
 	private String slug;

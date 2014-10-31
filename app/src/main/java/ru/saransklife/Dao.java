@@ -1,6 +1,7 @@
 package ru.saransklife;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import org.androidannotations.annotations.AfterInject;
@@ -18,6 +19,8 @@ import ru.saransklife.dao.DaoMaster;
 import ru.saransklife.dao.DaoSession;
 import ru.saransklife.dao.Page;
 import ru.saransklife.dao.PageDao;
+import ru.saransklife.dao.PlaceCategory;
+import ru.saransklife.dao.PlaceCategoryDao;
 import ru.saransklife.dao.SectionItem;
 import ru.saransklife.dao.SectionItemDao;
 import ru.saransklife.menu.SectionItemType;
@@ -91,5 +94,16 @@ public class Dao {
 			long id = pageDao.insert(response.getResponse());
 			return pageDao.load(id);
 		}
+	}
+
+	public Cursor getPlaceCategoryCursor() {
+		PlaceCategoryDao categoryDao = daoSession.getPlaceCategoryDao();
+		return db.query(categoryDao.getTablename(), categoryDao.getAllColumns(), null, null, null, null, null);
+	}
+
+	public void setPlaceCategories(List<PlaceCategory> categories) {
+		PlaceCategoryDao categoryDao = daoSession.getPlaceCategoryDao();
+		categoryDao.deleteAll();
+		categoryDao.insertInTx(categories);
 	}
 }

@@ -9,4 +9,6 @@
 	<dimen name="drawer_icon_size">32dp</dimen>
 	<dimen name="drawer_icon_padding">8dp</dimen>
 
+	<dimen name="category_icon_size">48dp</dimen>
+
 </resources>

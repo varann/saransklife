@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import ru.saransklife.MainFragment_;
 import ru.saransklife.PageFragment_;
 import ru.saransklife.R;
+import ru.saransklife.place.PlaceFragment;
+import ru.saransklife.place.PlaceFragment_;
 
 /**
  * Created by asavinova on 30/10/14.
@@ -13,7 +15,7 @@ public enum SectionItemType {
 
 	MAIN(R.drawable.white_icon_home, new MainFragment_()),
 	PAGE(R.drawable.white_icon_city_about, new PageFragment_()),
-	PLACE(R.drawable.white_icon_place, null),
+	PLACE(R.drawable.white_icon_place, new PlaceFragment_()),
 	EVENT(R.drawable.white_icon_event, null),
 	REFERENCE(R.drawable.white_icon_reference_book, null),
 	ABOUT(R.drawable.white_icon_about, null);

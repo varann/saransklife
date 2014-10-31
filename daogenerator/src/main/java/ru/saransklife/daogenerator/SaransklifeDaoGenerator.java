@@ -33,6 +33,11 @@ public class SaransklifeDaoGenerator {
 		page.addStringProperty("text");
 		page.addStringProperty("slug").unique();
 
+		Entity category = schema.addEntity("PlaceCategory");
+		category.addIdProperty();
+		category.addStringProperty("name");
+		category.addStringProperty("slug").unique();
+
 
 		String outDir = "app/src/dao/java";
 

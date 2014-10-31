@@ -7,6 +7,8 @@ import org.springframework.http.converter.json.MappingJacksonHttpMessageConverte
 
 import ru.saransklife.api.model.MenuResponse;
 import ru.saransklife.api.model.PageResponse;
+import ru.saransklife.api.model.PlaceCategoriesResponse;
+import ru.saransklife.dao.PlaceCategory;
 
 /**
  * Created by asavinova on 26/10/14.
@@ -19,5 +21,8 @@ public interface RestApiClient {
 
 	@Get("/page/{slug}")
 	PageResponse getPage(String slug);
+
+	@Get("/place/categories")
+	PlaceCategoriesResponse getPlaceCategories();
 
 }

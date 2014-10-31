@@ -6,6 +6,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 
 import ru.saransklife.api.model.MenuResponse;
+import ru.saransklife.api.model.PageResponse;
 
 /**
  * Created by asavinova on 26/10/14.
@@ -15,5 +16,8 @@ public interface RestApiClient {
 
 	@Get("/menu")
 	MenuResponse getMenu();
+
+	@Get("/page/{slug}")
+	PageResponse getPage(String slug);
 
 }

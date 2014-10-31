@@ -27,6 +27,13 @@ public class SaransklifeDaoGenerator {
 		ToMany itemToItems = sectionItem.addToMany(sectionItem, parentId);
 		itemToItems.setName("children");
 
+		Entity page = schema.addEntity("Page");
+		page.addIdProperty();
+		page.addStringProperty("title");
+		page.addStringProperty("text");
+		page.addStringProperty("slug").unique();
+
+
 		String outDir = "app/src/dao/java";
 
 		new File(outDir).mkdirs();

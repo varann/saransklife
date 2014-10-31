@@ -6,13 +6,18 @@ import android.database.sqlite.SQLiteDatabase;
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
+import org.androidannotations.annotations.rest.RestService;
 
 import java.util.List;
 
 import de.greenrobot.dao.query.QueryBuilder;
+import ru.saransklife.api.RestApiClient;
 import ru.saransklife.api.model.ApiSectionItem;
+import ru.saransklife.api.model.PageResponse;
 import ru.saransklife.dao.DaoMaster;
 import ru.saransklife.dao.DaoSession;
+import ru.saransklife.dao.Page;
+import ru.saransklife.dao.PageDao;
 import ru.saransklife.dao.SectionItem;
 import ru.saransklife.dao.SectionItemDao;
 import ru.saransklife.menu.SectionItemType;
@@ -25,6 +30,7 @@ public class Dao {
 
 	private SQLiteDatabase db;
 	@RootContext Context context;
+	@RestService RestApiClient api;
 
 	private DaoMaster.DevOpenHelper helper;
 	private DaoMaster daoMaster;
@@ -51,11 +57,12 @@ public class Dao {
 		//TODO Добавить проверку существования типа раздела меню
 
 		for (ApiSectionItem apiItem : menuItems) {
-			if (apiItem.getModule().equals(SectionItemType.PAGE.name())) {
+			if (SectionItemType.PAGE.getModule().equals(apiItem.getModule())) {
 				long itemId = sectionItemDao.insert(apiItem);
 				List<ApiSectionItem> pageItemChild = apiItem.getChild();
 				for (ApiSectionItem apiChild : pageItemChild) {
 					apiChild.setParentId(itemId);
+					sectionItemDao.insert(apiChild);
 				}
 			} else {
 				sectionItemDao.insert(apiItem);
@@ -68,4 +75,21 @@ public class Dao {
 		return builder.where(SectionItemDao.Properties.ParentId.isNull()).build().list();
 	}
 
+	public List<SectionItem> getPageSectionItems() {
+		QueryBuilder<SectionItem> builder = daoSession.getSectionItemDao().queryBuilder();
+		return builder.where(SectionItemDao.Properties.Module.eq(SectionItemType.PAGE.getModule())).build().list();
+	}
+
+	public Page getPage(String slug) {
+		PageDao pageDao = daoSession.getPageDao();
+		QueryBuilder<Page> builder = pageDao.queryBuilder();
+		Page page = builder.where(PageDao.Properties.Slug.eq(slug)).build().unique();
+		if (page != null) {
+			return page;
+		} else {
+			PageResponse response = api.getPage(slug);
+			long id = pageDao.insert(response.getResponse());
+			return pageDao.load(id);
+		}
+	}
 }

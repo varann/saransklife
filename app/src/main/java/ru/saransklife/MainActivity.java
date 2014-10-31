@@ -3,6 +3,7 @@ package ru.saransklife;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -24,6 +25,7 @@ import org.androidannotations.annotations.sharedpreferences.Pref;
 import java.util.List;
 
 import ru.saransklife.dao.SectionItem;
+import ru.saransklife.menu.SectionItemType;
 import ru.saransklife.menu.SectionsAdapter;
 
 @EActivity(R.layout.activity_main)
@@ -38,11 +40,12 @@ public class MainActivity extends FragmentActivity {
 	@ViewById ListView listDrawer;
 	private boolean userLearnedDrawer;
 	private ActionBarDrawerToggle drawerToggle;
+	private List<SectionItem> sectionItems;
 
 	@AfterViews
 	void afterViews() {
 
-		getMenu();
+		getSections();
 
 		userLearnedDrawer = preferences.navigationDrawerLearned().get();
 
@@ -73,13 +76,14 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	@Background
-	void getMenu() {
-		updateMenu(dao.getRootMenuItems());
+	void getSections() {
+		sectionItems = dao.getRootMenuItems();
+		updateSections();
 	}
 
 	@UiThread
-	void updateMenu(List<SectionItem> menu) {
-		listDrawer.setAdapter(new SectionsAdapter(this, R.layout.list_drawer_item, menu));
+	void updateSections() {
+		listDrawer.setAdapter(new SectionsAdapter(this, R.layout.list_drawer_item, sectionItems));
 		listDrawer.setItemChecked(currentSelectedPosition, true);
 	}
 
@@ -109,8 +113,12 @@ public class MainActivity extends FragmentActivity {
 		}
 
 		FragmentManager fragmentManager = getSupportFragmentManager();
+
+		String module = sectionItems.get(position).getModule();
+		Fragment fragment = SectionItemType.findTypeByModule(module).getFragment();
+
 		fragmentManager.beginTransaction()
-				.replace(R.id.container, new MainFragment_())
+				.replace(R.id.container, fragment)
 				.commit();
 	}
 

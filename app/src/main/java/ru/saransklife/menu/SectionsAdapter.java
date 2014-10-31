@@ -2,7 +2,6 @@ package ru.saransklife.menu;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 import java.util.List;
 
 import ru.saransklife.R;
-import ru.saransklife.api.model.ApiSectionItem;
 import ru.saransklife.dao.SectionItem;
 
 /**
@@ -45,7 +43,7 @@ public class SectionsAdapter extends ArrayAdapter<SectionItem> {
 
 		holder = (ViewHolder) view.getTag();
 		SectionItem item = getItem(position);
-		holder.icon.setImageResource(SectionItemType.findIconByModule(item.getModule()));
+		holder.icon.setImageResource(SectionItemType.findTypeByModule(item.getModule()).getIcon());
 		holder.title.setText(item.getName());
 
 		return view;

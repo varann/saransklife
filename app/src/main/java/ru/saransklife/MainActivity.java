@@ -41,6 +41,7 @@ public class MainActivity extends FragmentActivity {
 	private boolean userLearnedDrawer;
 	private ActionBarDrawerToggle drawerToggle;
 	private List<SectionItem> sectionItems;
+	private String lastModule;
 
 	@AfterViews
 	void afterViews() {
@@ -114,10 +115,11 @@ public class MainActivity extends FragmentActivity {
 
 		FragmentManager fragmentManager = getSupportFragmentManager();
 
-		String module = sectionItems.get(position).getModule();
-		Fragment fragment = SectionItemType.findTypeByModule(module).getFragment();
+		lastModule = sectionItems.get(position).getModule();
+		Fragment fragment = SectionItemType.findTypeByModule(lastModule).getFragment();
 
 		fragmentManager.beginTransaction()
+				.addToBackStack(null)
 				.replace(R.id.container, fragment)
 				.commit();
 	}
@@ -129,5 +131,14 @@ public class MainActivity extends FragmentActivity {
 		drawerToggle.onConfigurationChanged(newConfig);
 	}
 
+	@Override
+	public void onBackPressed() {
+		// This is a hack for testing
 
+		Fragment fragment = SectionItemType.findTypeByModule(lastModule).getFragment();
+
+		if (!fragment.getChildFragmentManager().popBackStackImmediate()) {
+			finish(); //or call the popBackStack on the container if necessary
+		}
+	}
 }

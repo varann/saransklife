@@ -21,9 +21,28 @@ public class PlaceFragment extends Fragment {
 	void afterViews(){
 		fragmentManager = getChildFragmentManager();
 
+		CategoriesFragment categoriesFragment = new CategoriesFragment_();
+		categoriesFragment.setListener(new CategoriesFragmentListener());
+
 		fragmentManager.beginTransaction()
-				.replace(R.id.container, new CategoriesFragment_())
+				.addToBackStack(null)
+				.replace(R.id.container, categoriesFragment)
 				.commit();
+	}
+
+	class CategoriesFragmentListener {
+
+		public void onCategorySelected(long id) {
+			EntitiesByCategoryFragment entitiesFragment =
+					EntitiesByCategoryFragment_.builder().
+					categoryId(id).
+					build();
+
+			fragmentManager.beginTransaction()
+					.addToBackStack(null)
+					.replace(R.id.container, entitiesFragment)
+					.commit();
+		}
 	}
 
 }

@@ -8,6 +8,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
@@ -27,6 +28,7 @@ public class CategoriesFragment extends Fragment {
 
 	@Bean Dao dao;
 	@RestService RestApiClient apiClient;
+	private PlaceFragment.CategoriesFragmentListener listener;
 
 	@AfterViews
 	void afterViews() {
@@ -45,4 +47,13 @@ public class CategoriesFragment extends Fragment {
 		grid.setAdapter(new CategoryAdapter(getActivity(), dao.getPlaceCategoryCursor()));
 	}
 
+	@ItemClick
+	void gridItemClicked(int position) {
+		long id = grid.getAdapter().getItemId(position);
+		listener.onCategorySelected(id);
+	}
+
+	public void setListener(PlaceFragment.CategoriesFragmentListener listener) {
+		this.listener = listener;
+	}
 }

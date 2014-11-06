@@ -3,7 +3,6 @@ package ru.saransklife.place;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.TextView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -38,15 +37,15 @@ public class EntitiesByCategoryFragment extends Fragment {
 
 	@AfterViews
 	void afterViews() {
-		getEntities();
-
 		recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 		adapter = new EntitiesAdapter(dao.getPlaceEntitiesCursor());
 		recyclerView.setAdapter(adapter);
+
+		loadEntities();
 	}
 
 	@Background
-	void getEntities() {
+	void loadEntities() {
 		PlaceCategory category = dao.getPlaceCategoryById(categoryId);
 		PlaceEntitiesResponse entities = apiClient.getPlaceEntities(category.getSlug());
 		dao.setPlaceEntities(entities.getResponse().getEntities());
@@ -55,6 +54,8 @@ public class EntitiesByCategoryFragment extends Fragment {
 
 	@UiThread
 	void updateEntities() {
+		adapter.swapCursor(dao.getPlaceEntitiesCursor());
 		adapter.notifyDataSetChanged();
 	}
+
 }

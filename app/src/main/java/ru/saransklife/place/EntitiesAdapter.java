@@ -51,6 +51,10 @@ public class EntitiesAdapter extends RecyclerView.Adapter<EntitiesAdapter.ViewHo
 		return cursor.getCount();
 	}
 
+	public void swapCursor(Cursor cursor) {
+		this.cursor = cursor;
+	}
+
 	public static class ViewHolder extends RecyclerView.ViewHolder {
 
 		public TextView name;

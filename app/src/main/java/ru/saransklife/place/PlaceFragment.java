@@ -2,11 +2,12 @@ package ru.saransklife.place;
 
 
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
 
+import ru.saransklife.EventBus;
 import ru.saransklife.R;
 
 /**
@@ -15,34 +16,39 @@ import ru.saransklife.R;
 @EFragment(R.layout.fragment_place)
 public class PlaceFragment extends Fragment {
 
-	private FragmentManager fragmentManager;
+	@Bean EventBus eventBus;
 
 	@AfterViews
 	void afterViews(){
-		fragmentManager = getChildFragmentManager();
-
-		CategoriesFragment categoriesFragment = new CategoriesFragment_();
-		categoriesFragment.setListener(new CategoriesFragmentListener());
-
-		fragmentManager.beginTransaction()
-				.addToBackStack(null)
-				.replace(R.id.container, categoriesFragment)
-				.commit();
+		showFragment(new CategoriesFragment_());
 	}
 
-	class CategoriesFragmentListener {
+	@Override
+	public void onResume() {
+		super.onResume();
+		eventBus.register(this);
+	}
 
-		public void onCategorySelected(long id) {
-			EntitiesByCategoryFragment entitiesFragment =
-					EntitiesByCategoryFragment_.builder().
-					categoryId(id).
-					build();
+	@Override
+	public void onPause() {
+		super.onPause();
+		eventBus.unregister(this);
+	}
 
-			fragmentManager.beginTransaction()
-					.addToBackStack(null)
-					.replace(R.id.container, entitiesFragment)
-					.commit();
-		}
+	public void onEvent(OpenPlaceEntitiesEvent event) {
+		EntitiesByCategoryFragment entitiesFragment =
+				EntitiesByCategoryFragment_.builder().
+						categoryId(event.getId()).
+						build();
+
+		showFragment(entitiesFragment);
+	}
+
+	void showFragment(Fragment fragment) {
+		getChildFragmentManager().beginTransaction()
+				.addToBackStack(null)
+				.replace(R.id.container, fragment)
+				.commit();
 	}
 
 }

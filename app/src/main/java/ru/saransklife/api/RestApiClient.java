@@ -8,6 +8,7 @@ import org.springframework.http.converter.json.MappingJacksonHttpMessageConverte
 import ru.saransklife.api.model.MenuResponse;
 import ru.saransklife.api.model.PageResponse;
 import ru.saransklife.api.model.PlaceCategoriesResponse;
+import ru.saransklife.api.model.PlaceEntitiesResponse;
 import ru.saransklife.dao.PlaceCategory;
 
 /**
@@ -24,5 +25,8 @@ public interface RestApiClient {
 
 	@Get("/place/categories")
 	PlaceCategoriesResponse getPlaceCategories();
+
+	@Get("/place/category/{category}")
+	PlaceEntitiesResponse getPlaceEntities(String category);
 
 }

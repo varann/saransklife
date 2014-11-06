@@ -15,12 +15,15 @@ import de.greenrobot.dao.query.QueryBuilder;
 import ru.saransklife.api.RestApiClient;
 import ru.saransklife.api.model.ApiSectionItem;
 import ru.saransklife.api.model.PageResponse;
+import ru.saransklife.api.model.PlaceEntitiesResponse;
 import ru.saransklife.dao.DaoMaster;
 import ru.saransklife.dao.DaoSession;
 import ru.saransklife.dao.Page;
 import ru.saransklife.dao.PageDao;
 import ru.saransklife.dao.PlaceCategory;
 import ru.saransklife.dao.PlaceCategoryDao;
+import ru.saransklife.dao.PlaceEntity;
+import ru.saransklife.dao.PlaceEntityDao;
 import ru.saransklife.dao.SectionItem;
 import ru.saransklife.dao.SectionItemDao;
 import ru.saransklife.menu.SectionItemType;
@@ -105,5 +108,22 @@ public class Dao {
 		PlaceCategoryDao categoryDao = daoSession.getPlaceCategoryDao();
 		categoryDao.deleteAll();
 		categoryDao.insertInTx(categories);
+	}
+
+	public Cursor getPlaceEntitiesCursor() {
+		PlaceEntityDao entitiesDao = daoSession.getPlaceEntityDao();
+		return db.query(entitiesDao.getTablename(), entitiesDao.getAllColumns(), null, null, null, null, null);
+	}
+
+	public PlaceCategory getPlaceCategoryById(long categoryId) {
+		PlaceCategoryDao placeCategoryDao = daoSession.getPlaceCategoryDao();
+		QueryBuilder<PlaceCategory> builder = placeCategoryDao.queryBuilder();
+		return builder.where(PlaceCategoryDao.Properties.Id.eq(categoryId)).build().unique();
+	}
+
+	public void setPlaceEntities(List<PlaceEntity> entities) {
+		PlaceEntityDao entitiesDao = daoSession.getPlaceEntityDao();
+		entitiesDao.deleteAll();
+		entitiesDao.insertInTx(entities);
 	}
 }

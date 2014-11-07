@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
+import ru.saransklife.event.EventCategoriesResponse;
+import ru.saransklife.event.EventsResponse;
 import ru.saransklife.place_entities.PlaceEntitiesResponse;
 
 
@@ -19,7 +21,10 @@ public class ParserApiTest {
 	public static void main(String[] args) {
 
 //		new ParserApiTest().testMenu();
-		new ParserApiTest().testPlaceEntities();
+//		new ParserApiTest().testPlaceEntities();
+
+//		new ParserApiTest().testEventCategories();
+		new ParserApiTest().testEvents();
 	}
 
 	void testMenu() {
@@ -45,6 +50,32 @@ public class ParserApiTest {
 		try {
 			InputStream resourceAsStream = new FileInputStream("place_entities.json");
 			PlaceEntitiesResponse response = mapper.readValue(resourceAsStream, PlaceEntitiesResponse.class);
+			System.out.println();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	void testEventCategories() {
+
+		ObjectMapper mapper = new ObjectMapper();
+
+		try {
+			InputStream resourceAsStream = new FileInputStream("event_categories.json");
+			EventCategoriesResponse response = mapper.readValue(resourceAsStream, EventCategoriesResponse.class);
+			System.out.println();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	void testEvents() {
+
+		ObjectMapper mapper = new ObjectMapper();
+
+		try {
+			InputStream resourceAsStream = new FileInputStream("events.json");
+			EventsResponse response = mapper.readValue(resourceAsStream, EventsResponse.class);
 			System.out.println();
 		} catch (IOException e) {
 			e.printStackTrace();

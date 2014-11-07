@@ -56,6 +56,29 @@ public class SaransklifeDaoGenerator {
 		entity.addIntProperty("view_count");
 		entity.addIntProperty("recommended_count");
 
+		Entity eventCategory = schema.addEntity("EventCategory");
+		eventCategory.addIdProperty();
+		eventCategory.addStringProperty("name");
+		eventCategory.addStringProperty("slug").unique();
+
+		Entity event = schema.addEntity("Event");
+		event.addIdProperty();
+		event.addStringProperty("name");
+		event.addStringProperty("description");
+		event.addStringProperty("story");
+		event.addDateProperty("start_date");
+		event.addDateProperty("end_date");
+		event.addStringProperty("time_type");
+		event.addBooleanProperty("is_repeatable");
+		event.addStringProperty("photo_author");
+		event.addStringProperty("photo_path");
+		event.addStringProperty("price");
+
+		//TODO Добавить сеансы к событию
+
+		Property categoryId = event.addLongProperty("category_id").getProperty();
+		event.addToOne(eventCategory, categoryId);
+
 
 		String outDir = "app/src/dao/java";
 

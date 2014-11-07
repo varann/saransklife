@@ -1,0 +1,62 @@
+{
+    "result": true,
+    "error": null,
+    "error_code": null,
+    "response": [
+        {
+            "id": 8,
+            "name": "Кино",
+            "slug": "cinema"
+        },
+        {
+            "id": 2,
+            "name": "Театр",
+            "slug": "theatre"
+        },
+        {
+            "id": 4,
+            "name": "Вечеринки",
+            "slug": "party"
+        },
+        {
+            "id": 3,
+            "name": "Активный отдых",
+            "slug": "active-rest"
+        },
+        {
+            "id": 1,
+            "name": "Искусство",
+            "slug": "art"
+        },
+        {
+            "id": 5,
+            "name": "Детям",
+            "slug": "children"
+        },
+        {
+            "id": 6,
+            "name": "Город",
+            "slug": "city"
+        },
+        {
+            "id": 7,
+            "name": "Музеи",
+            "slug": "museum"
+        },
+        {
+            "id": 9,
+            "name": "Концерты",
+            "slug": "concert"
+        },
+        {
+            "id": 10,
+            "name": "Спорт",
+            "slug": "sport"
+        },
+        {
+            "id": 11,
+            "name": "Выставки",
+            "slug": "exposition"
+        }
+    ]
+}

@@ -5,6 +5,8 @@ import org.androidannotations.annotations.rest.Rest;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 
+import ru.saransklife.api.model.EventCategoriesResponse;
+import ru.saransklife.api.model.EventsResponse;
 import ru.saransklife.api.model.MenuResponse;
 import ru.saransklife.api.model.PageResponse;
 import ru.saransklife.api.model.PlaceCategoriesResponse;
@@ -29,4 +31,9 @@ public interface RestApiClient {
 	@Get("/place/category/{category}")
 	PlaceEntitiesResponse getPlaceEntities(String category);
 
+	@Get("/event/categories")
+	EventCategoriesResponse getEventCategories();
+
+	@Get("/event?date=week&page=1&limit=10")
+	EventsResponse getEvents();
 }

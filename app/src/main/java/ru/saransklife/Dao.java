@@ -13,11 +13,16 @@ import java.util.List;
 
 import de.greenrobot.dao.query.QueryBuilder;
 import ru.saransklife.api.RestApiClient;
+import ru.saransklife.api.model.ApiEvent;
 import ru.saransklife.api.model.ApiSectionItem;
 import ru.saransklife.api.model.PageResponse;
 import ru.saransklife.api.model.PlaceEntitiesResponse;
 import ru.saransklife.dao.DaoMaster;
 import ru.saransklife.dao.DaoSession;
+import ru.saransklife.dao.Event;
+import ru.saransklife.dao.EventCategory;
+import ru.saransklife.dao.EventCategoryDao;
+import ru.saransklife.dao.EventDao;
 import ru.saransklife.dao.Page;
 import ru.saransklife.dao.PageDao;
 import ru.saransklife.dao.PlaceCategory;
@@ -130,6 +135,44 @@ public class Dao {
 	public PlaceEntity getPlaceEntity(long id) {
 		PlaceEntityDao entitiesDao = daoSession.getPlaceEntityDao();
 		QueryBuilder<PlaceEntity> builder = entitiesDao.queryBuilder().where(PlaceEntityDao.Properties.Id.eq(id));
+		return builder.build().unique();
+	}
+
+	public void setEventCategories(List<EventCategory> categories) {
+		EventCategoryDao categoryDao = daoSession.getEventCategoryDao();
+		categoryDao.deleteAll();
+		categoryDao.insertInTx(categories);
+	}
+
+	public void setEvents(List<ApiEvent> apiEvents) {
+		PlaceEntityDao placeEntityDao = daoSession.getPlaceEntityDao();
+
+		EventDao eventDao = daoSession.getEventDao();
+		eventDao.deleteAll();
+		for (ApiEvent apiEvent : apiEvents) {
+			eventDao.insert(apiEvent);
+			List<PlaceEntity> places = apiEvent.getPlaces();
+			if (places != null && !places.isEmpty()) {
+				placeEntityDao.insertOrReplaceInTx(places);
+			}
+		}
+	}
+
+	public List<EventCategory> getEventCategories() {
+		//TODO Изменить запрос, чтобы выдавались только категории, у которых есть события
+		EventCategoryDao categoryDao = daoSession.getEventCategoryDao();
+		return categoryDao.loadAll();
+	}
+
+	public List<Event> getEventsByCategory(long categoryId) {
+		EventDao eventDao = daoSession.getEventDao();
+		QueryBuilder<Event> builder = eventDao.queryBuilder().where(EventDao.Properties.Category_id.eq(categoryId));
+		return builder.build().list();
+	}
+
+	public Event getEventById(long id) {
+		EventDao eventDao = daoSession.getEventDao();
+		QueryBuilder<Event> builder = eventDao.queryBuilder().where(EventDao.Properties.Id.eq(id));
 		return builder.build().unique();
 	}
 }

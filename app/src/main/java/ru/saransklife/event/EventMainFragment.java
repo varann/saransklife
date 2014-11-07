@@ -1,4 +1,4 @@
-package ru.saransklife.place;
+package ru.saransklife.event;
 
 
 import android.support.v4.app.Fragment;
@@ -9,24 +9,27 @@ import org.androidannotations.annotations.EFragment;
 
 import ru.saransklife.EventBus;
 import ru.saransklife.R;
+import ru.saransklife.place.CategoriesFragment_;
+import ru.saransklife.place.EntitiesByCategoryFragment;
+import ru.saransklife.place.EntitiesByCategoryFragment_;
+import ru.saransklife.place.EntityFragment;
+import ru.saransklife.place.EntityFragment_;
+import ru.saransklife.place.OpenPlaceEntitiesEvent;
+import ru.saransklife.place.OpenPlaceEntityEvent;
 
 /**
- * A simple {@link Fragment} subclass.
+ * A simple {@link android.support.v4.app.Fragment} subclass.
  */
 @EFragment(R.layout.fragment_container)
-public class PlaceFragment extends Fragment {
+public class EventMainFragment extends Fragment {
 
 	@Bean EventBus eventBus;
-
-	@AfterViews
-	void afterViews(){
-		showFragment(new CategoriesFragment_());
-	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
 		eventBus.register(this);
+		showFragment(new EventsFragment_());
 	}
 
 	@Override
@@ -35,22 +38,13 @@ public class PlaceFragment extends Fragment {
 		eventBus.unregister(this);
 	}
 
-	public void onEvent(OpenPlaceEntitiesEvent event) {
-		EntitiesByCategoryFragment entitiesFragment =
-				EntitiesByCategoryFragment_.builder().
-						categoryId(event.getId()).
-						build();
-
-		showFragment(entitiesFragment);
-	}
-
-	public void onEvent(OpenPlaceEntityEvent event) {
-		EntityFragment entityFragment =
-				EntityFragment_.builder().
+	public void onEvent(OpenEventEvent event) {
+		EventInfoFragment eventFragment =
+				EventInfoFragment_.builder().
 						id(event.getId()).
 						build();
 
-		showFragment(entityFragment);
+		showFragment(eventFragment);
 	}
 
 	void showFragment(Fragment fragment) {

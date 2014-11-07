@@ -126,4 +126,10 @@ public class Dao {
 		entitiesDao.deleteAll();
 		entitiesDao.insertInTx(entities);
 	}
+
+	public PlaceEntity getPlaceEntity(long id) {
+		PlaceEntityDao entitiesDao = daoSession.getPlaceEntityDao();
+		QueryBuilder<PlaceEntity> builder = entitiesDao.queryBuilder().where(PlaceEntityDao.Properties.Id.eq(id));
+		return builder.build().unique();
+	}
 }

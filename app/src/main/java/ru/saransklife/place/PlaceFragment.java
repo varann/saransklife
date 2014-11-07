@@ -44,6 +44,15 @@ public class PlaceFragment extends Fragment {
 		showFragment(entitiesFragment);
 	}
 
+	public void onEvent(OpenPlaceEntityEvent event) {
+		EntityFragment entityFragment =
+				EntityFragment_.builder().
+						id(event.getId()).
+						build();
+
+		showFragment(entityFragment);
+	}
+
 	void showFragment(Fragment fragment) {
 		getChildFragmentManager().beginTransaction()
 				.addToBackStack(null)

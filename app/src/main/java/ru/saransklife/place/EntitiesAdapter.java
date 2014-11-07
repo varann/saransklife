@@ -11,15 +11,17 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import ru.saransklife.EventBus;
+import ru.saransklife.EventBus_;
 import ru.saransklife.R;
+import ru.saransklife.Utils;
+import ru.saransklife.api.RestApiClient;
 import ru.saransklife.dao.PlaceEntityDao;
 
 /**
  * Created by asavinova on 05/11/14.
  */
 public class EntitiesAdapter extends RecyclerView.Adapter<EntitiesAdapter.ViewHolder> {
-
-	private static final String imageBaseUrl = "http://images.pointresearch.ru";
 
 	private Cursor cursor;
 
@@ -39,11 +41,7 @@ public class EntitiesAdapter extends RecyclerView.Adapter<EntitiesAdapter.ViewHo
 	public void onBindViewHolder(ViewHolder holder, int i) {
 		cursor.moveToPosition(i);
 
-		String photoPath = cursor.getString(cursor.getColumnIndex(PlaceEntityDao.Properties.Photo_path.columnName));
-		String name = cursor.getString(cursor.getColumnIndex(PlaceEntityDao.Properties.Name.columnName));
-
-		ImageLoader.getInstance().displayImage(imageBaseUrl + photoPath, holder.photo);
-		holder.name.setText(name);
+		holder.setCursor(cursor);
 	}
 
 	@Override
@@ -55,15 +53,38 @@ public class EntitiesAdapter extends RecyclerView.Adapter<EntitiesAdapter.ViewHo
 		this.cursor = cursor;
 	}
 
-	public static class ViewHolder extends RecyclerView.ViewHolder {
+	public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+		private final EventBus eventBus;
 		public TextView name;
 		public ImageView photo;
+		private long id;
 
 		public ViewHolder(View view) {
 			super(view);
+			view.setOnClickListener(this);
+			eventBus = EventBus_.getInstance_(view.getContext());
+
 			name = (TextView) view.findViewById(R.id.name);
 			photo = (ImageView) view.findViewById(R.id.photo);
+		}
+
+		@Override
+		public void onClick(View v) {
+			eventBus.post(new OpenPlaceEntityEvent(id));
+		}
+
+		public void setCursor(Cursor cursor) {
+			this.id = cursor.getLong(cursor.getColumnIndex(PlaceEntityDao.Properties.Id.columnName));
+
+			String photoPath = cursor.getString(cursor.getColumnIndex(PlaceEntityDao.Properties.Photo_path.columnName));
+			String name = cursor.getString(cursor.getColumnIndex(PlaceEntityDao.Properties.Name.columnName));
+
+			if (photoPath != null) {
+				ImageLoader.getInstance().displayImage(Utils.IMAGE_BASE_URL + photoPath, this.photo);
+			}
+
+			this.name.setText(name);
 		}
 	}
 

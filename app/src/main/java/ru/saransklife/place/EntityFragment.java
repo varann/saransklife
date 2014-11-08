@@ -45,7 +45,7 @@ public class EntityFragment extends Fragment {
 		PlaceEntity entity = dao.getPlaceEntity(id);
 
 		if (entity.getPhoto_path() != null) {
-			ImageLoader.getInstance().displayImage(Utils.IMAGE_BASE_URL + entity.getPhoto_path(), photo);
+			Utils.displayImage(photo, entity.getPhoto_path());
 		}
 
 		setText(name, entity.getName());
@@ -61,4 +61,7 @@ public class EntityFragment extends Fragment {
 		view.setText(TextUtils.isEmpty(text) ? "" : text);
 	}
 
+	public void setId(long id) {
+		this.id = id;
+	}
 }

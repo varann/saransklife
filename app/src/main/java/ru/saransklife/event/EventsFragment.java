@@ -41,7 +41,8 @@ public class EventsFragment extends Fragment {
 	@AfterViews
 	void afterViews() {
 		recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-		adapter = new EventsAdapter(dao.getEventCategories(), getChildFragmentManager(), dao);
+		//TODO Если передавать getChildFragmentManager(), то возникают проблемы при нажатии на Back
+		adapter = new EventsAdapter(dao.getEventCategories(), getFragmentManager(), dao);
 		recyclerView.setAdapter(adapter);
 
 		loadEvents();

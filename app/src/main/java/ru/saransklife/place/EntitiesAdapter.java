@@ -81,7 +81,7 @@ public class EntitiesAdapter extends RecyclerView.Adapter<EntitiesAdapter.ViewHo
 			String name = cursor.getString(cursor.getColumnIndex(PlaceEntityDao.Properties.Name.columnName));
 
 			if (photoPath != null) {
-				ImageLoader.getInstance().displayImage(Utils.IMAGE_BASE_URL + photoPath, this.photo);
+				Utils.displayImage(this.photo, photoPath);
 			}
 
 			this.name.setText(name);

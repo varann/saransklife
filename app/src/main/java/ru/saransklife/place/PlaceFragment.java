@@ -1,6 +1,7 @@
 package ru.saransklife.place;
 
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import org.androidannotations.annotations.AfterViews;
@@ -18,9 +19,19 @@ public class PlaceFragment extends Fragment {
 
 	@Bean EventBus eventBus;
 
-	@AfterViews
-	void afterViews(){
-		showFragment(new CategoriesFragment_());
+	private CategoriesFragment categoriesFragment = new CategoriesFragment_();
+	private EntitiesByCategoryFragment entitiesFragment = new EntitiesByCategoryFragment_();
+	private EntityFragment entityFragment = new EntityFragment_();
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		if (savedInstanceState == null) {
+			getChildFragmentManager().beginTransaction()
+					.add(R.id.container, categoriesFragment)
+					.commit();
+		}
 	}
 
 	@Override
@@ -36,20 +47,12 @@ public class PlaceFragment extends Fragment {
 	}
 
 	public void onEvent(OpenPlaceEntitiesEvent event) {
-		EntitiesByCategoryFragment entitiesFragment =
-				EntitiesByCategoryFragment_.builder().
-						categoryId(event.getId()).
-						build();
-
+		entitiesFragment.setCategoryId(event.getId());
 		showFragment(entitiesFragment);
 	}
 
 	public void onEvent(OpenPlaceEntityEvent event) {
-		EntityFragment entityFragment =
-				EntityFragment_.builder().
-						id(event.getId()).
-						build();
-
+		entityFragment.setId(event.getId());
 		showFragment(entityFragment);
 	}
 

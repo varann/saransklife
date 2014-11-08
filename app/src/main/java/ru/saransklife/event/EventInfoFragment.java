@@ -42,7 +42,7 @@ public class EventInfoFragment extends Fragment {
 		Event event = dao.getEventById(id);
 
 		if (event.getPhoto_path() != null) {
-			ImageLoader.getInstance().displayImage(Utils.IMAGE_BASE_URL + event.getPhoto_path(), photo);
+			Utils.displayImage(photo, event.getPhoto_path());
 		}
 
 		setText(name, event.getName());
@@ -54,4 +54,7 @@ public class EventInfoFragment extends Fragment {
 		view.setText(TextUtils.isEmpty(text) ? "" : text);
 	}
 
+	public void setId(long id) {
+		this.id = id;
+	}
 }

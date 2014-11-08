@@ -41,7 +41,7 @@ public class PagerItemFragment extends Fragment implements View.OnClickListener 
 		Event event = dao.getEventById(id);
 
 		if (event.getPhoto_path() != null) {
-			ImageLoader.getInstance().displayImage(Utils.IMAGE_BASE_URL + event.getPhoto_path(), photo);
+			Utils.displayImage(photo, event.getPhoto_path());
 		}
 
 		name.setText(event.getName());

@@ -58,4 +58,7 @@ public class EntitiesByCategoryFragment extends Fragment {
 		adapter.notifyDataSetChanged();
 	}
 
+	public void setCategoryId(long categoryId) {
+		this.categoryId = categoryId;
+	}
 }

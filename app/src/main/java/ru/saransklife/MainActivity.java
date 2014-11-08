@@ -43,6 +43,20 @@ public class MainActivity extends FragmentActivity {
 	private List<SectionItem> sectionItems;
 	private String lastModule;
 
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		if (savedInstanceState == null) {
+			lastModule = SectionItemType.MAIN.getModule();
+			Fragment fragment = SectionItemType.findTypeByModule(lastModule).getFragment();
+
+			getSupportFragmentManager().beginTransaction()
+					.add(R.id.container, fragment)
+					.commit();
+		}
+ 	}
+
 	@AfterViews
 	void afterViews() {
 
@@ -113,12 +127,10 @@ public class MainActivity extends FragmentActivity {
 			drawerLayout.closeDrawer(listDrawer);
 		}
 
-		FragmentManager fragmentManager = getSupportFragmentManager();
-
 		lastModule = sectionItems.get(position).getModule();
 		Fragment fragment = SectionItemType.findTypeByModule(lastModule).getFragment();
 
-		fragmentManager.beginTransaction()
+		getSupportFragmentManager().beginTransaction()
 				.addToBackStack(null)
 				.replace(R.id.container, fragment)
 				.commit();
@@ -136,9 +148,14 @@ public class MainActivity extends FragmentActivity {
 		// This is a hack for testing
 
 		Fragment fragment = SectionItemType.findTypeByModule(lastModule).getFragment();
+		FragmentManager childFragmentManager = fragment.getChildFragmentManager();
 
-		if (!fragment.getChildFragmentManager().popBackStackImmediate()) {
-			finish(); //or call the popBackStack on the container if necessary
+		// And here we go, if the back stack is empty, we let the back button doing its job
+		// Otherwise, we show the last entry in the back stack (our FragmentToShow)
+		if(childFragmentManager.getBackStackEntryCount() == 0){
+			super.onBackPressed();
+		} else {
+			childFragmentManager.popBackStack();
 		}
 	}
 }

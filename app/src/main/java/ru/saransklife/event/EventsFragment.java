@@ -4,13 +4,11 @@ package ru.saransklife.event;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.GridView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
@@ -21,9 +19,6 @@ import ru.saransklife.R;
 import ru.saransklife.api.RestApiClient;
 import ru.saransklife.api.model.EventCategoriesResponse;
 import ru.saransklife.api.model.EventsResponse;
-import ru.saransklife.api.model.PlaceCategoriesResponse;
-import ru.saransklife.place.CategoryAdapter;
-import ru.saransklife.place.OpenPlaceEntitiesEvent;
 
 /**
  * A simple {@link android.support.v4.app.Fragment} subclass.
@@ -61,7 +56,7 @@ public class EventsFragment extends Fragment {
 
 	@UiThread
 	void updateUi() {
-		adapter.setCategories(dao.getEventCategories());
+		adapter.swapCursor(dao.getEventCategories());
 		adapter.notifyDataSetChanged();
 	}
 }

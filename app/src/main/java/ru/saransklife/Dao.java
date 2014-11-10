@@ -158,10 +158,17 @@ public class Dao {
 		}
 	}
 
-	public List<EventCategory> getEventCategories() {
-		//TODO Изменить запрос, чтобы выдавались только категории, у которых есть события
-		EventCategoryDao categoryDao = daoSession.getEventCategoryDao();
-		return categoryDao.loadAll();
+	public Cursor getEventCategories() {
+		Cursor query = db.rawQuery("SELECT DISTINCT " +
+				EventCategoryDao.TABLENAME + "." + EventCategoryDao.Properties.Id.columnName + ", " +
+				EventCategoryDao.TABLENAME + "." + EventCategoryDao.Properties.Name.columnName + ", " +
+				EventCategoryDao.TABLENAME + "." + EventCategoryDao.Properties.Slug.columnName +
+				" FROM " + EventCategoryDao.TABLENAME +
+				" INNER JOIN " + EventDao.TABLENAME +
+				" ON " + EventCategoryDao.TABLENAME + "." + EventCategoryDao.Properties.Id.columnName +
+				" = " + EventDao.Properties.Category_id.columnName, null);
+
+		return query;
 	}
 
 	public List<Event> getEventsByCategory(long categoryId) {

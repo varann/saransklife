@@ -15,6 +15,8 @@ import ru.saransklife.Dao;
 import ru.saransklife.R;
 import ru.saransklife.dao.Event;
 import ru.saransklife.dao.EventCategory;
+import ru.saransklife.dao.EventCategoryDao;
+import ru.saransklife.dao.EventDao;
 import ru.saransklife.dao.PlaceEntityDao;
 
 /**
@@ -22,12 +24,12 @@ import ru.saransklife.dao.PlaceEntityDao;
  */
 public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder> {
 
+	private Cursor cursor;
 	private FragmentManager childFragmentManager;
 	private Dao dao;
-	private List<EventCategory> categories;
 
-	public EventsAdapter(List<EventCategory> categories, FragmentManager childFragmentManager, Dao dao) {
-		this.categories = categories;
+	public EventsAdapter(Cursor cursor, FragmentManager childFragmentManager, Dao dao) {
+		this.cursor = cursor;
 		this.childFragmentManager = childFragmentManager;
 		this.dao = dao;
 	}
@@ -42,16 +44,17 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 
 	@Override
 	public void onBindViewHolder(ViewHolder holder, int i) {
-		holder.setParams(childFragmentManager, dao, categories.get(i));
+		cursor.moveToPosition(i);
+		holder.setParams(cursor, childFragmentManager, dao);
 	}
 
 	@Override
 	public int getItemCount() {
-		return categories.size();
+		return cursor.getCount();
 	}
 
-	public void setCategories(List<EventCategory> categories) {
-		this.categories = categories;
+	public void swapCursor(Cursor cursor) {
+		this.cursor = cursor;
 	}
 
 	public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -65,11 +68,13 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 			pager = (ViewPager) view.findViewById(R.id.pager);
 		}
 
-		public void setParams(FragmentManager fragmentManager, Dao dao, EventCategory category) {
-			this.name.setText(category.getName());
+		public void setParams(Cursor cursor, FragmentManager fragmentManager, Dao dao) {
+			String name = cursor.getString(cursor.getColumnIndex(EventCategoryDao.Properties.Name.columnName));
+			this.name.setText(name);
 
 			PagerAdapter adapter = new PagerAdapter(fragmentManager);
-			List<Event> events = dao.getEventsByCategory(category.getId());
+			long id = cursor.getLong(cursor.getColumnIndex(EventCategoryDao.Properties.Id.columnName));
+			List<Event> events = dao.getEventsByCategory(id);
 			adapter.setEvents(events);
 			this.pager.setAdapter(adapter);
 		}

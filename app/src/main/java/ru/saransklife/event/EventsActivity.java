@@ -1,14 +1,15 @@
 package ru.saransklife.event;
 
 
-import android.support.v4.app.Fragment;
+import android.app.Activity;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
-import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
@@ -20,11 +21,9 @@ import ru.saransklife.api.RestApiClient;
 import ru.saransklife.api.model.EventCategoriesResponse;
 import ru.saransklife.api.model.EventsResponse;
 
-/**
- * A simple {@link android.support.v4.app.Fragment} subclass.
- */
-@EFragment(R.layout.fragment_events)
-public class EventsFragment extends Fragment {
+
+@EActivity(R.layout.activity_events)
+public class EventsActivity extends FragmentActivity {
 
 	@ViewById RecyclerView recyclerView;
 
@@ -35,9 +34,8 @@ public class EventsFragment extends Fragment {
 
 	@AfterViews
 	void afterViews() {
-		recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-		//TODO Если передавать getChildFragmentManager(), то возникают проблемы при нажатии на Back
-		adapter = new EventsAdapter(dao.getEventCategories(), getFragmentManager(), dao);
+		recyclerView.setLayoutManager(new LinearLayoutManager(this));
+		adapter = new EventsAdapter(dao.getEventCategories(), getSupportFragmentManager(), dao);
 		recyclerView.setAdapter(adapter);
 
 		loadEvents();

@@ -10,12 +10,9 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
         <activity
-            android:name="ru.saransklife.MainActivity_"
-            android:label="@string/app_name" >
-        </activity>
-        <activity
-            android:name="ru.saransklife.SplashActivity_"
+            android:name=".SplashActivity_"
             android:label="@string/title_activity_splash" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,6 +20,29 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
+
+		<activity
+			android:name=".MainActivity_"
+			android:label="@string/app_name" />
+
+		<activity
+			android:name=".PagesActivity_" />
+
+		<activity
+			android:name=".place.PlaceCategoriesActivity_" />
+
+		<activity
+			android:name=".place.EntitiesByCategoryActivity_" />
+
+		<activity
+			android:name=".place.EntityActivity_" />
+
+		<activity
+			android:name=".event.EventsActivity_" />
+
+		<activity
+			android:name=".event.EventInfoActivity_" />
+
+	</application>
 
 </manifest>

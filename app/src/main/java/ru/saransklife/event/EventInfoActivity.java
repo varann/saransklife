@@ -1,33 +1,25 @@
 package ru.saransklife.event;
 
-import android.support.v4.app.Fragment;
+import android.app.Activity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
-import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 
 import ru.saransklife.Dao;
 import ru.saransklife.R;
 import ru.saransklife.Utils;
 import ru.saransklife.dao.Event;
-import ru.saransklife.dao.PlaceEntity;
 
-/**
- * A simple {@link android.support.v4.app.Fragment} subclass.
- */
-@EFragment(R.layout.fragment_event_info)
-public class EventInfoFragment extends Fragment {
 
-	@FragmentArg
-	long id;
+@EActivity(R.layout.activity_event_info)
+public class EventInfoActivity extends Activity {
 
 	@ViewById ImageView photo;
 
@@ -36,6 +28,8 @@ public class EventInfoFragment extends Fragment {
 			description;
 
 	@Bean Dao dao;
+
+	@Extra long id;
 
 	@AfterViews
 	void afterViews() {
@@ -54,7 +48,4 @@ public class EventInfoFragment extends Fragment {
 		view.setText(TextUtils.isEmpty(text) ? "" : text);
 	}
 
-	public void setId(long id) {
-		this.id = id;
-	}
 }

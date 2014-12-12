@@ -55,7 +55,6 @@ public class EntitiesAdapter extends RecyclerView.Adapter<EntitiesAdapter.ViewHo
 
 	public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-		private final EventBus eventBus;
 		public TextView name;
 		public ImageView photo;
 		private long id;
@@ -63,7 +62,6 @@ public class EntitiesAdapter extends RecyclerView.Adapter<EntitiesAdapter.ViewHo
 		public ViewHolder(View view) {
 			super(view);
 			view.setOnClickListener(this);
-			eventBus = EventBus_.getInstance_(view.getContext());
 
 			name = (TextView) view.findViewById(R.id.name);
 			photo = (ImageView) view.findViewById(R.id.photo);
@@ -71,7 +69,7 @@ public class EntitiesAdapter extends RecyclerView.Adapter<EntitiesAdapter.ViewHo
 
 		@Override
 		public void onClick(View v) {
-			eventBus.post(new OpenPlaceEntityEvent(id));
+			EntityActivity_.intent(v.getContext()).id(id).start();
 		}
 
 		public void setCursor(Cursor cursor) {

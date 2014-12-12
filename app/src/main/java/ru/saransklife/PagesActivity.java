@@ -1,8 +1,7 @@
 package ru.saransklife;
 
-
 import android.app.ActionBar;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.SpinnerAdapter;
@@ -10,25 +9,23 @@ import android.widget.SpinnerAdapter;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
-import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
 import ru.saransklife.api.RestApiClient;
-import ru.saransklife.api.model.PageResponse;
 import ru.saransklife.dao.Page;
 import ru.saransklife.dao.SectionItem;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Created by asavinova on 13/12/14.
  */
-@EFragment(R.layout.fragment_page)
-public class PageFragment extends Fragment {
+@EActivity(R.layout.activity_pages)
+public class PagesActivity extends FragmentActivity {
 
 	@ViewById WebView webView;
 
@@ -48,9 +45,9 @@ public class PageFragment extends Fragment {
 			sectionTitles.add(item.getName());
 		}
 
-		SpinnerAdapter adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, sectionTitles);
+		SpinnerAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, sectionTitles);
 
-		ActionBar actionBar = getActivity().getActionBar();
+		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		actionBar.setListNavigationCallbacks(adapter, new ActionBar.OnNavigationListener() {

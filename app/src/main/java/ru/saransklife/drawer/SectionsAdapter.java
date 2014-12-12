@@ -1,4 +1,4 @@
-package ru.saransklife.menu;
+package ru.saransklife.drawer;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -43,7 +43,7 @@ public class SectionsAdapter extends ArrayAdapter<SectionItem> {
 
 		holder = (ViewHolder) view.getTag();
 		SectionItem item = getItem(position);
-		holder.icon.setImageResource(SectionItemType.findTypeByModule(item.getModule()).getIcon());
+		holder.icon.setImageResource(SectionItemType.valueOf(item.getModule().toUpperCase()).getIcon());
 		holder.title.setText(item.getName());
 
 		return view;

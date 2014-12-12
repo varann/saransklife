@@ -1,161 +1,80 @@
 package ru.saransklife;
 
-import android.content.res.Configuration;
-import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageSwitcher;
+import android.widget.ImageView;
+import android.widget.ViewSwitcher;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Background;
-import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.InstanceState;
-import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.sharedpreferences.Pref;
 
-import java.util.List;
-
-import ru.saransklife.dao.SectionItem;
-import ru.saransklife.menu.SectionItemType;
-import ru.saransklife.menu.SectionsAdapter;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 @EActivity(R.layout.activity_main)
 public class MainActivity extends FragmentActivity {
 
-	@Bean Dao dao;
-	@Pref Preferences_ preferences;
-	@InstanceState int currentSelectedPosition;
+	@ViewById ImageSwitcher imageSwitcher;
 
-	@ViewById DrawerLayout drawerLayout;
+	private int[] homeBgArray = {R.drawable.saransk_1, R.drawable.saransk_2, R.drawable.saransk_3};
+	private int currentIndex = 0;
+	private ScheduledExecutorService scheduleTaskExecutor;
+	private ScheduledFuture schedule;
 
-	@ViewById ListView listDrawer;
-	private boolean userLearnedDrawer;
-	private ActionBarDrawerToggle drawerToggle;
-	private List<SectionItem> sectionItems;
-	private String lastModule;
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		if (savedInstanceState == null) {
-			lastModule = SectionItemType.MAIN.getModule();
-			Fragment fragment = SectionItemType.findTypeByModule(lastModule).getFragment();
-
-			getSupportFragmentManager().beginTransaction()
-					.add(R.id.container, fragment)
-					.commit();
-		}
- 	}
 
 	@AfterViews
 	void afterViews() {
-
-		getSections();
-
-		userLearnedDrawer = preferences.navigationDrawerLearned().get();
-
-		drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setHomeButtonEnabled(true);
-
-		drawerToggle = new ActionBarDrawerToggle(
-				this, drawerLayout, R.drawable.ic_drawer, 0, 0) {
-
+		imageSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
 			@Override
-			public void onDrawerOpened(View drawerView) {
-				super.onDrawerOpened(drawerView);
-
-				if (!userLearnedDrawer) {
-					userLearnedDrawer = true;
-					preferences.edit().navigationDrawerLearned().put(true).apply();
-				}
+			public View makeView() {
+				ImageView view = new ImageView(MainActivity.this);
+				view.setScaleType(ImageView.ScaleType.CENTER_CROP);
+				view.setLayoutParams(new ImageSwitcher.LayoutParams(
+						ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+				return view;
 			}
-		};
-		drawerLayout.setDrawerListener(drawerToggle);
+		});
 
-		if (!userLearnedDrawer) {
-			this.drawerLayout.openDrawer(listDrawer);
-		}
+		Animation in = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
+		in.setDuration(500);
+		Animation out = AnimationUtils.loadAnimation(this, android.R.anim.fade_out);
+		out.setDuration(500);
+		imageSwitcher.setInAnimation(in);
+		imageSwitcher.setOutAnimation(out);
 
+		scheduleTaskExecutor = Executors.newScheduledThreadPool(1);
 	}
 
-	@Background
-	void getSections() {
-		sectionItems = dao.getRootMenuItems();
-		updateSections();
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		schedule = scheduleTaskExecutor.scheduleAtFixedRate(new Runnable() {
+			@Override
+			public void run() {
+				updateBg();
+			}
+		}, 0, 5, TimeUnit.SECONDS);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		schedule.cancel(true);
 	}
 
 	@UiThread
-	void updateSections() {
-		listDrawer.setAdapter(new SectionsAdapter(this, R.layout.list_drawer_item, sectionItems));
-		listDrawer.setItemChecked(currentSelectedPosition, true);
+	void updateBg() {
+		imageSwitcher.setImageResource(homeBgArray[(currentIndex % homeBgArray.length)]);
+		currentIndex++;
 	}
 
-	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-		drawerToggle.syncState();
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		if (drawerToggle.onOptionsItemSelected(item)) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-
-	@ItemClick
-	void listDrawerItemClicked(int position) {
-		currentSelectedPosition = position;
-		if (listDrawer != null) {
-			listDrawer.setItemChecked(position, true);
-		}
-		if (drawerLayout != null) {
-			drawerLayout.closeDrawer(listDrawer);
-		}
-
-		lastModule = sectionItems.get(position).getModule();
-		Fragment fragment = SectionItemType.findTypeByModule(lastModule).getFragment();
-
-		getSupportFragmentManager().beginTransaction()
-				.addToBackStack(null)
-				.replace(R.id.container, fragment)
-				.commit();
-	}
-
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		super.onConfigurationChanged(newConfig);
-		// Forward the new configuration the drawer toggle component.
-		drawerToggle.onConfigurationChanged(newConfig);
-	}
-
-	@Override
-	public void onBackPressed() {
-		// This is a hack for testing
-
-		Fragment fragment = SectionItemType.findTypeByModule(lastModule).getFragment();
-		FragmentManager childFragmentManager = fragment.getChildFragmentManager();
-
-		// And here we go, if the back stack is empty, we let the back button doing its job
-		// Otherwise, we show the last entry in the back stack (our FragmentToShow)
-		if(childFragmentManager.getBackStackEntryCount() == 0){
-			super.onBackPressed();
-		} else {
-			childFragmentManager.popBackStack();
-		}
-	}
 }

@@ -25,14 +25,12 @@ import ru.saransklife.dao.Event;
 @EFragment(R.layout.event_pager_item)
 public class PagerItemFragment extends Fragment implements View.OnClickListener {
 
-	@FragmentArg
-	long id;
+	@FragmentArg long id;
 
 	@ViewById ImageView photo;
 	@ViewById TextView name;
 
 	@Bean Dao dao;
-	@Bean EventBus eventBus;
 
 	@AfterViews
 	void afterViews() {
@@ -49,6 +47,6 @@ public class PagerItemFragment extends Fragment implements View.OnClickListener 
 
 	@Override
 	public void onClick(View v) {
-		eventBus.post(new OpenEventEvent(id));
+		EventInfoActivity_.intent(getActivity()).id(id).start();
 	}
 }

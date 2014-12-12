@@ -1,7 +1,6 @@
 package ru.saransklife.place;
 
 import ru.saransklife.R;
-import ru.saransklife.menu.SectionItemType;
 
 /**
  * Created by asavinova on 31/10/14.

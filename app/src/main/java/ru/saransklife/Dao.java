@@ -88,7 +88,7 @@ public class Dao {
 	public List<SectionItem> getPageSectionItems() {
 		QueryBuilder<SectionItem> builder = daoSession.getSectionItemDao().queryBuilder();
 		//TODO Ignore case?
-		return builder.where(SectionItemDao.Properties.Module.eq(SectionItemType.PAGE.name())).build().list();
+		return builder.where(SectionItemDao.Properties.Module.eq(SectionItemType.PAGE.name().toLowerCase())).build().list();
 	}
 
 	public Page getPage(String slug) {

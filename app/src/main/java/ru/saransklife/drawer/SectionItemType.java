@@ -1,7 +1,7 @@
 package ru.saransklife.drawer;
 
 import ru.saransklife.MainActivity_;
-import ru.saransklife.PagesActivity_;
+import ru.saransklife.page.PagesActivity_;
 import ru.saransklife.R;
 import ru.saransklife.event.EventsActivity_;
 import ru.saransklife.place.PlaceCategoriesActivity_;

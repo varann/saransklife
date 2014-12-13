@@ -33,8 +33,6 @@ public class DrawerFragment extends Fragment {
 	void afterViews() {
 		sectionItems = dao.getRootMenuItems();
 		listDrawer.setAdapter(new SectionsAdapter(getActivity(), R.layout.list_drawer_item, sectionItems));
-
-//		listDrawer.setItemChecked(currentSelectedPosition, true);
 	}
 
 	@ItemClick

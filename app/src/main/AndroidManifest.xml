@@ -23,19 +23,24 @@
 
 		<activity
 			android:name=".MainActivity_"
-			android:label="@string/app_name" />
+			android:launchMode="singleTop"/>
 
 		<activity
-			android:name=".page.PagesActivity_" />
+			android:name=".page.PagesActivity_"
+			android:launchMode="singleTop"/>
 
 		<activity
-			android:name=".place.PlaceCategoriesActivity_" />
+			android:name=".place.PlaceCategoriesActivity_"
+			android:launchMode="singleTop"/>
 
 		<activity
-			android:name=".place.EntitiesByCategoryActivity_" />
+			android:name=".place.EntitiesByCategoryActivity_"
+			android:parentActivityName=".place.PlaceCategoriesActivity_"
+			android:launchMode="singleTop"/>
 
 		<activity
-			android:name=".place.EntityActivity_" />
+			android:name=".place.EntityActivity_"
+			android:parentActivityName=".place.EntitiesByCategoryActivity_"/>
 
 		<activity
 			android:name=".event.EventsActivity_" />

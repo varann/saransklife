@@ -1,15 +1,29 @@
 <android.support.v4.widget.DrawerLayout
+	android:id="@+id/drawer_layout"
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
 
-	<GridView
-		android:id="@+id/grid"
+	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:columnWidth="120dp"
-		android:gravity="center"
-		android:numColumns="auto_fit"/>
+		android:orientation="vertical">
+
+		<android.support.v7.widget.Toolbar
+			android:id="@+id/toolbar"
+			style="@style/Toolbar"
+			app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+		<GridView
+			android:id="@+id/grid"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:columnWidth="120dp"
+			android:gravity="center"
+			android:numColumns="auto_fit"/>
+
+	</LinearLayout>
 
 	<fragment
 		android:id="@+id/drawer"

@@ -11,21 +11,17 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
-import org.androidannotations.annotations.FragmentById;
 import org.androidannotations.annotations.ViewById;
 
 import ru.saransklife.Dao;
 import ru.saransklife.R;
 import ru.saransklife.client.ui.google.sliding_tab_basic.SlidingTabLayout;
-import ru.saransklife.drawer.DrawerFragment;
 
 /**
  * Created by asavinova on 13/12/14.
  */
 @EActivity(R.layout.activity_pages)
 public class PagesActivity extends FragmentActivity {
-
-	@FragmentById DrawerFragment drawer;
 
 	@ViewById DrawerLayout drawerLayout;
 	@ViewById Toolbar toolbar;

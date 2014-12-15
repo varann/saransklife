@@ -2,6 +2,9 @@ package ru.saransklife.place;
 
 import android.app.Activity;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,6 +15,7 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 
 import ru.saransklife.Dao;
@@ -23,8 +27,9 @@ import ru.saransklife.dao.PlaceEntity;
  * A simple {@link Fragment} subclass.
  */
 @EActivity(R.layout.activity_entity)
-public class EntityActivity extends Activity {
+public class EntityActivity extends ActionBarActivity {
 
+	@ViewById Toolbar toolbar;
 	@ViewById ImageView photo;
 
 	@ViewById TextView
@@ -43,6 +48,10 @@ public class EntityActivity extends Activity {
 	@AfterViews
 	void afterViews() {
 		PlaceEntity entity = dao.getPlaceEntity(id);
+		toolbar.setTitle(entity.getName());
+
+		setSupportActionBar(toolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		if (entity.getPhoto_path() != null) {
 			Utils.displayImage(photo, entity.getPhoto_path());
@@ -61,4 +70,8 @@ public class EntityActivity extends Activity {
 		view.setText(TextUtils.isEmpty(text) ? "" : text);
 	}
 
+	@OptionsItem
+	void homeSelected() {
+		NavUtils.navigateUpFromSameTask(this);
+	}
 }

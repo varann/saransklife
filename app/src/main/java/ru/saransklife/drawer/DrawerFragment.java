@@ -37,7 +37,10 @@ public class DrawerFragment extends Fragment {
 
 	@ItemClick
 	void listDrawerItemClicked(int position) {
-		String module = sectionItems.get(position).getModule();
-		startActivity(new Intent(getActivity(), SectionItemType.valueOf(module.toUpperCase()).getClazz()));
+		SectionItem item = sectionItems.get(position);
+		String module = item.getModule();
+		Intent intent = new Intent(getActivity(), SectionItemType.valueOf(module.toUpperCase()).getClazz());
+		intent.putExtra("title", item.getName());
+		startActivity(intent);
 	}
 }

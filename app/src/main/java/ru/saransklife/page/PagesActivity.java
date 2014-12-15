@@ -10,6 +10,7 @@ import android.view.View;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.FragmentById;
 import org.androidannotations.annotations.ViewById;
 
@@ -32,10 +33,11 @@ public class PagesActivity extends FragmentActivity {
 	@ViewById ViewPager pager;
 
 	@Bean Dao dao;
+	@Extra String title;
 
 	@AfterViews
 	void afterViews() {
-		toolbar.setTitle(R.string.page_title);
+		toolbar.setTitle(title);
 		toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
 		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
 			@Override

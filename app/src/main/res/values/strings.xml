@@ -3,6 +3,7 @@
 
     <string name="app_name">Saransklife</string>
     <string name="main_menu_item_title">Главная</string>
+	<string name="main_title">Саранск</string>
 	<string name="page_title">О городе</string>
 
     <string name="title_activity_splash">SplashActivity</string>

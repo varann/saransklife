@@ -1,12 +1,56 @@
 <android.support.v4.widget.DrawerLayout
+	android:id="@+id/drawer_layout"
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
 
-	<ImageSwitcher
-		android:id="@+id/imageSwitcher"
+	<LinearLayout
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"/>
+		android:layout_height="match_parent"
+		android:orientation="vertical">
+
+		<android.support.v7.widget.Toolbar
+			android:id="@+id/toolbar"
+			style="@style/Toolbar"
+			app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+		<FrameLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+
+			<ImageView
+				android:id="@+id/image1"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:scaleType="centerCrop"
+				android:src="@drawable/saransk_1"/>
+
+			<ImageView
+				android:id="@+id/image2"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:scaleType="centerCrop"
+				android:src="@drawable/saransk_2"
+				android:visibility="invisible"/>
+
+			<ImageView
+				android:id="@+id/image3"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:scaleType="centerCrop"
+				android:src="@drawable/saransk_3"
+				android:visibility="invisible"/>
+
+			<ImageView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center"
+				android:src="@drawable/saransk_logo"/>
+
+		</FrameLayout>
+
+	</LinearLayout>
 
 	<fragment
 		android:id="@+id/drawer"

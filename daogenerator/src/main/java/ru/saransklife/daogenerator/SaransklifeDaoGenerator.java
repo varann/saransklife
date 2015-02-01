@@ -33,13 +33,14 @@ public class SaransklifeDaoGenerator {
 		page.addStringProperty("text");
 		page.addStringProperty("slug").unique();
 
-		Entity category = schema.addEntity("PlaceCategory");
-		category.addIdProperty();
-		category.addStringProperty("name");
-		category.addStringProperty("slug").unique();
+		Entity placeCategory = schema.addEntity("PlaceCategory");
+		placeCategory.addIdProperty();
+		placeCategory.addStringProperty("name");
+		placeCategory.addStringProperty("slug").unique();
 
 		Entity entity = schema.addEntity("PlaceEntity");
 		entity.addIdProperty();
+		entity.addStringProperty("slug");
 		entity.addStringProperty("name");
 		entity.addStringProperty("address");
 		entity.addStringProperty("phone");
@@ -55,6 +56,10 @@ public class SaransklifeDaoGenerator {
 		entity.addFloatProperty("rating");
 		entity.addIntProperty("view_count");
 		entity.addIntProperty("recommended_count");
+
+//		Property placeCategorySlug = entity.addStringProperty("slug").getProperty();
+//		entity.addToOne(placeCategory, placeCategorySlug);
+
 
 		Entity eventCategory = schema.addEntity("EventCategory");
 		eventCategory.addIdProperty();

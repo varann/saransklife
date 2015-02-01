@@ -34,7 +34,7 @@
 
 	<fragment
 		android:id="@+id/drawer"
-		android:name="ru.saransklife.drawer.DrawerFragment_"
+		android:name="ru.saransklife.client.drawer.DrawerFragment_"
 		android:layout_width="@dimen/navigation_drawer_width"
 		android:layout_height="match_parent"
 		android:layout_gravity="start"/>

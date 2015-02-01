@@ -6,10 +6,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 
-import ru.saransklife.event.EventCategoriesResponse;
-import ru.saransklife.event.EventsResponse;
+import ru.saransklife.client.event.EventCategoriesResponse;
+import ru.saransklife.client.event.EventsResponse;
 import ru.saransklife.place_entities.PlaceEntitiesResponse;
 
 

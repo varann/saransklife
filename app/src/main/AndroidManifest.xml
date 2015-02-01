@@ -5,14 +5,14 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-		android:name=".App_"
+		android:name=".client.App_"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
 
         <activity
-            android:name=".SplashActivity_"
+            android:name=".client.SplashActivity_"
             android:label="@string/title_activity_splash" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,31 +22,31 @@
         </activity>
 
 		<activity
-			android:name=".MainActivity_"
+			android:name=".client.MainActivity_"
 			android:launchMode="singleTop"/>
 
 		<activity
-			android:name=".page.PagesActivity_"
+			android:name=".client.page.PagesActivity_"
 			android:launchMode="singleTop"/>
 
 		<activity
-			android:name=".place.PlaceCategoriesActivity_"
+			android:name=".client.place.PlaceCategoriesActivity_"
 			android:launchMode="singleTop"/>
 
 		<activity
-			android:name=".place.EntitiesByCategoryActivity_"
-			android:parentActivityName=".place.PlaceCategoriesActivity_"
+			android:name=".client.place.EntitiesByCategoryActivity_"
+			android:parentActivityName=".client.place.PlaceCategoriesActivity_"
 			android:launchMode="singleTop"/>
 
 		<activity
-			android:name=".place.EntityActivity_"
-			android:parentActivityName=".place.EntitiesByCategoryActivity_"/>
+			android:name=".client.place.EntityActivity_"
+			android:parentActivityName=".client.place.EntitiesByCategoryActivity_"/>
 
 		<activity
-			android:name=".event.EventsActivity_" />
+			android:name=".client.event.EventsActivity_" />
 
 		<activity
-			android:name=".event.EventInfoActivity_" />
+			android:name=".client.event.EventInfoActivity_" />
 
 	</application>
 

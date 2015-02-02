@@ -9,7 +9,9 @@
 	<TextView
 		android:id="@+id/name"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"/>
+		android:layout_height="match_parent"
+		android:textSize="@dimen/event_category_title_size"
+		android:layout_margin="@dimen/offset_small"/>
 	
 	<android.support.v4.view.ViewPager
 		android:id="@+id/pager"

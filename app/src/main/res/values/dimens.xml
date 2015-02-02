@@ -1,4 +1,7 @@
 <resources>
+	<dimen name="offset_small">4dp</dimen>
+	<dimen name="offset_normal">8dp</dimen>
+
 	<!-- Default screen margins, per the Android Design guidelines. -->
 	<dimen name="activity_horizontal_margin">16dp</dimen>
 	<dimen name="activity_vertical_margin">16dp</dimen>

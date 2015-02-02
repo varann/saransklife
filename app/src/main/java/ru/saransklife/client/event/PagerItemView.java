@@ -1,38 +1,41 @@
 package ru.saransklife.client.event;
 
-import android.support.v4.app.Fragment;
+import android.content.Context;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
-import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
 
-import ru.saransklife.client.Dao;
 import ru.saransklife.R;
+import ru.saransklife.client.Dao;
 import ru.saransklife.client.Utils;
 import ru.saransklife.dao.Event;
 
 /**
  * Created by asavinova on 08/11/14.
  */
-@EFragment(R.layout.event_pager_item)
-public class PagerItemFragment extends Fragment implements View.OnClickListener {
-
-	@FragmentArg long id;
+@EViewGroup(R.layout.event_pager_item)
+public class PagerItemView extends FrameLayout implements View.OnClickListener {
 
 	@ViewById ImageView photo;
 	@ViewById TextView name;
 
 	@Bean Dao dao;
+	private Context context;
+	private long id;
 
-	@AfterViews
-	void afterViews() {
-		getView().setOnClickListener(this);
+	public PagerItemView(Context context) {
+		super(context);
+		this.context = context;
+		setOnClickListener(this);
+	}
 
+	public void update(long id) {
+		this.id = id;
 		Event event = dao.getEventById(id);
 
 		if (event.getPhoto_path() != null) {
@@ -44,6 +47,6 @@ public class PagerItemFragment extends Fragment implements View.OnClickListener 
 
 	@Override
 	public void onClick(View v) {
-		EventInfoActivity_.intent(getActivity()).id(id).start();
+		EventInfoActivity_.intent(context).id(id).start();
 	}
 }

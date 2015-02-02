@@ -42,7 +42,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 	@Override
 	public void onBindViewHolder(ViewHolder holder, int i) {
 		cursor.moveToPosition(i);
-		holder.setParams(cursor, childFragmentManager, dao);
+		holder.setParams(cursor, dao);
 	}
 
 	@Override
@@ -58,22 +58,24 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 
 		public TextView name;
 		public ViewPager pager;
+		public EventPagerAdapter adapter;
 
 		public ViewHolder(View view) {
 			super(view);
 			name = (TextView) view.findViewById(R.id.name);
 			pager = (ViewPager) view.findViewById(R.id.pager);
+			adapter = new EventPagerAdapter();
+			pager.setAdapter(adapter);
 		}
 
-		public void setParams(Cursor cursor, FragmentManager fragmentManager, Dao dao) {
+		public void setParams(Cursor cursor, Dao dao) {
 			String name = cursor.getString(cursor.getColumnIndex(EventCategoryDao.Properties.Name.columnName));
 			this.name.setText(name);
 
-			PagerAdapter adapter = new PagerAdapter(fragmentManager);
 			long id = cursor.getLong(cursor.getColumnIndex(EventCategoryDao.Properties.Id.columnName));
 			List<Event> events = dao.getEventsByCategory(id);
 			adapter.setEvents(events);
-			this.pager.setAdapter(adapter);
+			adapter.notifyDataSetChanged();
 		}
 
 	}

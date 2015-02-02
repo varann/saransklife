@@ -3,9 +3,11 @@ package ru.saransklife.client.event;
 
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 
@@ -31,6 +33,7 @@ public class EventsActivity extends FragmentActivity {
 
 	@ViewById DrawerLayout drawerLayout;
 	@ViewById Toolbar toolbar;
+	@ViewById SwipeRefreshLayout refresh;
 	@ViewById RecyclerView recyclerView;
 
 	@Extra String title;
@@ -56,6 +59,11 @@ public class EventsActivity extends FragmentActivity {
 		adapter = new EventsAdapter(dao.getEventCategories(), getSupportFragmentManager(), dao);
 		recyclerView.setAdapter(adapter);
 
+		refresh.setColorSchemeResources(R.color.refresh_color_1, R.color.refresh_color_2, R.color.refresh_color_1, R.color.refresh_color_2);
+		refresh.setProgressViewOffset(false, 0,
+				(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
+		refresh.setEnabled(false);
+		refresh.setRefreshing(true);
 		loadEvents();
 	}
 
@@ -72,6 +80,7 @@ public class EventsActivity extends FragmentActivity {
 
 	@UiThread
 	void updateUi() {
+		refresh.setRefreshing(false);
 		adapter.swapCursor(dao.getEventCategories());
 		adapter.notifyDataSetChanged();
 	}

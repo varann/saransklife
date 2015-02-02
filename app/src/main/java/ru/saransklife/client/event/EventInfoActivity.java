@@ -1,7 +1,10 @@
 package ru.saransklife.client.event;
 
 import android.app.Activity;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,16 +19,18 @@ import ru.saransklife.client.Dao;
 import ru.saransklife.R;
 import ru.saransklife.client.Utils;
 import ru.saransklife.dao.Event;
+import ru.saransklife.dao.EventCategory;
 
 
 @EActivity(R.layout.activity_event_info)
-public class EventInfoActivity extends Activity {
+public class EventInfoActivity extends ActionBarActivity {
 
+	@ViewById Toolbar toolbar;
 	@ViewById ImageView photo;
 
-	@ViewById TextView
-			name,
-			description;
+	@ViewById TextView categoryName;
+	@ViewById TextView name;
+	@ViewById TextView description;
 
 	@Bean Dao dao;
 
@@ -35,10 +40,16 @@ public class EventInfoActivity extends Activity {
 	void afterViews() {
 		Event event = dao.getEventById(id);
 
+		toolbar.setTitle(event.getName());
+		toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
+		setSupportActionBar(toolbar);
+
 		if (event.getPhoto_path() != null) {
 			Utils.displayImage(photo, event.getPhoto_path());
 		}
 
+		EventCategory category = dao.getEventCategoryById(event.getCategory_id());
+		setText(categoryName, category.getName());
 		setText(name, event.getName());
 		setText(description, event.getDescription());
 	}

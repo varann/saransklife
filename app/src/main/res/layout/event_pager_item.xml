@@ -23,7 +23,7 @@
 			android:layout_height="wrap_content"
 			android:textSize="@dimen/event_title_size"
 			android:maxLines="3"
-			android:textColor="@android:color/white"
+			android:textColor="@color/white"
 			android:layout_margin="@dimen/offset_normal"/>
 
 		</LinearLayout>

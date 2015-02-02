@@ -192,4 +192,10 @@ public class Dao {
 		QueryBuilder<Event> builder = eventDao.queryBuilder().where(EventDao.Properties.Id.eq(id));
 		return builder.build().unique();
 	}
+
+	public EventCategory getEventCategoryById(Long categoryId) {
+		EventCategoryDao categoryDao = daoSession.getEventCategoryDao();
+		QueryBuilder<EventCategory> builder = categoryDao.queryBuilder().where(EventCategoryDao.Properties.Id.eq(categoryId));
+		return builder.build().unique();
+	}
 }

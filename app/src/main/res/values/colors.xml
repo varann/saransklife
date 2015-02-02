@@ -3,6 +3,8 @@
 	<color name="primary">#4096b1</color>
 	<color name="primary_dark">#397186</color>
 	<color name="accent">#5b486a</color>
+	<color name="white">@android:color/white</color>
+	<color name="delimiter">#ddd</color>
 
 	<color name="refresh_color_1">@color/primary</color>
 	<color name="refresh_color_2">@color/primary_dark</color>

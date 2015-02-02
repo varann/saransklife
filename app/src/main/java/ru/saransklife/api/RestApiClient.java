@@ -2,7 +2,6 @@ package ru.saransklife.api;
 
 import org.androidannotations.annotations.rest.Get;
 import org.androidannotations.annotations.rest.Rest;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 
 import ru.saransklife.api.model.EventCategoriesResponse;
@@ -11,7 +10,6 @@ import ru.saransklife.api.model.MenuResponse;
 import ru.saransklife.api.model.PageResponse;
 import ru.saransklife.api.model.PlaceCategoriesResponse;
 import ru.saransklife.api.model.PlaceEntitiesResponse;
-import ru.saransklife.dao.PlaceCategory;
 
 /**
  * Created by asavinova on 26/10/14.

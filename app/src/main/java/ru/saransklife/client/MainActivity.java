@@ -1,6 +1,5 @@
 package ru.saransklife.client;
 
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -27,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 import ru.saransklife.R;
 
 @EActivity(R.layout.activity_main)
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends BaseActivity {
 
 	@ViewById DrawerLayout drawerLayout;
 	@ViewById Toolbar toolbar;

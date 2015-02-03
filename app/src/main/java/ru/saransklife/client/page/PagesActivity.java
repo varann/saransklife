@@ -13,6 +13,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 
+import ru.saransklife.client.BaseActivity;
 import ru.saransklife.client.Dao;
 import ru.saransklife.R;
 import ru.saransklife.client.ui.google.sliding_tab_basic.SlidingTabLayout;
@@ -21,7 +22,7 @@ import ru.saransklife.client.ui.google.sliding_tab_basic.SlidingTabLayout;
  * Created by asavinova on 13/12/14.
  */
 @EActivity(R.layout.activity_pages)
-public class PagesActivity extends FragmentActivity {
+public class PagesActivity extends BaseActivity {
 
 	@ViewById DrawerLayout drawerLayout;
 	@ViewById Toolbar toolbar;
@@ -33,6 +34,8 @@ public class PagesActivity extends FragmentActivity {
 
 	@AfterViews
 	void afterViews() {
+		logExtra(new String[]{"title"}, title);
+
 		toolbar.setTitle(title);
 		toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
 		toolbar.setNavigationOnClickListener(new View.OnClickListener() {

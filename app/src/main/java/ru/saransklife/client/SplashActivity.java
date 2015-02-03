@@ -23,9 +23,7 @@ import ru.saransklife.api.model.MenuResponse;
 
 @WindowFeature(Window.FEATURE_NO_TITLE)
 @EActivity(R.layout.activity_splash)
-public class SplashActivity extends Activity {
-
-	private static final Logger L = LoggerFactory.getLogger(SplashActivity.class);
+public class SplashActivity extends BaseActivity {
 
 	@RestService RestApiClient apiClient;
 	@Bean Dao dao;

@@ -1,7 +1,6 @@
 package ru.saransklife.client.event;
 
 
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,16 +19,17 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
 
-import ru.saransklife.client.Dao;
-import ru.saransklife.client.EventBus;
 import ru.saransklife.R;
 import ru.saransklife.api.RestApiClient;
 import ru.saransklife.api.model.EventCategoriesResponse;
 import ru.saransklife.api.model.EventsResponse;
+import ru.saransklife.client.BaseActivity;
+import ru.saransklife.client.Dao;
+import ru.saransklife.client.EventBus;
 
 
 @EActivity(R.layout.activity_events)
-public class EventsActivity extends FragmentActivity {
+public class EventsActivity extends BaseActivity {
 
 	@ViewById DrawerLayout drawerLayout;
 	@ViewById Toolbar toolbar;
@@ -46,6 +46,8 @@ public class EventsActivity extends FragmentActivity {
 
 	@AfterViews
 	void afterViews() {
+		logExtra(new String[]{"title"}, title);
+
 		toolbar.setTitle(title);
 		toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
 		toolbar.setNavigationOnClickListener(new View.OnClickListener() {

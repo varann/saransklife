@@ -16,6 +16,7 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 
+import ru.saransklife.client.BaseActivity;
 import ru.saransklife.client.Dao;
 import ru.saransklife.R;
 import ru.saransklife.client.Utils;
@@ -25,7 +26,7 @@ import ru.saransklife.dao.PlaceEntity;
  * A simple {@link Fragment} subclass.
  */
 @EActivity(R.layout.activity_entity)
-public class EntityActivity extends ActionBarActivity {
+public class EntityActivity extends BaseActivity {
 
 	@ViewById Toolbar toolbar;
 	@ViewById ImageView photo;
@@ -45,6 +46,8 @@ public class EntityActivity extends ActionBarActivity {
 
 	@AfterViews
 	void afterViews() {
+		logExtra(new String[]{"id"}, Long.toString(id));
+
 		PlaceEntity entity = dao.getPlaceEntity(id);
 		toolbar.setTitle(entity.getName());
 

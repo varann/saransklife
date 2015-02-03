@@ -3,7 +3,6 @@ package ru.saransklife.client.place;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -19,17 +18,18 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
 
-import ru.saransklife.client.Dao;
 import ru.saransklife.R;
 import ru.saransklife.api.RestApiClient;
 import ru.saransklife.api.model.PlaceEntitiesResponse;
+import ru.saransklife.client.BaseActivity;
+import ru.saransklife.client.Dao;
 import ru.saransklife.dao.PlaceCategory;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 @EActivity(R.layout.activity_entities_by_category)
-public class EntitiesByCategoryActivity extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class EntitiesByCategoryActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
 
 	@ViewById Toolbar toolbar;
 	@ViewById SwipeRefreshLayout refresh;
@@ -40,11 +40,13 @@ public class EntitiesByCategoryActivity extends ActionBarActivity implements Swi
 
 	@Extra long category;
 
-	private ru.saransklife.client.place.EntitiesAdapter adapter;
+	private EntitiesAdapter adapter;
 
 
 	@AfterViews
 	void afterViews() {
+		logExtra(new String[]{"category"}, Long.toString(category));
+
 		PlaceCategory placeCategory = dao.getPlaceCategoryById(category);
 		toolbar.setTitle(placeCategory.getName());
 

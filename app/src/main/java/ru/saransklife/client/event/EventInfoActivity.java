@@ -1,10 +1,7 @@
 package ru.saransklife.client.event;
 
-import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,15 +12,16 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 
-import ru.saransklife.client.Dao;
 import ru.saransklife.R;
+import ru.saransklife.client.BaseActivity;
+import ru.saransklife.client.Dao;
 import ru.saransklife.client.Utils;
 import ru.saransklife.dao.Event;
 import ru.saransklife.dao.EventCategory;
 
 
 @EActivity(R.layout.activity_event_info)
-public class EventInfoActivity extends ActionBarActivity {
+public class EventInfoActivity extends BaseActivity {
 
 	@ViewById Toolbar toolbar;
 	@ViewById ImageView photo;
@@ -38,6 +36,8 @@ public class EventInfoActivity extends ActionBarActivity {
 
 	@AfterViews
 	void afterViews() {
+		logExtra(new String[]{"id"}, Long.toString(id));
+
 		Event event = dao.getEventById(id);
 
 		toolbar.setTitle(event.getName());

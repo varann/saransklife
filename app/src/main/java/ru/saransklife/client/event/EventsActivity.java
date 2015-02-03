@@ -58,7 +58,7 @@ public class EventsActivity extends BaseActivity {
 		});
 
 		recyclerView.setLayoutManager(new LinearLayoutManager(this));
-		adapter = new EventsAdapter(dao.getEventCategories(), getSupportFragmentManager(), dao);
+		adapter = new EventsAdapter(dao.getEventCategories(), dao);
 		recyclerView.setAdapter(adapter);
 
 		refresh.setColorSchemeResources(R.color.refresh_color_1, R.color.refresh_color_2, R.color.refresh_color_1, R.color.refresh_color_2);

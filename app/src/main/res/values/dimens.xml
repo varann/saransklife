@@ -1,6 +1,7 @@
 <resources>
 	<dimen name="offset_small">4dp</dimen>
 	<dimen name="offset_normal">8dp</dimen>
+	<dimen name="offset_big">12dp</dimen>
 
 	<dimen name="icon_font_size">24sp</dimen>
 

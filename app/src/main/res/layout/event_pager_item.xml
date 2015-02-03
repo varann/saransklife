@@ -24,7 +24,7 @@
 			android:textSize="@dimen/event_title_size"
 			android:maxLines="3"
 			android:textColor="@color/white"
-			android:layout_margin="@dimen/offset_normal"/>
+			android:layout_margin="@dimen/offset_big"/>
 
 		</LinearLayout>
 

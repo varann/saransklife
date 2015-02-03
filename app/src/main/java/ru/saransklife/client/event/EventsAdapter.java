@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.List;
 
@@ -22,12 +23,10 @@ import ru.saransklife.dao.EventCategoryDao;
 public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder> {
 
 	private Cursor cursor;
-	private FragmentManager childFragmentManager;
 	private Dao dao;
 
-	public EventsAdapter(Cursor cursor, FragmentManager childFragmentManager, Dao dao) {
+	public EventsAdapter(Cursor cursor, Dao dao) {
 		this.cursor = cursor;
-		this.childFragmentManager = childFragmentManager;
 		this.dao = dao;
 	}
 
@@ -58,14 +57,18 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 
 		public TextView name;
 		public ViewPager pager;
+		public CirclePageIndicator indicator;
 		public EventPagerAdapter adapter;
 
 		public ViewHolder(View view) {
 			super(view);
 			name = (TextView) view.findViewById(R.id.name);
 			pager = (ViewPager) view.findViewById(R.id.pager);
+			indicator = (CirclePageIndicator) view.findViewById(R.id.indicator);
+
 			adapter = new EventPagerAdapter();
 			pager.setAdapter(adapter);
+			indicator.setViewPager(pager);
 		}
 
 		public void setParams(Cursor cursor, Dao dao) {

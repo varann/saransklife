@@ -10,12 +10,25 @@
 		android:id="@+id/name"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:textSize="@dimen/event_category_title_size"
-		android:layout_margin="@dimen/offset_small"/>
-	
-	<android.support.v4.view.ViewPager
-		android:id="@+id/pager"
+		android:layout_margin="@dimen/offset_small"
+		android:textSize="@dimen/event_category_title_size"/>
+
+	<FrameLayout
 		android:layout_width="wrap_content"
-		android:layout_height="200dp"/>
+		android:layout_height="wrap_content">
+
+		<android.support.v4.view.ViewPager
+			android:id="@+id/pager"
+			android:layout_width="wrap_content"
+			android:layout_height="200dp"/>
+
+		<com.viewpagerindicator.CirclePageIndicator
+			android:id="@+id/indicator"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="bottom|center_horizontal"
+			android:padding="@dimen/offset_small"/>
+
+	</FrameLayout>
 
 </LinearLayout>

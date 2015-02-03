@@ -12,6 +12,7 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
 
+import ru.saransklife.client.BaseActivity;
 import ru.saransklife.client.Dao;
 import ru.saransklife.R;
 import ru.saransklife.dao.SectionItem;
@@ -31,6 +32,7 @@ public class DrawerFragment extends Fragment {
 
 	@AfterViews
 	void afterViews() {
+
 		sectionItems = dao.getRootMenuItems();
 		listDrawer.setAdapter(new SectionsAdapter(getActivity(), R.layout.list_drawer_item, sectionItems));
 	}
@@ -42,5 +44,6 @@ public class DrawerFragment extends Fragment {
 		Intent intent = new Intent(getActivity(), SectionItemType.valueOf(module.toUpperCase()).getClazz());
 		intent.putExtra("title", item.getName());
 		startActivity(intent);
+		((BaseActivity) getActivity()).closeDrawer();
 	}
 }

@@ -1,11 +1,15 @@
 package ru.saransklife.client;
 
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Gravity;
 
 import org.androidannotations.annotations.EActivity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import ru.saransklife.R;
 
 
 /**
@@ -42,5 +46,21 @@ public class BaseActivity extends ActionBarActivity {
 		}
 		String log = builder.substring(0, builder.lastIndexOf(","));
 		L.info(String.format(log, extras));
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (!closeDrawer()) {
+			super.onBackPressed();
+		}
+	}
+
+	public boolean closeDrawer() {
+		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+		if (drawer != null && drawer.isDrawerOpen(Gravity.START)) {
+			drawer.closeDrawer(Gravity.START);
+			return true;
+		}
+		return false;
 	}
 }

@@ -12,8 +12,7 @@
         android:theme="@style/AppTheme" >
 
         <activity
-            android:name=".client.SplashActivity_"
-            android:label="@string/title_activity_splash" >
+            android:name=".client.SplashActivity_">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,10 +42,12 @@
 			android:parentActivityName=".client.place.EntitiesByCategoryActivity_"/>
 
 		<activity
-			android:name=".client.event.EventsActivity_" />
+			android:name=".client.event.EventsActivity_"
+			android:launchMode="singleTop"/>
 
 		<activity
-			android:name=".client.event.EventInfoActivity_" />
+			android:name=".client.event.EventInfoActivity_"
+			android:parentActivityName=".client.event.EventsActivity_"/>
 
 	</application>
 

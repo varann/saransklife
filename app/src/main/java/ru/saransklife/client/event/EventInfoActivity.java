@@ -16,6 +16,7 @@ import ru.saransklife.R;
 import ru.saransklife.client.BaseActivity;
 import ru.saransklife.client.Dao;
 import ru.saransklife.client.Utils;
+import ru.saransklife.client.ui.TitleView;
 import ru.saransklife.dao.Event;
 import ru.saransklife.dao.EventCategory;
 
@@ -27,7 +28,7 @@ public class EventInfoActivity extends BaseActivity {
 	@ViewById ImageView photo;
 
 	@ViewById TextView categoryName;
-	@ViewById TextView name;
+	@ViewById TitleView titleView;
 	@ViewById TextView description;
 
 	@Bean Dao dao;
@@ -50,7 +51,7 @@ public class EventInfoActivity extends BaseActivity {
 
 		EventCategory category = dao.getEventCategoryById(event.getCategory_id());
 		setText(categoryName, category.getName());
-		setText(name, event.getName());
+		titleView.setTitle(event.getName());
 		setText(description, event.getDescription());
 	}
 

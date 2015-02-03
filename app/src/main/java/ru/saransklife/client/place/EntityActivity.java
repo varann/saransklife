@@ -20,6 +20,7 @@ import ru.saransklife.client.BaseActivity;
 import ru.saransklife.client.Dao;
 import ru.saransklife.R;
 import ru.saransklife.client.Utils;
+import ru.saransklife.client.ui.TitleView;
 import ru.saransklife.dao.PlaceEntity;
 
 /**
@@ -31,8 +32,8 @@ public class EntityActivity extends BaseActivity {
 	@ViewById Toolbar toolbar;
 	@ViewById ImageView photo;
 
+	@ViewById TitleView titleView;
 	@ViewById TextView
-			name,
 			description,
 			address,
 			phone,
@@ -58,7 +59,7 @@ public class EntityActivity extends BaseActivity {
 			Utils.displayImage(photo, entity.getPhoto_path());
 		}
 
-		setText(name, entity.getName());
+		titleView.setTitle(entity.getName());
 		setText(description, entity.getDescription());
 		setText(address, entity.getAddress());
 		setText(phone, entity.getPhone());

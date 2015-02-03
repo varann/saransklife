@@ -41,21 +41,10 @@
 		android:layout_margin="@dimen/offset_normal"
 		android:orientation="vertical">
 
-		<TextView
-			android:id="@+id/name"
+		<ru.saransklife.client.ui.TitleView_
+			android:id="@+id/title_view"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:ellipsize="end"
-			android:singleLine="true"
-			android:textColor="@color/primary_dark"
-			android:textSize="@dimen/event_title_size"/>
-
-		<View
-			android:layout_width="match_parent"
-			android:layout_height="1dp"
-			android:background="@color/delimiter"
-			android:layout_marginTop="@dimen/offset_normal"
-			android:layout_marginBottom="@dimen/offset_normal"/>
+			android:layout_height="wrap_content" />
 
 		<TextView
 			android:id="@+id/description"

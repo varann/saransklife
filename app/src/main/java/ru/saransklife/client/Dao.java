@@ -39,6 +39,8 @@ import ru.saransklife.client.drawer.SectionItemType;
 @EBean(scope = EBean.Scope.Singleton)
 public class Dao {
 
+	public static final String INTERESTING_PLACES_SLUG = "interesting";
+
 	private SQLiteDatabase db;
 	@RootContext Context context;
 	@RestService RestApiClient api;
@@ -107,7 +109,9 @@ public class Dao {
 
 	public Cursor getPlaceCategoryCursor() {
 		PlaceCategoryDao categoryDao = daoSession.getPlaceCategoryDao();
-		return db.query(categoryDao.getTablename(), categoryDao.getAllColumns(), null, null, null, null, null);
+		return db.query(categoryDao.getTablename(),
+				categoryDao.getAllColumns(),
+				PlaceCategoryDao.Properties.Slug.columnName + " != '" + INTERESTING_PLACES_SLUG + "'", null, null, null, null);
 	}
 
 	public void setPlaceCategories(List<PlaceCategory> categories) {

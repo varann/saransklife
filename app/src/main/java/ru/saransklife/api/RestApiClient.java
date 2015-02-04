@@ -23,6 +23,9 @@ public interface RestApiClient {
 	@Get("/page/{slug}")
 	PageResponse getPage(String slug);
 
+	@Get("/place/interesting?page=1&limit=10")
+	PlaceEntitiesResponse getInterestingPlaces();
+
 	@Get("/place/categories")
 	PlaceCategoriesResponse getPlaceCategories();
 

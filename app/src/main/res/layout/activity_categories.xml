@@ -11,21 +11,46 @@
 
 		<android.support.v7.widget.Toolbar
 			android:id="@+id/toolbar"
-			style="@style/Toolbar" />
+			style="@style/Toolbar"/>
+
 
 		<android.support.v4.widget.SwipeRefreshLayout
 			android:id="@+id/refresh"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent">
+			android:layout_height="wrap_content">
 
-			<GridView
-				android:id="@+id/grid"
+			<LinearLayout
 				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:columnWidth="120dp"
-				android:gravity="center"
-				android:numColumns="auto_fit"/>
+				android:layout_height="wrap_content"
+				android:orientation="vertical">
 
+				<FrameLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content">
+
+					<android.support.v4.view.ViewPager
+						android:id="@+id/pager"
+						android:layout_width="match_parent"
+						android:layout_height="200dp"/>
+
+					<com.viewpagerindicator.CirclePageIndicator
+						android:id="@+id/indicator"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_gravity="bottom|center_horizontal"
+						android:padding="@dimen/offset_small"/>
+
+				</FrameLayout>
+
+				<GridView
+					android:id="@+id/grid"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:columnWidth="120dp"
+					android:background="@color/white"
+					android:numColumns="auto_fit"/>
+
+			</LinearLayout>
 		</android.support.v4.widget.SwipeRefreshLayout>
 
 	</LinearLayout>

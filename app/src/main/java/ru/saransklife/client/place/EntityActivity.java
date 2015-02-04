@@ -51,7 +51,6 @@ public class EntityActivity extends BaseActivity {
 
 		PlaceEntity entity = dao.getPlaceEntity(id);
 		toolbar.setTitle(entity.getName());
-
 		setSupportActionBar(toolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

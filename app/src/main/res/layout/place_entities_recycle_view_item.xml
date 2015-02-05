@@ -37,13 +37,10 @@
 			android:layout_marginRight="@dimen/offset_normal"
 			android:layout_marginBottom="@dimen/offset_small">
 
-			<TextView
+			<ru.saransklife.client.ui.ItemNameView
 				android:id="@+id/name"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:textSize="@dimen/pager_title_size"
-				android:maxLines="2"
-				android:textColor="@color/white"
 				android:layout_marginBottom="@dimen/offset_small"/>
 
 			<ru.saransklife.client.ui.ItemAddressView

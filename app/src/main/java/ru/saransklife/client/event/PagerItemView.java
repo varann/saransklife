@@ -13,6 +13,7 @@ import org.androidannotations.annotations.ViewById;
 import ru.saransklife.R;
 import ru.saransklife.client.Dao;
 import ru.saransklife.client.Utils;
+import ru.saransklife.client.ui.ItemNameView;
 import ru.saransklife.dao.Event;
 
 /**
@@ -22,7 +23,7 @@ import ru.saransklife.dao.Event;
 public class PagerItemView extends FrameLayout implements View.OnClickListener {
 
 	@ViewById ImageView photo;
-	@ViewById TextView name;
+	@ViewById ItemNameView name;
 
 	@Bean Dao dao;
 	private Context context;

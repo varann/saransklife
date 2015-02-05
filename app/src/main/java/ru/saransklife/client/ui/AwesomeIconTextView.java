@@ -33,8 +33,6 @@ public class AwesomeIconTextView extends TextView {
 	private void init() {
 		Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), "fontawesome.ttf");
 		setTypeface(typeface);
-
-		setShadowLayer(1, 1, 1, R.color.shadow);
 	}
 
 }

@@ -12,6 +12,7 @@ import ru.saransklife.R;
 import ru.saransklife.client.Utils;
 import ru.saransklife.client.ui.AwesomeIconTextView;
 import ru.saransklife.client.ui.ItemAddressView;
+import ru.saransklife.client.ui.ItemNameView;
 import ru.saransklife.client.ui.ItemRecommendedInfoView;
 import ru.saransklife.client.ui.RatingView;
 import ru.saransklife.dao.PlaceEntityDao;
@@ -55,7 +56,7 @@ public class EntitiesAdapter extends RecyclerView.Adapter<EntitiesAdapter.ViewHo
 
 		public ImageView photo;
 		public RatingView rating;
-		public TextView name;
+		public ItemNameView name;
 		public ItemAddressView address;
 		public ItemRecommendedInfoView recommendedInfo;
 		private long id;
@@ -66,7 +67,7 @@ public class EntitiesAdapter extends RecyclerView.Adapter<EntitiesAdapter.ViewHo
 
 			photo = (ImageView) view.findViewById(R.id.photo);
 			rating = (RatingView) view.findViewById(R.id.rating_view);
-			name = (TextView) view.findViewById(R.id.name);
+			name = (ItemNameView) view.findViewById(R.id.name);
 			address = (ItemAddressView) view.findViewById(R.id.address);
 			recommendedInfo = (ItemRecommendedInfoView) view.findViewById(R.id.recommended_info);
 		}

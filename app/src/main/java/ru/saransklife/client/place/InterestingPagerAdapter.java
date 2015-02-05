@@ -62,7 +62,10 @@ public class InterestingPagerAdapter extends PagerAdapter {
 		view.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				EntityActivity_.intent(context).id(id).start();
+				EntityActivity_.intent(context)
+						.id(id)
+						.isInteresting(true)
+						.start();
 			}
 		});
 

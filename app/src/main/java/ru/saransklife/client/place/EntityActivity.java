@@ -51,6 +51,8 @@ public class EntityActivity extends BaseActivity {
 
 	@Bean Dao dao;
 	@Extra long id;
+	@Extra boolean isInteresting;
+
 	private PlaceEntity entity;
 
 	@AfterViews
@@ -97,6 +99,10 @@ public class EntityActivity extends BaseActivity {
 
 	@OptionsItem
 	void homeSelected() {
-		NavUtils.navigateUpFromSameTask(this);
+		if (isInteresting) {
+			PlaceCategoriesActivity_.intent(this).start();
+		} else {
+			NavUtils.navigateUpFromSameTask(this);
+		}
 	}
 }

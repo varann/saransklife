@@ -28,7 +28,7 @@
 			android:textColor="@color/white"
 			android:layout_marginBottom="@dimen/offset_small"/>
 
-		<ru.saransklife.client.ui.AwesomeIconTextView_
+		<ru.saransklife.client.ui.ItemAddressView
 			android:id="@+id/address"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"

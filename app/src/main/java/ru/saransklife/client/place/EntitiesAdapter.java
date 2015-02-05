@@ -10,6 +10,10 @@ import android.widget.TextView;
 
 import ru.saransklife.R;
 import ru.saransklife.client.Utils;
+import ru.saransklife.client.ui.AwesomeIconTextView;
+import ru.saransklife.client.ui.ItemAddressView;
+import ru.saransklife.client.ui.ItemRecommendedInfoView;
+import ru.saransklife.client.ui.RatingView;
 import ru.saransklife.dao.PlaceEntityDao;
 
 /**
@@ -49,16 +53,22 @@ public class EntitiesAdapter extends RecyclerView.Adapter<EntitiesAdapter.ViewHo
 
 	public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-		public TextView name;
 		public ImageView photo;
+		public RatingView rating;
+		public TextView name;
+		public ItemAddressView address;
+		public ItemRecommendedInfoView recommendedInfo;
 		private long id;
 
 		public ViewHolder(View view) {
 			super(view);
 			view.setOnClickListener(this);
 
-			name = (TextView) view.findViewById(R.id.name);
 			photo = (ImageView) view.findViewById(R.id.photo);
+			rating = (RatingView) view.findViewById(R.id.rating_view);
+			name = (TextView) view.findViewById(R.id.name);
+			address = (ItemAddressView) view.findViewById(R.id.address);
+			recommendedInfo = (ItemRecommendedInfoView) view.findViewById(R.id.recommended_info);
 		}
 
 		@Override
@@ -71,12 +81,19 @@ public class EntitiesAdapter extends RecyclerView.Adapter<EntitiesAdapter.ViewHo
 
 			String photoPath = cursor.getString(cursor.getColumnIndex(PlaceEntityDao.Properties.Photo_path.columnName));
 			String name = cursor.getString(cursor.getColumnIndex(PlaceEntityDao.Properties.Name.columnName));
+			String address = cursor.getString(cursor.getColumnIndex(PlaceEntityDao.Properties.Address.columnName));
+			float rating = cursor.getFloat(cursor.getColumnIndex(PlaceEntityDao.Properties.Rating.columnName));
+			int viewCount = cursor.getInt(cursor.getColumnIndex(PlaceEntityDao.Properties.View_count.columnName));
+			int recommendedCount = cursor.getInt(cursor.getColumnIndex(PlaceEntityDao.Properties.Recommended_count.columnName));
 
 			if (photoPath != null) {
 				Utils.displayImage(this.photo, photoPath);
 			}
 
+			this.rating.setRating(rating);
 			this.name.setText(name);
+			this.address.setAddress(address);
+			this.recommendedInfo.setInfo(viewCount, recommendedCount);
 		}
 	}
 

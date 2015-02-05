@@ -4,5 +4,7 @@
 	<string name="angle_down">&#xf107;</string>
 	<string name="angle_up">&#xf106;</string>
 	<string name="map_marker">&#xf041;</string>
+	<string name="eye">&#xf06e;</string>
+	<string name="thumbs_up">&#xf164;</string>
 
 </resources>

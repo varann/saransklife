@@ -19,17 +19,55 @@
 			android:layout_height="150dp"
 			android:scaleType="centerCrop"/>
 
+		<ru.saransklife.client.ui.RatingView_
+			android:id="@+id/rating_view"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="right|top"
+			android:layout_marginTop="@dimen/offset_normal"
+			android:layout_marginRight="@dimen/offset_normal"/>
+
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:orientation="vertical"
-			android:layout_gravity="bottom">
+			android:layout_gravity="bottom"
+			android:layout_marginTop="@dimen/offset_normal"
+			android:layout_marginLeft="@dimen/offset_normal"
+			android:layout_marginRight="@dimen/offset_normal"
+			android:layout_marginBottom="@dimen/offset_small">
 
 			<TextView
 				android:id="@+id/name"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textSize="@dimen/pager_title_size"
+				android:maxLines="2"
+				android:textColor="@color/white"
+				android:layout_marginBottom="@dimen/offset_small"/>
+
+			<ru.saransklife.client.ui.ItemAddressView
+				android:id="@+id/address"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textSize="@dimen/pager_subtitle_size"
+				android:maxLines="1"
+				android:textColor="@color/white"/>
+
+			<View
 				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:textColor="@android:color/white"/>
+				android:layout_height="1dp"
+				android:background="@color/delimiter"
+				android:layout_marginBottom="@dimen/offset_small"
+				android:layout_marginTop="@dimen/offset_normal"/>
+
+			<ru.saransklife.client.ui.ItemRecommendedInfoView
+				android:id="@+id/recommended_info"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textSize="@dimen/pager_subtitle_size"
+				android:maxLines="1"
+				android:textColor="@color/white"/>
 
 		</LinearLayout>
 

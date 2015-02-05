@@ -12,6 +12,7 @@ import android.widget.TextView;
 import ru.saransklife.R;
 import ru.saransklife.client.Utils;
 import ru.saransklife.client.ui.AwesomeIconTextView;
+import ru.saransklife.client.ui.ItemAddressView;
 import ru.saransklife.dao.PlaceEntityDao;
 
 /**
@@ -45,7 +46,7 @@ public class InterestingPagerAdapter extends PagerAdapter {
 		View view = LayoutInflater.from(context).inflate(R.layout.interesting_pager_item, null);
 		ImageView photo = (ImageView) view.findViewById(R.id.photo);
 		TextView nameView = (TextView) view.findViewById(R.id.name);
-		AwesomeIconTextView addressView = (AwesomeIconTextView) view.findViewById(R.id.address);
+		ItemAddressView addressView = (ItemAddressView) view.findViewById(R.id.address);
 
 		cursor.moveToPosition(position);
 		final long id = cursor.getLong(cursor.getColumnIndex(PlaceEntityDao.Properties.Id.columnName));
@@ -57,8 +58,7 @@ public class InterestingPagerAdapter extends PagerAdapter {
 			Utils.displayImage(photo, photoPath);
 		}
 		nameView.setText(name);
-		String marker = container.getResources().getString(R.string.map_marker);
-		addressView.setText(marker + " " + address);
+		addressView.setAddress(address);
 
 		view.setOnClickListener(new View.OnClickListener() {
 			@Override

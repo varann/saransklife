@@ -3,8 +3,13 @@
 
 	<string name="angle_down">&#xf107;</string>
 	<string name="angle_up">&#xf106;</string>
-	<string name="map_marker">&#xf041;</string>
+	<string name="map_marker">&#xf041; </string>
 	<string name="eye">&#xf06e;</string>
 	<string name="thumbs_up">&#xf164;</string>
+	<string name="phone">&#xf095;</string>
+	<string name="envelope">&#xf0e0;</string>
+	<string name="globe">&#xf0ac;</string>
+	<string name="info">&#xf05a;</string>
+	<string name="tag">&#xf02b;</string>
 
 </resources>

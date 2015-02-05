@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
@@ -15,8 +16,11 @@ import org.androidannotations.annotations.ViewById;
 import ru.saransklife.R;
 import ru.saransklife.client.BaseActivity;
 import ru.saransklife.client.Dao;
+import ru.saransklife.client.DetailsActivity;
+import ru.saransklife.client.DetailsActivity_;
 import ru.saransklife.client.Utils;
 import ru.saransklife.client.ui.DescriptionView;
+import ru.saransklife.client.ui.DetailsButton;
 import ru.saransklife.client.ui.TitleView;
 import ru.saransklife.dao.Event;
 import ru.saransklife.dao.EventCategory;
@@ -27,20 +31,21 @@ public class EventInfoActivity extends BaseActivity {
 
 	@ViewById Toolbar toolbar;
 	@ViewById ImageView photo;
-
+	@ViewById DetailsButton detailsButton;
 	@ViewById TextView categoryName;
 	@ViewById TitleView titleView;
 	@ViewById DescriptionView descriptionView;
 
 	@Bean Dao dao;
-
 	@Extra long id;
+
+	private Event event;
 
 	@AfterViews
 	void afterViews() {
 		logExtra(new String[]{"id"}, Long.toString(id));
 
-		Event event = dao.getEventById(id);
+		event = dao.getEventById(id);
 
 		toolbar.setTitle(event.getName());
 		toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
@@ -49,6 +54,8 @@ public class EventInfoActivity extends BaseActivity {
 		if (event.getPhoto_path() != null) {
 			Utils.displayImage(photo, event.getPhoto_path());
 		}
+
+		detailsButton.setVisibility(TextUtils.isEmpty(event.getStory()) ? View.GONE : View.VISIBLE);
 
 		EventCategory category = dao.getEventCategoryById(event.getCategory_id());
 		setText(categoryName, category.getName());
@@ -61,4 +68,12 @@ public class EventInfoActivity extends BaseActivity {
 		view.setText(TextUtils.isEmpty(text) ? "" : text);
 	}
 
+	@Click
+	void detailsButtonClicked() {
+		DetailsActivity_.intent(this)
+				.id(id)
+				.text(event.getStory())
+				.from(DetailsActivity.EVENT)
+				.start();
+	}
 }

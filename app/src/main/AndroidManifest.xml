@@ -49,6 +49,9 @@
 			android:name=".client.event.EventInfoActivity_"
 			android:parentActivityName=".client.event.EventsActivity_"/>
 
+		<activity
+			android:name=".client.DetailsActivity_"/>
+
 	</application>
 
 </manifest>

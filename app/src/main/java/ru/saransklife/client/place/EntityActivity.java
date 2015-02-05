@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
@@ -18,6 +19,8 @@ import org.androidannotations.annotations.ViewById;
 import ru.saransklife.client.BaseActivity;
 import ru.saransklife.client.Dao;
 import ru.saransklife.R;
+import ru.saransklife.client.DetailsActivity;
+import ru.saransklife.client.DetailsActivity_;
 import ru.saransklife.client.Utils;
 import ru.saransklife.client.ui.AwesomeIconTextView;
 import ru.saransklife.client.ui.DescriptionView;
@@ -48,12 +51,13 @@ public class EntityActivity extends BaseActivity {
 
 	@Bean Dao dao;
 	@Extra long id;
+	private PlaceEntity entity;
 
 	@AfterViews
 	void afterViews() {
 		logExtra(new String[]{"id"}, Long.toString(id));
 
-		PlaceEntity entity = dao.getPlaceEntity(id);
+		entity = dao.getPlaceEntity(id);
 		toolbar.setTitle(entity.getName());
 		setSupportActionBar(toolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -80,6 +84,15 @@ public class EntityActivity extends BaseActivity {
 	private void setTextWithIcon(TextView view, int icon, String text) {
 		view.setVisibility(TextUtils.isEmpty(text) ? View.GONE : View.VISIBLE);
 		view.setText(TextUtils.isEmpty(text) ? "" : getString(icon) + " " + text);
+	}
+
+	@Click
+	void detailsButtonClicked() {
+		DetailsActivity_.intent(this)
+				.id(id)
+				.text(entity.getInformation())
+				.from(DetailsActivity.PLACE)
+				.start();
 	}
 
 	@OptionsItem

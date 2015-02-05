@@ -2,7 +2,6 @@ package ru.saransklife.client.place;
 
 
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
@@ -10,8 +9,6 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.GridView;
-
-import com.viewpagerindicator.CirclePageIndicator;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -38,8 +35,7 @@ public class PlaceCategoriesActivity extends BaseActivity implements SwipeRefres
 
 	@ViewById DrawerLayout drawerLayout;
 	@ViewById Toolbar toolbar;
-	@ViewById ViewPager pager;
-	@ViewById CirclePageIndicator indicator;
+	@ViewById InterestingViewPager viewpager;
 	@ViewById SwipeRefreshLayout refresh;
 	@ViewById GridView grid;
 
@@ -48,7 +44,6 @@ public class PlaceCategoriesActivity extends BaseActivity implements SwipeRefres
 	@Extra String title;
 
 	private CategoryAdapter categoryAdapter;
-	private InterestingPagerAdapter interestingPagerAdapter;
 
 	@AfterViews
 	void afterViews() {
@@ -62,10 +57,6 @@ public class PlaceCategoriesActivity extends BaseActivity implements SwipeRefres
 				drawerLayout.openDrawer(Gravity.START);
 			}
 		});
-
-		interestingPagerAdapter = new InterestingPagerAdapter(dao.getPlaceEntitiesBySlugCursor(Dao.INTERESTING_PLACES_SLUG));
-		pager.setAdapter(interestingPagerAdapter);
-		indicator.setViewPager(pager);
 
 		categoryAdapter = new CategoryAdapter(this, dao.getPlaceCategoryCursor());
 		grid.setAdapter(categoryAdapter);
@@ -96,8 +87,7 @@ public class PlaceCategoriesActivity extends BaseActivity implements SwipeRefres
 
 	@UiThread
 	void updateInterestingPlaces() {
-		interestingPagerAdapter.swapCursor(dao.getPlaceEntitiesBySlugCursor(Dao.INTERESTING_PLACES_SLUG));
-		interestingPagerAdapter.notifyDataSetChanged();
+		viewpager.update();
 	}
 
 	@UiThread

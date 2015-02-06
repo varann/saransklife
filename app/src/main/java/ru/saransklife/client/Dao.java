@@ -246,4 +246,10 @@ public class Dao {
 		QueryBuilder<Reference> builder = referenceDao.queryBuilder().where(ReferenceDao.Properties.Slug.eq(slug));
 		return builder.build().list();
 	}
+
+	public Reference getReference(long id) {
+		ReferenceDao referenceDao = daoSession.getReferenceDao();
+		QueryBuilder<Reference> builder = referenceDao.queryBuilder().where(ReferenceDao.Properties.Id.eq(id));
+		return builder.build().unique();
+	}
 }

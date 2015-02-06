@@ -60,7 +60,7 @@ public class ReferencesAdapter extends RecyclerView.Adapter<ReferencesAdapter.Vi
 
 		@Override
 		public void onClick(View v) {
-
+			ReferenceInfoActivity_.intent(v.getContext()).id(reference.getId()).start();
 		}
 
 		public void setCategory(Reference reference) {

@@ -6,6 +6,7 @@ import ru.saransklife.client.MainActivity_;
 import ru.saransklife.client.event.EventsActivity_;
 import ru.saransklife.client.page.PagesActivity_;
 import ru.saransklife.client.place.PlaceCategoriesActivity_;
+import ru.saransklife.client.reference.ReferenceCategoriesActivity_;
 
 /**
  * Created by asavinova on 30/10/14.
@@ -16,7 +17,7 @@ public enum SectionItemType {
 	PAGE(R.drawable.white_icon_city_about, PagesActivity_.class),
 	PLACE(R.drawable.white_icon_place, PlaceCategoriesActivity_.class),
 	EVENT(R.drawable.white_icon_event, EventsActivity_.class),
-	REFERENCE(R.drawable.white_icon_reference_book, null),
+	REFERENCE(R.drawable.white_icon_reference_book, ReferenceCategoriesActivity_.class),
 	ABOUT(R.drawable.white_icon_about, AboutActivity_.class);
 
 	private final int icon;

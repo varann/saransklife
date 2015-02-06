@@ -12,6 +12,7 @@ import ru.saransklife.api.model.PageResponse;
 import ru.saransklife.api.model.PlaceCategoriesResponse;
 import ru.saransklife.api.model.PlaceEntitiesResponse;
 import ru.saransklife.api.model.PostResponse;
+import ru.saransklife.api.model.ReferenceCategoriesResponse;
 import ru.saransklife.api.model.Response;
 
 /**
@@ -49,4 +50,7 @@ public interface RestApiClient {
 
 	@Post("/place/{id}/view?deviceId={deviceId}")
 	PostResponse setPlaceView(long id, String deviceId);
+
+	@Get("/reference")
+	ReferenceCategoriesResponse getReferenceCategories();
 }

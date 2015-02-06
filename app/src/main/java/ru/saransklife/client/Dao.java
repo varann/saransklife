@@ -29,6 +29,8 @@ import ru.saransklife.dao.PlaceCategory;
 import ru.saransklife.dao.PlaceCategoryDao;
 import ru.saransklife.dao.PlaceEntity;
 import ru.saransklife.dao.PlaceEntityDao;
+import ru.saransklife.dao.ReferenceCategory;
+import ru.saransklife.dao.ReferenceCategoryDao;
 import ru.saransklife.dao.SectionItem;
 import ru.saransklife.dao.SectionItemDao;
 import ru.saransklife.client.drawer.SectionItemType;
@@ -207,5 +209,16 @@ public class Dao {
 		EventCategoryDao categoryDao = daoSession.getEventCategoryDao();
 		QueryBuilder<EventCategory> builder = categoryDao.queryBuilder().where(EventCategoryDao.Properties.Id.eq(categoryId));
 		return builder.build().unique();
+	}
+
+	public void setReferenceCategories(List<ReferenceCategory> categories) {
+		ReferenceCategoryDao refCategoriesDao = daoSession.getReferenceCategoryDao();
+		refCategoriesDao.deleteAll();
+		refCategoriesDao.insertInTx(categories);
+	}
+
+	public List<ReferenceCategory> getReferenceCategories() {
+		ReferenceCategoryDao refCategoriesDao = daoSession.getReferenceCategoryDao();
+		return refCategoriesDao.loadAll();
 	}
 }

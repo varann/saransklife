@@ -85,6 +85,24 @@ public class SaransklifeDaoGenerator {
 		event.addToOne(eventCategory, categoryId);
 
 
+		Entity refCategory = schema.addEntity("ReferenceCategory");
+		refCategory.addIdProperty();
+		refCategory.addStringProperty("name");
+		refCategory.addStringProperty("description");
+		refCategory.addStringProperty("slug").unique();
+
+		Entity reference = schema.addEntity("Reference");
+		reference.addIdProperty();
+		reference.addStringProperty("name");
+		reference.addStringProperty("description");
+		reference.addStringProperty("phone");
+		reference.addStringProperty("information");
+		reference.addStringProperty("address");
+		reference.addStringProperty("site");
+
+		Property refCategoryId = reference.addLongProperty("category_id").getProperty();
+		reference.addToOne(refCategory, refCategoryId);
+
 		String outDir = "app/src/dao/java";
 
 		new File(outDir).mkdirs();

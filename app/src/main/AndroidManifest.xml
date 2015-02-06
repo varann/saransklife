@@ -56,6 +56,10 @@
 			android:name=".client.AboutActivity_"
 			android:launchMode="singleTop"/>
 
+		<activity
+			android:name=".client.reference.ReferenceCategoriesActivity_"
+			android:launchMode="singleTop"/>
+
 	</application>
 
 </manifest>

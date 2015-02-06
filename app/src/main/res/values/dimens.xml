@@ -1,4 +1,5 @@
 <resources>
+
 	<dimen name="offset_small">4dp</dimen>
 	<dimen name="offset_normal">8dp</dimen>
 	<dimen name="offset_big">12dp</dimen>
@@ -17,5 +18,8 @@
 
 	<dimen name="category_icon_size">48dp</dimen>
 	<dimen name="place_category_padding">16dp</dimen>
+
+	<dimen name="raised_button_height">48dp</dimen>
+	<dimen name="external_padding_button">4dp</dimen>
 
 </resources>

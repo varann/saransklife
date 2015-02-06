@@ -9,7 +9,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Response {
 
-	private class ResponseError {
+	public class ResponseError {
 		private int code;
 		private String message;
 

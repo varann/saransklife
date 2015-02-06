@@ -5,5 +5,6 @@
 	<dimen name="pager_title_size">18sp</dimen>
 	<dimen name="pager_subtitle_size">14sp</dimen>
 	<dimen name="photo_author_size">12sp</dimen>
+	<dimen name="font_size_button">18sp</dimen>
 
 </resources>

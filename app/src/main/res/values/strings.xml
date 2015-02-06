@@ -7,6 +7,19 @@
 	<string name="page_title">О городе</string>
 	<string name="photo_author">Фото:</string>
 	<string name="details_toolbar_title">Детали</string>
+	<string name="set_recommended">&#xf164; РЕКОМЕНДУЮ</string>
+	<string name="set_rating">&#xf005; МОЯ ОЦЕНКА</string>
+	<string name="set_rating_dialog_title">Поставьте свою оценку</string>
+	<string name="rating_awfully">Ужасно</string>
+	<string name="rating_bad">Плохо</string>
+	<string name="rating_medium">Средне</string>
+	<string name="rating_good">Хорошо</string>
+	<string name="rating_excellent">Отлично</string>
+	<string name="recommendation_setted">Ваша рекомендация учтена</string>
+	<string name="rating_setted">Ваша оценка учтена</string>
+
+	<string name="dialog_ок">OK</string>
+	<string name="dialog_cancel">Отменить</string>
 
     <string name="title_activity_splash">SplashActivity</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>

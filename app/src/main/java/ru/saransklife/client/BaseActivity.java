@@ -1,6 +1,7 @@
 package ru.saransklife.client;
 
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Gravity;
@@ -62,5 +63,11 @@ public class BaseActivity extends ActionBarActivity {
 			return true;
 		}
 		return false;
+	}
+
+	public String getDeviceId() {
+		String deviceId = Settings.Secure.getString(getContentResolver(),
+				Settings.Secure.ANDROID_ID);
+		return deviceId;
 	}
 }

@@ -18,7 +18,14 @@ public class ItemRecommendedInfoView extends AwesomeIconTextView {
 		super(context, attrs);
 	}
 
-	public void setInfo(int viewCount, int recommendedCount) {
+	public void setInfo(Integer viewCount, Integer recommendedCount) {
+		if (viewCount == null) {
+			viewCount = 0;
+		}
+		if (recommendedCount == null) {
+			recommendedCount = 0;
+		}
+
 		String markerView = getResources().getString(R.string.eye);
 		String markerRecommended = getResources().getString(R.string.thumbs_up);
 		setText(markerView + " " + viewCount + "   " + markerRecommended + " " + recommendedCount);

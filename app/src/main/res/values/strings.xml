@@ -17,6 +17,10 @@
 	<string name="rating_excellent">Отлично</string>
 	<string name="recommendation_setted">Ваша рекомендация учтена</string>
 	<string name="rating_setted">Ваша оценка учтена</string>
+	
+	<string name="copyright">www.saransklife.ru, 2015 г.</string>
+	<string name="send_email_title">Отправка письма</string>
+	<string name="no_email_applications_installed">Нет установленных приложений для отправки писем</string>
 
 	<string name="dialog_ок">OK</string>
 	<string name="dialog_cancel">Отменить</string>

@@ -40,6 +40,7 @@ import ru.saransklife.client.drawer.SectionItemType;
 public class Dao {
 
 	public static final String INTERESTING_PLACES_SLUG = "interesting";
+	public static final String ABOUT_PAGE_SLUG = "about";
 
 	private SQLiteDatabase db;
 	@RootContext Context context;
@@ -105,6 +106,11 @@ public class Dao {
 			long id = pageDao.insert(response.getResponse());
 			return pageDao.load(id);
 		}
+	}
+
+	public void setPage(Page page) {
+		PageDao pageDao = daoSession.getPageDao();
+		pageDao.insert(page);
 	}
 
 	public Cursor getPlaceCategoryCursor() {

@@ -52,6 +52,10 @@
 		<activity
 			android:name=".client.DetailsActivity_"/>
 
+		<activity
+			android:name=".client.AboutActivity_"
+			android:launchMode="singleTop"/>
+
 	</application>
 
 </manifest>

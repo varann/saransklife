@@ -32,7 +32,6 @@ public class DrawerFragment extends Fragment {
 
 	@AfterViews
 	void afterViews() {
-
 		sectionItems = dao.getRootMenuItems();
 		listDrawer.setAdapter(new SectionsAdapter(getActivity(), R.layout.list_drawer_item, sectionItems));
 	}

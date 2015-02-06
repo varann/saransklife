@@ -1,6 +1,7 @@
 package ru.saransklife.client.drawer;
 
 import ru.saransklife.R;
+import ru.saransklife.client.AboutActivity_;
 import ru.saransklife.client.MainActivity_;
 import ru.saransklife.client.event.EventsActivity_;
 import ru.saransklife.client.page.PagesActivity_;
@@ -16,7 +17,7 @@ public enum SectionItemType {
 	PLACE(R.drawable.white_icon_place, PlaceCategoriesActivity_.class),
 	EVENT(R.drawable.white_icon_event, EventsActivity_.class),
 	REFERENCE(R.drawable.white_icon_reference_book, null),
-	ABOUT(R.drawable.white_icon_about, null);
+	ABOUT(R.drawable.white_icon_about, AboutActivity_.class);
 
 	private final int icon;
 	private Class clazz;

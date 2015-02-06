@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -47,6 +48,7 @@ public class ReferenceCategoryAdapter extends RecyclerView.Adapter<ReferenceCate
 	public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
 		public TextView name;
+		public ImageView icon;
 
 		private ReferenceCategory category;
 
@@ -54,6 +56,7 @@ public class ReferenceCategoryAdapter extends RecyclerView.Adapter<ReferenceCate
 			super(view);
 			view.setOnClickListener(this);
 			name = (TextView) view.findViewById(R.id.name);
+			icon = (ImageView) view.findViewById(R.id.icon);
 		}
 
 		@Override
@@ -64,6 +67,7 @@ public class ReferenceCategoryAdapter extends RecyclerView.Adapter<ReferenceCate
 		public void setCategory(ReferenceCategory category) {
 			this.category = category;
 			name.setText(category.getName());
+			icon.setImageResource(CategoryType.findTypeBySlug(category.getSlug()).getIcon());
 		}
 	}
 }

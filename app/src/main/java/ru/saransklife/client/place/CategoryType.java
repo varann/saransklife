@@ -1,11 +1,15 @@
 package ru.saransklife.client.place;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import ru.saransklife.R;
 
 /**
  * Created by asavinova on 31/10/14.
  */
 public enum CategoryType {
+
 	HOTEL(R.drawable.gray_icon_hotel),
 	SIGHT(R.drawable.gray_icon_sight),
 	EAT(R.drawable.gray_icon_eat),
@@ -20,6 +24,8 @@ public enum CategoryType {
 	SUPERMARKET(R.drawable.gray_icon_supermarket),
 	OTHER(0);
 	//TODO Добавить тип other
+
+	private static Logger L = LoggerFactory.getLogger(CategoryType.class);
 
 	private String slug;
 	private int icon;
@@ -40,6 +46,7 @@ public enum CategoryType {
 				return type;
 			}
 		}
-		throw new RuntimeException("Slug " + slug + " not found");
+		L.warn("Неизвестная категория места, slug = " + slug);
+		return OTHER;
 	}
 }

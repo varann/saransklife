@@ -13,6 +13,7 @@ import ru.saransklife.api.model.PlaceCategoriesResponse;
 import ru.saransklife.api.model.PlaceEntitiesResponse;
 import ru.saransklife.api.model.PostResponse;
 import ru.saransklife.api.model.ReferenceCategoriesResponse;
+import ru.saransklife.api.model.ReferencesResponse;
 import ru.saransklife.api.model.Response;
 
 /**
@@ -53,4 +54,7 @@ public interface RestApiClient {
 
 	@Get("/reference")
 	ReferenceCategoriesResponse getReferenceCategories();
+
+	@Get("/reference/category/{slug}")
+	ReferencesResponse getReferences(String slug);
 }

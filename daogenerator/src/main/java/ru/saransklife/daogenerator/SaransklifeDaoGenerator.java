@@ -93,6 +93,7 @@ public class SaransklifeDaoGenerator {
 
 		Entity reference = schema.addEntity("Reference");
 		reference.addIdProperty();
+		reference.addStringProperty("slug");
 		reference.addStringProperty("name");
 		reference.addStringProperty("description");
 		reference.addStringProperty("phone");
@@ -100,8 +101,6 @@ public class SaransklifeDaoGenerator {
 		reference.addStringProperty("address");
 		reference.addStringProperty("site");
 
-		Property refCategoryId = reference.addLongProperty("category_id").getProperty();
-		reference.addToOne(refCategory, refCategoryId);
 
 		String outDir = "app/src/dao/java";
 

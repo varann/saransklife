@@ -29,8 +29,10 @@ import ru.saransklife.dao.PlaceCategory;
 import ru.saransklife.dao.PlaceCategoryDao;
 import ru.saransklife.dao.PlaceEntity;
 import ru.saransklife.dao.PlaceEntityDao;
+import ru.saransklife.dao.Reference;
 import ru.saransklife.dao.ReferenceCategory;
 import ru.saransklife.dao.ReferenceCategoryDao;
+import ru.saransklife.dao.ReferenceDao;
 import ru.saransklife.dao.SectionItem;
 import ru.saransklife.dao.SectionItemDao;
 import ru.saransklife.client.drawer.SectionItemType;
@@ -220,5 +222,28 @@ public class Dao {
 	public List<ReferenceCategory> getReferenceCategories() {
 		ReferenceCategoryDao refCategoriesDao = daoSession.getReferenceCategoryDao();
 		return refCategoriesDao.loadAll();
+	}
+
+	public ReferenceCategory getReferenceCategoryBySlug(String slug) {
+		ReferenceCategoryDao refCategoriesDao = daoSession.getReferenceCategoryDao();
+		QueryBuilder<ReferenceCategory> builder = refCategoriesDao.queryBuilder().where(ReferenceCategoryDao.Properties.Slug.eq(slug));
+		return builder.build().unique();
+	}
+
+	public void setReferences(List<Reference> references, String slug) {
+		ReferenceDao referenceDao = daoSession.getReferenceDao();
+		QueryBuilder<Reference> builder = referenceDao.queryBuilder().where(ReferenceDao.Properties.Slug.eq(slug));
+		List<Reference> oldEntities = builder.build().list();
+		referenceDao.deleteInTx(oldEntities);
+		for (Reference reference : references) {
+			reference.setSlug(slug);
+			referenceDao.insertOrReplace(reference);
+		}
+	}
+
+	public List<Reference> getReferences(String slug) {
+		ReferenceDao referenceDao = daoSession.getReferenceDao();
+		QueryBuilder<Reference> builder = referenceDao.queryBuilder().where(ReferenceDao.Properties.Slug.eq(slug));
+		return builder.build().list();
 	}
 }

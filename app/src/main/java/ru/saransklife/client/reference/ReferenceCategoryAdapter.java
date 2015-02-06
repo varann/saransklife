@@ -61,7 +61,7 @@ public class ReferenceCategoryAdapter extends RecyclerView.Adapter<ReferenceCate
 
 		@Override
 		public void onClick(View v) {
-
+			ReferencesActivity_.intent(v.getContext()).slug(category.getSlug()).start();
 		}
 
 		public void setCategory(ReferenceCategory category) {

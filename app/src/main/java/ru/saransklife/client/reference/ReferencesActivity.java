@@ -1,13 +1,10 @@
 package ru.saransklife.client.reference;
 
-import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
-import android.view.Gravity;
-import android.view.View;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -20,41 +17,38 @@ import org.androidannotations.annotations.rest.RestService;
 
 import ru.saransklife.R;
 import ru.saransklife.api.RestApiClient;
-import ru.saransklife.api.model.ReferenceCategoriesResponse;
+import ru.saransklife.api.model.ReferencesResponse;
 import ru.saransklife.client.BaseActivity;
 import ru.saransklife.client.Dao;
+import ru.saransklife.dao.ReferenceCategory;
 
 /**
- * Created by asavinova on 06/02/15.
+ * Created by asavinova on 07/02/15.
  */
-@EActivity(R.layout.activity_reference_categories)
-public class ReferenceCategoriesActivity extends BaseActivity {
+@EActivity(R.layout.activity_references)
+public class ReferencesActivity extends BaseActivity {
 
-	@ViewById DrawerLayout drawerLayout;
 	@ViewById Toolbar toolbar;
 	@ViewById SwipeRefreshLayout refresh;
 	@ViewById RecyclerView recyclerView;
 
 	@Bean Dao dao;
 	@RestService RestApiClient apiClient;
-	@Extra String title;
-	private ReferenceCategoryAdapter adapter;
+	@Extra String slug;
+	private ReferencesAdapter adapter;
 
 	@AfterViews
 	void afterViews() {
-		logExtra(new String[]{"title"}, title);
+		logExtra(new String[]{"slug"}, slug);
 
-		toolbar.setTitle(title);
-		toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
-		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				drawerLayout.openDrawer(Gravity.START);
-			}
-		});
+		ReferenceCategory referenceCategory = dao.getReferenceCategoryBySlug(slug);
+
+		toolbar.setTitle(referenceCategory.getName());
+		setSupportActionBar(toolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		recyclerView.setLayoutManager(new LinearLayoutManager(this));
-		adapter = new ReferenceCategoryAdapter(dao.getReferenceCategories());
+		adapter = new ReferencesAdapter(dao.getReferences(slug));
 		recyclerView.setAdapter(adapter);
 
 		refresh.setColorSchemeResources(R.color.refresh_color_1, R.color.refresh_color_2, R.color.refresh_color_1, R.color.refresh_color_2);
@@ -67,8 +61,8 @@ public class ReferenceCategoriesActivity extends BaseActivity {
 
 	@Background
 	void loadData() {
-		ReferenceCategoriesResponse categories = apiClient.getReferenceCategories();
-		dao.setReferenceCategories(categories.getResponse());
+		ReferencesResponse data = apiClient.getReferences(slug);
+		dao.setReferences(data.getResponse().getEntities(), slug);
 
 		updateUi();
 	}
@@ -76,7 +70,7 @@ public class ReferenceCategoriesActivity extends BaseActivity {
 	@UiThread
 	void updateUi() {
 		refresh.setRefreshing(false);
-		adapter.updateCategories(dao.getReferenceCategories());
+		adapter.updateReferences(dao.getReferences(slug));
 		adapter.notifyDataSetChanged();
 	}
 }

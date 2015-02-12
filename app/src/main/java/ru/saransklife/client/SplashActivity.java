@@ -1,6 +1,5 @@
 package ru.saransklife.client;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.view.Window;
 
@@ -10,8 +9,6 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.WindowFeature;
 import org.androidannotations.annotations.rest.RestService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestClientException;
 
 import java.util.List;
@@ -44,7 +41,7 @@ public class SplashActivity extends BaseActivity {
 
 			//TODO Нужно ли выводить диалог или тоаст с информацией об ошибке?
 		} finally {
-			 startActivity(new Intent(this, MainActivity_.class));
+			startActivity(new Intent(this, MainActivity_.class));
 			finish();
 		}
 	}

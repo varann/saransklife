@@ -17,6 +17,7 @@ import ru.saransklife.api.RestApiClient;
 import ru.saransklife.api.model.ApiEvent;
 import ru.saransklife.api.model.ApiSectionItem;
 import ru.saransklife.api.model.PageResponse;
+import ru.saransklife.client.drawer.SectionItemType;
 import ru.saransklife.dao.DaoMaster;
 import ru.saransklife.dao.DaoSession;
 import ru.saransklife.dao.Event;
@@ -35,7 +36,6 @@ import ru.saransklife.dao.ReferenceCategoryDao;
 import ru.saransklife.dao.ReferenceDao;
 import ru.saransklife.dao.SectionItem;
 import ru.saransklife.dao.SectionItemDao;
-import ru.saransklife.client.drawer.SectionItemType;
 
 /**
  * Created by asavinova on 30/10/14.
@@ -72,8 +72,6 @@ public class Dao {
 		mainItem.setName(context.getString(R.string.main_menu_item_title));
 		sectionItemDao.insert(mainItem);
 
-		//TODO Добавить проверку существования типа раздела меню
-
 		for (ApiSectionItem apiItem : menuItems) {
 			if (SectionItemType.PAGE.name().equalsIgnoreCase(apiItem.getModule())) {
 				long itemId = sectionItemDao.insert(apiItem);
@@ -95,7 +93,6 @@ public class Dao {
 
 	public List<SectionItem> getPageSectionItems() {
 		QueryBuilder<SectionItem> builder = daoSession.getSectionItemDao().queryBuilder();
-		//TODO Ignore case?
 		return builder.where(SectionItemDao.Properties.Module.eq(SectionItemType.PAGE.name().toLowerCase())).build().list();
 	}
 
@@ -134,9 +131,6 @@ public class Dao {
 		return db.rawQuery("SELECT * FROM " + PlaceEntityDao.TABLENAME +
 				" WHERE " + PlaceEntityDao.Properties.Slug.columnName
 				+ " = '" + slug + "'", null);
-
-//		PlaceEntityDao entitiesDao = daoSession.getPlaceEntityDao();
-//		return db.query(entitiesDao.getTablename(), entitiesDao.getAllColumns(), null, null, null, null, null);
 	}
 
 	public PlaceCategory getPlaceCategoryById(long categoryId) {

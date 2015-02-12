@@ -14,12 +14,11 @@ import ru.saransklife.api.model.PlaceEntitiesResponse;
 import ru.saransklife.api.model.PostResponse;
 import ru.saransklife.api.model.ReferenceCategoriesResponse;
 import ru.saransklife.api.model.ReferencesResponse;
-import ru.saransklife.api.model.Response;
 
 /**
  * Created by asavinova on 26/10/14.
  */
-@Rest(rootUrl = "http://api.trip.pointresearch.ru/1.0/saransk", converters = { MappingJacksonHttpMessageConverter.class })
+@Rest(rootUrl = "http://api.trip.pointresearch.ru/1.0/saransk", converters = {MappingJacksonHttpMessageConverter.class})
 public interface RestApiClient {
 
 	@Get("/menu")

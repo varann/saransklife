@@ -75,7 +75,7 @@ dependencies {
 	compile 'org.springframework.android:spring-android-rest-template:1.0.0.RELEASE'
 	compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
 
-	compile ('fr.avianey.com.viewpagerindicator:library:2.4.1') {
+	compile('fr.avianey.com.viewpagerindicator:library:2.4.1') {
 		exclude module: 'support-v4'
 	}
 }

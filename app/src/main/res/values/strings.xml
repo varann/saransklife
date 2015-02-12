@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Saransklife</string>
-    <string name="main_menu_item_title">Главная</string>
+	<string name="app_name">Saransklife</string>
+	<string name="main_menu_item_title">Главная</string>
 	<string name="main_title">Саранск</string>
 	<string name="page_title">О городе</string>
 	<string name="photo_author">Фото:</string>
@@ -17,7 +17,7 @@
 	<string name="rating_excellent">Отлично</string>
 	<string name="recommendation_setted">Ваша рекомендация учтена</string>
 	<string name="rating_setted">Ваша оценка учтена</string>
-	
+
 	<string name="copyright">www.saransklife.ru, 2015 г.</string>
 	<string name="send_email_title">Отправка письма</string>
 	<string name="no_email_applications_installed">Нет установленных приложений для отправки писем</string>
@@ -25,7 +25,7 @@
 	<string name="dialog_ок">OK</string>
 	<string name="dialog_cancel">Отменить</string>
 
-    <string name="title_activity_splash">SplashActivity</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+	<string name="title_activity_splash">SplashActivity</string>
+	<string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

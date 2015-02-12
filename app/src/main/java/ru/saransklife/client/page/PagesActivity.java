@@ -1,6 +1,5 @@
 package ru.saransklife.client.page;
 
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
@@ -13,9 +12,9 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 
+import ru.saransklife.R;
 import ru.saransklife.client.BaseActivity;
 import ru.saransklife.client.Dao;
-import ru.saransklife.R;
 import ru.saransklife.client.ui.google.sliding_tab_basic.SlidingTabLayout;
 
 /**

@@ -11,8 +11,8 @@ import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
-import ru.saransklife.client.Dao;
 import ru.saransklife.R;
+import ru.saransklife.client.Dao;
 import ru.saransklife.dao.Page;
 
 /**

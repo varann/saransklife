@@ -23,12 +23,11 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
 
+import ru.saransklife.R;
 import ru.saransklife.api.RestApiClient;
 import ru.saransklife.api.model.PostResponse;
-import ru.saransklife.api.model.Response;
 import ru.saransklife.client.BaseActivity;
 import ru.saransklife.client.Dao;
-import ru.saransklife.R;
 import ru.saransklife.client.DetailsActivity;
 import ru.saransklife.client.DetailsActivity_;
 import ru.saransklife.client.Utils;

@@ -12,9 +12,9 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
 
+import ru.saransklife.R;
 import ru.saransklife.client.BaseActivity;
 import ru.saransklife.client.Dao;
-import ru.saransklife.R;
 import ru.saransklife.dao.SectionItem;
 
 /**

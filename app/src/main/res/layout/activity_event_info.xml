@@ -52,7 +52,7 @@
 		<ru.saransklife.client.ui.TitleView_
 			android:id="@+id/title_view"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content" />
+			android:layout_height="wrap_content"/>
 
 		<ru.saransklife.client.ui.DescriptionView_
 			android:id="@+id/description_view"

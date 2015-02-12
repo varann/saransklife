@@ -9,7 +9,7 @@ import ru.saransklife.dao.SectionItem;
 /**
  * Created by asavinova on 27/10/14.
  */
-@JsonIgnoreProperties(ignoreUnknown=true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ApiSectionItem extends SectionItem {
 
 	private List<ApiSectionItem> child;

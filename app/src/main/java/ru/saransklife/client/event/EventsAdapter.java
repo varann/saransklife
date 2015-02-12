@@ -1,19 +1,19 @@
 package ru.saransklife.client.event;
 
 import android.database.Cursor;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.List;
 
-import ru.saransklife.client.Dao;
 import ru.saransklife.R;
+import ru.saransklife.client.Dao;
 import ru.saransklife.dao.Event;
 import ru.saransklife.dao.EventCategoryDao;
 

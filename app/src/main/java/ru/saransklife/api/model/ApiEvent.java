@@ -4,6 +4,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.List;
+
 import ru.saransklife.dao.Event;
 import ru.saransklife.dao.PlaceEntity;
 

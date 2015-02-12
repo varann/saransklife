@@ -56,7 +56,7 @@ public class AboutActivity extends BaseActivity {
 					MailTo mailTo = MailTo.parse(url);
 					Intent intent = new Intent(Intent.ACTION_SENDTO);
 					intent.setData(Uri.parse("mailto:" + mailTo.getTo()));
-					intent.putExtra(Intent.EXTRA_EMAIL, new String[] { mailTo.getTo() });
+					intent.putExtra(Intent.EXTRA_EMAIL, new String[]{mailTo.getTo()});
 					intent.putExtra(Intent.EXTRA_SUBJECT, mailTo.getSubject());
 					try {
 						startActivity(Intent.createChooser(intent, getString(R.string.send_email_title)));

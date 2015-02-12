@@ -6,11 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import ru.saransklife.R;
 import ru.saransklife.client.Utils;
-import ru.saransklife.client.ui.AwesomeIconTextView;
 import ru.saransklife.client.ui.ItemAddressView;
 import ru.saransklife.client.ui.ItemNameView;
 import ru.saransklife.client.ui.ItemRecommendedInfoView;

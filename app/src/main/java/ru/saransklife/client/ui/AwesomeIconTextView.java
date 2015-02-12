@@ -7,8 +7,6 @@ import android.widget.TextView;
 
 import org.androidannotations.annotations.EView;
 
-import ru.saransklife.R;
-
 /**
  * Created by asavinova on 03/02/15.
  */

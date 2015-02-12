@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.List;
 
 import ru.saransklife.dao.SectionItem;
-import ru.saransklife.client.page.PagerItemFragment_;
 
 /**
  * Created by asavinova on 08/11/14.

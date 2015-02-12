@@ -1,8 +1,8 @@
 package ru.saransklife.place_entities;
 
 /**
-* Created by asavinova on 06/11/14.
-*/
+ * Created by asavinova on 06/11/14.
+ */
 public class Meta {
 	private int page;
 	private int limit;

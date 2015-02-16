@@ -23,7 +23,11 @@
 	<string name="no_email_applications_installed">Нет установленных приложений для отправки писем</string>
 
 	<string name="dialog_ок">OK</string>
+	<string name="dialog_retry">Повторить</string>
 	<string name="dialog_cancel">Отменить</string>
+
+	<string name="loading">Загрузка данных...</string>
+	<string name="loading_error">Ошибка загрузки данных</string>
 
 	<string name="title_activity_splash">SplashActivity</string>
 	<string name="hello_blank_fragment">Hello blank fragment</string>

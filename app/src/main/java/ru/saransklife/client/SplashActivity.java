@@ -1,49 +1,75 @@
 package ru.saransklife.client;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Window;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.WindowFeature;
-import org.androidannotations.annotations.rest.RestService;
-import org.springframework.web.client.RestClientException;
-
-import java.util.List;
 
 import ru.saransklife.R;
-import ru.saransklife.api.RestApiClient;
-import ru.saransklife.api.model.ApiSectionItem;
-import ru.saransklife.api.model.MenuResponse;
 
 @WindowFeature(Window.FEATURE_NO_TITLE)
 @EActivity(R.layout.activity_splash)
 public class SplashActivity extends BaseActivity {
 
-	@RestService RestApiClient apiClient;
-	@Bean Dao dao;
+	@Bean EventBus eventBus;
 
 	@AfterViews
 	void afterViews() {
-		updateMenu();
+		loadMenu();
 	}
 
-	@Background
-	void updateMenu() {
-		try {
-			MenuResponse menuResponse = apiClient.getMenu();
-			List<ApiSectionItem> apiSectionItems = menuResponse.getResponse();
-			dao.setMenuItems(apiSectionItems);
-		} catch (RestClientException e) {
-			L.error("HTTP error", e);
+	private void loadMenu() {
+		DataService_.intent(this)
+				.menuAction()
+				.start();
+	}
 
-			//TODO Нужно ли выводить диалог или тоаст с информацией об ошибке?
-		} finally {
-			startActivity(new Intent(this, MainActivity_.class));
-			finish();
-		}
+	@Override
+	public void onResume() {
+		super.onResume();
+		eventBus.register(this);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		eventBus.unregister(this);
+	}
+
+	public void onEvent(Events.MenuLoadedEvent event) {
+		startActivity(new Intent(this, MainActivity_.class));
+		finish();
+	}
+
+	public void onEvent(Events.MenuLoadErrorEvent event) {
+		showError();
+	}
+
+	@UiThread
+	void showError() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this)
+				.setMessage(R.string.loading_error)
+				.setPositiveButton(R.string.dialog_retry, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						loadMenu();
+					}
+				})
+				.setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+						finish();
+					}
+				});
+
+		builder.create().show();
 	}
 
 }

@@ -68,6 +68,12 @@
 			android:name=".client.reference.ReferenceInfoActivity_"
 			android:parentActivityName=".client.reference.ReferencesActivity_"/>
 
+		<service
+			android:name=".client.DataService_"
+			android:exported="false">
+
+		</service>
+
 	</application>
 
 </manifest>

@@ -1,5 +1,7 @@
 package ru.saransklife.client;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.widget.DrawerLayout;
@@ -7,6 +9,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Gravity;
 
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.UiThread;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,5 +72,20 @@ public class BaseActivity extends ActionBarActivity {
 		String deviceId = Settings.Secure.getString(getContentResolver(),
 				Settings.Secure.ANDROID_ID);
 		return deviceId;
+	}
+
+	@UiThread
+	public void showErrorDialog(DialogInterface.OnClickListener repeatListener) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this)
+				.setMessage(R.string.loading_error)
+				.setPositiveButton(R.string.dialog_retry, repeatListener)
+				.setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				});
+
+		builder.create().show();
 	}
 }

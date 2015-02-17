@@ -1,5 +1,6 @@
 package ru.saransklife.client;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.MailTo;
@@ -13,7 +14,6 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
@@ -21,7 +21,6 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
 import ru.saransklife.R;
-import ru.saransklife.dao.Page;
 
 /**
  * Created by asavinova on 06/02/15.
@@ -33,7 +32,7 @@ public class AboutActivity extends BaseActivity {
 	@ViewById Toolbar toolbar;
 	@ViewById WebView webView;
 
-	@Bean Dao dao;
+	@Bean EventBus eventBus;
 	@Extra String title;
 
 	@AfterViews
@@ -73,13 +72,38 @@ public class AboutActivity extends BaseActivity {
 		};
 		webView.setWebViewClient(webClient);
 
-		loadText();
+		loadPage();
 	}
 
-	@Background
-	void loadText() {
-		Page page = dao.getPage(Dao.ABOUT_PAGE_SLUG);
-		updateText(page.getText());
+	private void loadPage() {
+		DataService_.intent(this)
+				.pageAction(Dao.ABOUT_PAGE_SLUG)
+				.start();
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		eventBus.register(this);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		eventBus.unregister(this);
+	}
+
+	public void onEvent(Events.PageLoadedEvent event) {
+		updateText(event.getPage().getText());
+	}
+
+	public void onEvent(Events.PageLoadErrorEvent event) {
+		showErrorDialog(new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				loadPage();
+			}
+		});
 	}
 
 	@UiThread

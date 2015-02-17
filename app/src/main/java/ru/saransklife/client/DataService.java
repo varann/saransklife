@@ -11,6 +11,8 @@ import org.springframework.web.client.RestClientException;
 
 import ru.saransklife.api.RestApiClient;
 import ru.saransklife.api.model.MenuResponse;
+import ru.saransklife.api.model.PageResponse;
+import ru.saransklife.dao.Page;
 
 /**
  * Created by asavinova on 12/02/15.
@@ -44,5 +46,22 @@ public class DataService extends IntentService {
 				eventBus.post(new Events().getMenuLoadedEvent());
 			}
 		}
+	}
+
+	@ServiceAction
+	void pageAction(String slug) {
+		Page page = dao.getPage(slug);
+		if (page == null) {
+			try {
+				PageResponse response = apiClient.getPage(slug);
+				page = response.getResponse();
+				dao.setPage(page);
+			} catch (RestClientException e) {
+				eventBus.post(new Events().getPageLoadErrorEvent());
+				return;
+			}
+		}
+
+		eventBus.post(new Events().getPageLoadedEvent(page));
 	}
 }

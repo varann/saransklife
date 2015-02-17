@@ -16,7 +16,6 @@ import ru.saransklife.R;
 import ru.saransklife.api.RestApiClient;
 import ru.saransklife.api.model.ApiEvent;
 import ru.saransklife.api.model.ApiSectionItem;
-import ru.saransklife.api.model.PageResponse;
 import ru.saransklife.client.drawer.SectionItemType;
 import ru.saransklife.dao.DaoMaster;
 import ru.saransklife.dao.DaoSession;
@@ -99,14 +98,7 @@ public class Dao {
 	public Page getPage(String slug) {
 		PageDao pageDao = daoSession.getPageDao();
 		QueryBuilder<Page> builder = pageDao.queryBuilder();
-		Page page = builder.where(PageDao.Properties.Slug.eq(slug)).build().unique();
-		if (page != null) {
-			return page;
-		} else {
-			PageResponse response = api.getPage(slug);
-			long id = pageDao.insert(response.getResponse());
-			return pageDao.load(id);
-		}
+		return builder.where(PageDao.Properties.Slug.eq(slug)).build().unique();
 	}
 
 	public void setPage(Page page) {

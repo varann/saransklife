@@ -23,11 +23,29 @@ public class Events {
 		return new PageLoadErrorEvent(slug);
 	}
 
+	public InterestingPlacesLoadedEvent getInterestingPlacesLoadedEvent() {
+		return new InterestingPlacesLoadedEvent();
+	}
+
+	public InterestingPlacesLoadErrorEvent getInterestingPlacesLoadErrorEvent() {
+		return new InterestingPlacesLoadErrorEvent();
+	}
+
+	public PlaceCategoriesLoadedEvent getPlaceCategoriesLoadedEvent() {
+		return new PlaceCategoriesLoadedEvent();
+	}
+
+	public PlaceCategoriesLoadErrorEvent getPlaceCategoriesLoadErrorEvent() {
+		return new PlaceCategoriesLoadErrorEvent();
+	}
+
+
 	public class MenuLoadedEvent {
 	}
 
 	public class MenuLoadErrorEvent {
 	}
+
 
 	public class PageLoadedEvent {
 		private Page page;
@@ -51,6 +69,19 @@ public class Events {
 		public String getSlug() {
 			return slug;
 		}
+	}
+
+	public class InterestingPlacesLoadedEvent {
+	}
+
+	public class InterestingPlacesLoadErrorEvent {
+	}
+
+
+	public class PlaceCategoriesLoadedEvent {
+	}
+
+	public class PlaceCategoriesLoadErrorEvent {
 	}
 
 }

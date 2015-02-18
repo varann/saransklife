@@ -1,6 +1,12 @@
 package ru.saransklife.client.place;
 
 
+import android.app.LoaderManager;
+import android.content.CursorLoader;
+import android.content.DialogInterface;
+import android.content.Loader;
+import android.database.Cursor;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,36 +17,32 @@ import android.view.View;
 import android.widget.GridView;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.rest.RestService;
 
 import ru.saransklife.R;
-import ru.saransklife.api.RestApiClient;
-import ru.saransklife.api.model.PlaceCategoriesResponse;
-import ru.saransklife.api.model.PlaceEntitiesResponse;
 import ru.saransklife.client.BaseActivity;
-import ru.saransklife.client.Dao;
+import ru.saransklife.client.DataHelper;
+import ru.saransklife.client.EventBus;
+import ru.saransklife.client.Events;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 @EActivity(R.layout.activity_categories)
-public class PlaceCategoriesActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class PlaceCategoriesActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, LoaderManager.LoaderCallbacks<Cursor> {
 
 	@ViewById DrawerLayout drawerLayout;
 	@ViewById Toolbar toolbar;
-	@ViewById InterestingViewPager viewpager;
 	@ViewById SwipeRefreshLayout refresh;
 	@ViewById GridView grid;
 
-	@Bean Dao dao;
-	@RestService RestApiClient apiClient;
+	@Bean DataHelper dataHelper;
+	@Bean EventBus eventBus;
 	@Extra String title;
 
 	private CategoryAdapter categoryAdapter;
@@ -58,42 +60,51 @@ public class PlaceCategoriesActivity extends BaseActivity implements SwipeRefres
 			}
 		});
 
-		categoryAdapter = new CategoryAdapter(this, dao.getPlaceCategoryCursor());
+		categoryAdapter = new CategoryAdapter(this, null);
 		grid.setAdapter(categoryAdapter);
 
 		//TODO Временно заблокировано
-		refresh.setEnabled(false);
+//		refresh.setEnabled(false);
 		refresh.setOnRefreshListener(this);
 		refresh.setColorSchemeResources(R.color.refresh_color_1, R.color.refresh_color_2, R.color.refresh_color_1, R.color.refresh_color_2);
 
 		refresh.setProgressViewOffset(false, 0,
 				(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
-		refresh.setRefreshing(true);
-		loadCategories();
+
+		getLoaderManager().initLoader(0, getBundle(false, false), this);
 	}
 
-	@Background
-	void loadCategories() {
-		PlaceEntitiesResponse places = apiClient.getInterestingPlaces();
-		dao.setPlaceEntities(places.getResponse().getEntities(), Dao.INTERESTING_PLACES_SLUG);
-		updateInterestingPlaces();
+	@Override
+	public void onResume() {
+		super.onResume();
+		eventBus.register(this);
+	}
 
-		PlaceCategoriesResponse categories = apiClient.getPlaceCategories();
-		dao.setPlaceCategories(categories.getResponse());
-		updateCategories();
+	@Override
+	public void onPause() {
+		super.onPause();
+		eventBus.unregister(this);
+	}
 
+	public void onEvent(Events.PlaceCategoriesLoadedEvent event) {
+		getLoaderManager().restartLoader(0, getBundle(false, true), this);
+	}
+
+	private Bundle getBundle(boolean force, boolean afterUpdate) {
+		Bundle bundle = new Bundle();
+		bundle.putBoolean("force", force);
+		bundle.putBoolean("afterUpdate", afterUpdate);
+		return bundle;
+	}
+
+	public void onEvent(Events.PlaceCategoriesLoadErrorEvent event) {
 		setRefreshing(false);
-	}
-
-	@UiThread
-	void updateInterestingPlaces() {
-		viewpager.update();
-	}
-
-	@UiThread
-	void updateCategories() {
-		categoryAdapter.swapCursor(dao.getPlaceCategoryCursor());
-		categoryAdapter.notifyDataSetChanged();
+		showErrorDialog(new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				getLoaderManager().restartLoader(0, getBundle(true, false), PlaceCategoriesActivity.this);
+			}
+		});
 	}
 
 	@UiThread
@@ -110,6 +121,36 @@ public class PlaceCategoriesActivity extends BaseActivity implements SwipeRefres
 	@Override
 	public void onRefresh() {
 		refresh.setRefreshing(true);
-		loadCategories();
+		getLoaderManager().restartLoader(0, getBundle(true, false), this);
 	}
+
+	@Override
+	public Loader<Cursor> onCreateLoader(int id, final Bundle args) {
+		return new CursorLoader(this) {
+			@Override
+			protected void onStartLoading() {
+				super.onStartLoading();
+				setRefreshing(true);
+			}
+
+			@Override
+			public Cursor loadInBackground() {
+				boolean force = args.getBoolean("force");
+				boolean afterUpdate = args.getBoolean("afterUpdate");
+				return dataHelper.getPlaceCategoriesCursor(force, afterUpdate, getContext());
+			}
+		};
+	}
+
+	@Override
+	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+		setRefreshing(false);
+		categoryAdapter.swapCursor(cursor);
+		categoryAdapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public void onLoaderReset(Loader<Cursor> loader) {
+	}
+
 }

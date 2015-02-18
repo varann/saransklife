@@ -12,6 +12,8 @@ import org.springframework.web.client.RestClientException;
 import ru.saransklife.api.RestApiClient;
 import ru.saransklife.api.model.MenuResponse;
 import ru.saransklife.api.model.PageResponse;
+import ru.saransklife.api.model.PlaceCategoriesResponse;
+import ru.saransklife.api.model.PlaceEntitiesResponse;
 import ru.saransklife.dao.Page;
 
 /**
@@ -63,5 +65,29 @@ public class DataService extends IntentService {
 		}
 
 		eventBus.post(new Events().getPageLoadedEvent(page));
+	}
+
+	@ServiceAction
+	void interestingPlacesAction() {
+		try {
+			PlaceEntitiesResponse places = apiClient.getInterestingPlaces();
+			dao.setPlaceEntities(places.getResponse().getEntities(), Dao.INTERESTING_PLACES_SLUG);
+		} catch (RestClientException e) {
+			eventBus.post(new Events().getInterestingPlacesLoadErrorEvent());
+		}
+
+		eventBus.post(new Events().getInterestingPlacesLoadedEvent());
+	}
+
+	@ServiceAction
+	void placeCategoriesAction() {
+		try {
+			PlaceCategoriesResponse categories = apiClient.getPlaceCategories();
+			dao.setPlaceCategories(categories.getResponse());
+		} catch (RestClientException e) {
+			eventBus.post(new Events().getPlaceCategoriesLoadErrorEvent());
+		}
+
+		eventBus.post(new Events().getPlaceCategoriesLoadedEvent());
 	}
 }

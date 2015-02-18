@@ -51,6 +51,5 @@ public class PagesActivity extends BaseActivity {
 		tabs.setSelectedIndicatorColors(getResources().getColor(R.color.accent));
 		tabs.setDividerColors(getResources().getColor(android.R.color.transparent));
 		tabs.setViewPager(pager);
-
 	}
 }

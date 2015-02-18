@@ -19,8 +19,8 @@ public class Events {
 		return new PageLoadedEvent(page);
 	}
 
-	public PageLoadErrorEvent getPageLoadErrorEvent() {
-		return new PageLoadErrorEvent();
+	public PageLoadErrorEvent getPageLoadErrorEvent(String slug) {
+		return new PageLoadErrorEvent(slug);
 	}
 
 	public class MenuLoadedEvent {
@@ -42,6 +42,15 @@ public class Events {
 	}
 
 	public class PageLoadErrorEvent {
+		private String slug;
+
+		public PageLoadErrorEvent(String slug) {
+			this.slug = slug;
+		}
+
+		public String getSlug() {
+			return slug;
+		}
 	}
 
 }

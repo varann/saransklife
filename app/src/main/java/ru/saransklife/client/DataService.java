@@ -57,7 +57,7 @@ public class DataService extends IntentService {
 				page = response.getResponse();
 				dao.setPage(page);
 			} catch (RestClientException e) {
-				eventBus.post(new Events().getPageLoadErrorEvent());
+				eventBus.post(new Events().getPageLoadErrorEvent(slug));
 				return;
 			}
 		}

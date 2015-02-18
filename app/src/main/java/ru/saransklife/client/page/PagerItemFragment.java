@@ -93,6 +93,7 @@ public class PagerItemFragment extends Fragment {
 
 	@UiThread
 	void updateText(String text) {
+		text = text.replaceAll("<img src", "<img width=\"100%\" src");
 		webView.loadData(text, "text/html; charset=utf-8", null);
 	}
 }

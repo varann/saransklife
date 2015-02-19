@@ -71,7 +71,7 @@ public class PlaceCategoriesActivity extends BaseActivity implements SwipeRefres
 		refresh.setProgressViewOffset(false, 0,
 				(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
 
-		getLoaderManager().initLoader(0, getBundle(false, false), this);
+		getLoaderManager().initLoader(0, createForceBundle(false), this);
 	}
 
 	@Override
@@ -87,14 +87,7 @@ public class PlaceCategoriesActivity extends BaseActivity implements SwipeRefres
 	}
 
 	public void onEvent(Events.PlaceCategoriesLoadedEvent event) {
-		getLoaderManager().restartLoader(0, getBundle(false, true), this);
-	}
-
-	private Bundle getBundle(boolean force, boolean afterUpdate) {
-		Bundle bundle = new Bundle();
-		bundle.putBoolean("force", force);
-		bundle.putBoolean("afterUpdate", afterUpdate);
-		return bundle;
+		getLoaderManager().restartLoader(0, createForceBundle(false), this);
 	}
 
 	public void onEvent(Events.PlaceCategoriesLoadErrorEvent event) {
@@ -102,7 +95,7 @@ public class PlaceCategoriesActivity extends BaseActivity implements SwipeRefres
 		showErrorDialog(new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				getLoaderManager().restartLoader(0, getBundle(true, false), PlaceCategoriesActivity.this);
+				getLoaderManager().restartLoader(0, createForceBundle(true), PlaceCategoriesActivity.this);
 			}
 		});
 	}
@@ -121,7 +114,7 @@ public class PlaceCategoriesActivity extends BaseActivity implements SwipeRefres
 	@Override
 	public void onRefresh() {
 		refresh.setRefreshing(true);
-		getLoaderManager().restartLoader(0, getBundle(true, false), this);
+		getLoaderManager().restartLoader(0, createForceBundle(true), this);
 	}
 
 	@Override
@@ -135,9 +128,7 @@ public class PlaceCategoriesActivity extends BaseActivity implements SwipeRefres
 
 			@Override
 			public Cursor loadInBackground() {
-				boolean force = args.getBoolean("force");
-				boolean afterUpdate = args.getBoolean("afterUpdate");
-				return dataHelper.getPlaceCategoriesCursor(force, afterUpdate, getContext());
+				return dataHelper.getPlaceCategoriesCursor(isForceBundle(args), getContext());
 			}
 		};
 	}

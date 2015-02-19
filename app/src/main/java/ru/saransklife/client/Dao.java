@@ -9,6 +9,7 @@ import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 import org.androidannotations.annotations.rest.RestService;
 
+import java.util.Date;
 import java.util.List;
 
 import de.greenrobot.dao.query.QueryBuilder;
@@ -17,6 +18,8 @@ import ru.saransklife.api.RestApiClient;
 import ru.saransklife.api.model.ApiEvent;
 import ru.saransklife.api.model.ApiSectionItem;
 import ru.saransklife.client.drawer.SectionItemType;
+import ru.saransklife.dao.CacheInfo;
+import ru.saransklife.dao.CacheInfoDao;
 import ru.saransklife.dao.DaoMaster;
 import ru.saransklife.dao.DaoSession;
 import ru.saransklife.dao.Event;
@@ -44,6 +47,10 @@ public class Dao {
 
 	public static final String INTERESTING_PLACES_SLUG = "interesting";
 	public static final String ABOUT_PAGE_SLUG = "about";
+
+	public enum Request {
+		PLACE_CATEGORIES
+	}
 
 	private SQLiteDatabase db;
 	@RootContext Context context;
@@ -117,6 +124,8 @@ public class Dao {
 		PlaceCategoryDao categoryDao = daoSession.getPlaceCategoryDao();
 		categoryDao.deleteAll();
 		categoryDao.insertInTx(categories);
+
+		setLastUpdated(Dao.Request.PLACE_CATEGORIES);
 	}
 
 	public Cursor getPlaceEntitiesBySlugCursor(String slug) {
@@ -237,5 +246,23 @@ public class Dao {
 		ReferenceDao referenceDao = daoSession.getReferenceDao();
 		QueryBuilder<Reference> builder = referenceDao.queryBuilder().where(ReferenceDao.Properties.Id.eq(id));
 		return builder.build().unique();
+	}
+
+	public void setLastUpdated(Request request) {
+		CacheInfoDao cacheInfoDao = daoSession.getCacheInfoDao();
+		CacheInfo cacheInfo = new CacheInfo();
+		cacheInfo.setRequest(request.name());
+		cacheInfo.setLast_updated(new Date());
+		cacheInfoDao.insertOrReplace(cacheInfo);
+	}
+
+	public Date getLastUpdated(Request request) {
+		CacheInfoDao cacheInfoDao = daoSession.getCacheInfoDao();
+		QueryBuilder<CacheInfo> builder = cacheInfoDao.queryBuilder().where(CacheInfoDao.Properties.Request.eq(request.name()));
+		CacheInfo cacheInfo = builder.build().unique();
+		if (cacheInfo == null) {
+			return null;
+		}
+		return cacheInfo.getLast_updated();
 	}
 }

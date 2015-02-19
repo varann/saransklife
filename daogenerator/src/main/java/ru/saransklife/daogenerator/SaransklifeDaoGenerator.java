@@ -102,6 +102,11 @@ public class SaransklifeDaoGenerator {
 		reference.addStringProperty("site");
 
 
+		Entity cache = schema.addEntity("CacheInfo");
+		cache.addStringProperty("request").primaryKey();
+		cache.addDateProperty("last_updated");
+
+
 		String outDir = "app/src/dao/java";
 
 		new File(outDir).mkdirs();

@@ -22,6 +22,8 @@ import ru.saransklife.R;
 @EActivity
 public class BaseActivity extends ActionBarActivity {
 
+	protected static final String FORCE = "force";
+
 	protected Logger L;
 
 	@Override
@@ -88,4 +90,15 @@ public class BaseActivity extends ActionBarActivity {
 
 		builder.create().show();
 	}
+
+	protected Bundle createForceBundle(boolean force) {
+		Bundle bundle = new Bundle();
+		bundle.putBoolean(FORCE, force);
+		return bundle;
+	}
+
+	protected boolean isForceBundle(Bundle bundle) {
+		return bundle.getBoolean(FORCE);
+	}
+
 }

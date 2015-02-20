@@ -16,18 +16,28 @@ public class DataHelper {
 
 	@Bean Dao dao;
 
+	public Cursor getInterestingPlacesCursor(boolean force, Context context) {
+		Cursor cursor = dao.getPlaceEntitiesBySlugCursor(Dao.INTERESTING_PLACES_SLUG);
+
+		if (force || needUpdate(Dao.Request.INTERESTING_PLACES, Dao.INTERESTING_PLACES_SLUG)) {
+			DataService_.intent(context).interestingPlacesAction().start();
+		}
+
+		return cursor;
+	}
+
 	public Cursor getPlaceCategoriesCursor(boolean force, Context context) {
 		Cursor cursor = dao.getPlaceCategoryCursor();
 
-		if (force || needUpdate(Dao.Request.PLACE_CATEGORIES)) {
+		if (force || needUpdate(Dao.Request.PLACE_CATEGORIES, null)) {
 			DataService_.intent(context).placeCategoriesAction().start();
 		}
 
 		return cursor;
 	}
 
-	private boolean needUpdate(Dao.Request request) {
-		Date lastUpdated = dao.getLastUpdated(request);
+	private boolean needUpdate(Dao.Request request, String params) {
+		Date lastUpdated = dao.getLastUpdated(request, params);
 
 		if (lastUpdated == null) return true;
 

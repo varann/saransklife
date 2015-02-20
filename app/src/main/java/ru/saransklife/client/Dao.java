@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 import de.greenrobot.dao.query.QueryBuilder;
+import de.greenrobot.dao.query.WhereCondition;
 import ru.saransklife.R;
 import ru.saransklife.api.RestApiClient;
 import ru.saransklife.api.model.ApiEvent;
@@ -49,6 +50,7 @@ public class Dao {
 	public static final String ABOUT_PAGE_SLUG = "about";
 
 	public enum Request {
+		INTERESTING_PLACES,
 		PLACE_CATEGORIES
 	}
 
@@ -125,7 +127,7 @@ public class Dao {
 		categoryDao.deleteAll();
 		categoryDao.insertInTx(categories);
 
-		setLastUpdated(Dao.Request.PLACE_CATEGORIES);
+		setLastUpdated(Dao.Request.PLACE_CATEGORIES, null);
 	}
 
 	public Cursor getPlaceEntitiesBySlugCursor(String slug) {
@@ -149,6 +151,8 @@ public class Dao {
 			entity.setSlug(slug);
 			entitiesDao.insertOrReplace(entity);
 		}
+
+		setLastUpdated(Request.INTERESTING_PLACES, slug);
 	}
 
 	public PlaceEntity getPlaceEntity(long id) {
@@ -248,21 +252,37 @@ public class Dao {
 		return builder.build().unique();
 	}
 
-	public void setLastUpdated(Request request) {
+	public void setLastUpdated(Request request, String params) {
 		CacheInfoDao cacheInfoDao = daoSession.getCacheInfoDao();
-		CacheInfo cacheInfo = new CacheInfo();
-		cacheInfo.setRequest(request.name());
+		CacheInfo cacheInfo = getCacheInfo(request, params);
+		if (cacheInfo == null) {
+			cacheInfo = new CacheInfo();
+			cacheInfo.setRequest(request.name());
+			cacheInfo.setParams(params);
+		}
 		cacheInfo.setLast_updated(new Date());
 		cacheInfoDao.insertOrReplace(cacheInfo);
 	}
 
-	public Date getLastUpdated(Request request) {
+	public Date getLastUpdated(Request request, String params) {
 		CacheInfoDao cacheInfoDao = daoSession.getCacheInfoDao();
-		QueryBuilder<CacheInfo> builder = cacheInfoDao.queryBuilder().where(CacheInfoDao.Properties.Request.eq(request.name()));
-		CacheInfo cacheInfo = builder.build().unique();
+		CacheInfo cacheInfo = getCacheInfo(request, params);
 		if (cacheInfo == null) {
 			return null;
 		}
 		return cacheInfo.getLast_updated();
+	}
+
+	private CacheInfo getCacheInfo(Request request, String params) {
+		CacheInfoDao cacheInfoDao = daoSession.getCacheInfoDao();
+		WhereCondition condition;
+		if (params == null) {
+			condition = CacheInfoDao.Properties.Params.isNull();
+		} else {
+			condition = CacheInfoDao.Properties.Params.eq(params);
+		}
+		QueryBuilder<CacheInfo> builder = cacheInfoDao.queryBuilder()
+				.where(CacheInfoDao.Properties.Request.eq(request.name()), condition);
+		return builder.build().unique();
 	}
 }

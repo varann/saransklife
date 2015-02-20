@@ -24,7 +24,9 @@
 				android:layout_height="wrap_content"
 				android:orientation="vertical">
 
-				<fragment android:name="ru.saransklife.client.place.InterestingViewPagerFragment_"
+				<fragment
+					android:id="@+id/interesting_view_pager"
+					android:name="ru.saransklife.client.place.InterestingViewPagerFragment_"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"/>
 

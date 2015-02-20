@@ -91,13 +91,13 @@ public class BaseActivity extends ActionBarActivity {
 		builder.create().show();
 	}
 
-	protected Bundle createForceBundle(boolean force) {
+	public Bundle createForceBundle(boolean force) {
 		Bundle bundle = new Bundle();
 		bundle.putBoolean(FORCE, force);
 		return bundle;
 	}
 
-	protected boolean isForceBundle(Bundle bundle) {
+	public boolean isForceBundle(Bundle bundle) {
 		return bundle.getBoolean(FORCE);
 	}
 

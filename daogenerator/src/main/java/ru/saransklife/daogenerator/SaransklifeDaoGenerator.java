@@ -103,7 +103,9 @@ public class SaransklifeDaoGenerator {
 
 
 		Entity cache = schema.addEntity("CacheInfo");
-		cache.addStringProperty("request").primaryKey();
+		cache.addIdProperty();
+		cache.addStringProperty("request");
+		cache.addStringProperty("params");
 		cache.addDateProperty("last_updated");
 
 

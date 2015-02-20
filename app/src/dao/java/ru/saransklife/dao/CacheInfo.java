@@ -6,19 +6,31 @@ package ru.saransklife.dao;
  */
 public class CacheInfo {
 
+    private Long id;
     private String request;
+    private String params;
     private java.util.Date last_updated;
 
     public CacheInfo() {
     }
 
-    public CacheInfo(String request) {
-        this.request = request;
+    public CacheInfo(Long id) {
+        this.id = id;
     }
 
-    public CacheInfo(String request, java.util.Date last_updated) {
+    public CacheInfo(Long id, String request, String params, java.util.Date last_updated) {
+        this.id = id;
         this.request = request;
+        this.params = params;
         this.last_updated = last_updated;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getRequest() {
@@ -27,6 +39,14 @@ public class CacheInfo {
 
     public void setRequest(String request) {
         this.request = request;
+    }
+
+    public String getParams() {
+        return params;
+    }
+
+    public void setParams(String params) {
+        this.params = params;
     }
 
     public java.util.Date getLast_updated() {

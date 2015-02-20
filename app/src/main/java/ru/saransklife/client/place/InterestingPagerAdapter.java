@@ -21,13 +21,9 @@ public class InterestingPagerAdapter extends PagerAdapter {
 
 	private Cursor cursor;
 
-	public InterestingPagerAdapter(Cursor cursor) {
-		this.cursor = cursor;
-	}
-
 	@Override
 	public int getCount() {
-		return cursor.getCount();
+		return cursor == null ? 0 : cursor.getCount();
 	}
 
 	public void swapCursor(Cursor cursor) {

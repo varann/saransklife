@@ -1,20 +1,20 @@
 package ru.saransklife.client.place;
 
-import android.content.Context;
-import android.content.DialogInterface;
+import android.database.Cursor;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
-import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.FrameLayout;
 
 import com.viewpagerindicator.CirclePageIndicator;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
@@ -22,8 +22,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import ru.saransklife.R;
-import ru.saransklife.client.Dao;
-import ru.saransklife.client.DataService_;
+import ru.saransklife.client.BaseActivity;
+import ru.saransklife.client.DataHelper;
 import ru.saransklife.client.EventBus;
 import ru.saransklife.client.Events;
 
@@ -31,12 +31,14 @@ import ru.saransklife.client.Events;
  * Created by asavinova on 05/02/15.
  */
 @EFragment(R.layout.interesting_viewpager)
-public class InterestingViewPagerFragment extends Fragment {
+public class InterestingViewPagerFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+
+	private static final int LOADER_ID = 1;
 
 	@ViewById ViewPager pager;
 	@ViewById CirclePageIndicator indicator;
 
-	@Bean Dao dao;
+	@Bean DataHelper dataHelper;
 	@Bean EventBus eventBus;
 
 	private Timer timer;
@@ -46,7 +48,7 @@ public class InterestingViewPagerFragment extends Fragment {
 
 	@AfterViews
 	void init() {
-		interestingPagerAdapter = new InterestingPagerAdapter(dao.getPlaceEntitiesBySlugCursor(Dao.INTERESTING_PLACES_SLUG));
+		interestingPagerAdapter = new InterestingPagerAdapter();
 		pager.setAdapter(interestingPagerAdapter);
 		indicator.setViewPager(pager);
 
@@ -62,7 +64,7 @@ public class InterestingViewPagerFragment extends Fragment {
 
 		restartTimer();
 
-		DataService_.intent(getActivity()).interestingPlacesAction().start();
+		getLoaderManager().initLoader(LOADER_ID, ((BaseActivity) getActivity()).createForceBundle(false), this);
 	}
 
 	@Override
@@ -78,7 +80,7 @@ public class InterestingViewPagerFragment extends Fragment {
 	}
 
 	public void onEvent(Events.InterestingPlacesLoadedEvent event) {
-		updatePager();
+		getLoaderManager().restartLoader(LOADER_ID, ((BaseActivity) getActivity()).createForceBundle(false), this);
 	}
 
 	public void onEvent(Events.InterestingPlacesLoadErrorEvent event) {
@@ -93,15 +95,6 @@ public class InterestingViewPagerFragment extends Fragment {
 		timerTask = newTimerTask();
 
 		timer.schedule(timerTask, 3000, 2000);
-	}
-
-	@UiThread
-	void updatePager() {
-		interestingPagerAdapter.swapCursor(dao.getPlaceEntitiesBySlugCursor(Dao.INTERESTING_PLACES_SLUG));
-		interestingPagerAdapter.notifyDataSetChanged();
-
-		pager.setCurrentItem(0);
-		restartTimer();
 	}
 
 	@UiThread
@@ -121,5 +114,32 @@ public class InterestingViewPagerFragment extends Fragment {
 				changeItem();
 			}
 		};
+	}
+
+	@Override
+	public Loader<Cursor> onCreateLoader(int id, final Bundle args) {
+		return new CursorLoader(getActivity()) {
+			@Override
+			public Cursor loadInBackground() {
+				return dataHelper.getInterestingPlacesCursor(((BaseActivity) getActivity()).isForceBundle(args), getContext());
+			}
+		};
+	}
+
+	@Override
+	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+		interestingPagerAdapter.swapCursor(cursor);
+		interestingPagerAdapter.notifyDataSetChanged();
+
+		pager.setCurrentItem(0);
+		restartTimer();
+	}
+
+	@Override
+	public void onLoaderReset(Loader<Cursor> loader) {
+	}
+
+	public void forceRefresh() {
+		getLoaderManager().restartLoader(LOADER_ID, ((BaseActivity) getActivity()).createForceBundle(true), this);
 	}
 }

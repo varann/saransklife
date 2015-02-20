@@ -20,6 +20,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.FragmentById;
 import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
@@ -36,10 +37,13 @@ import ru.saransklife.client.Events;
 @EActivity(R.layout.activity_categories)
 public class PlaceCategoriesActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, LoaderManager.LoaderCallbacks<Cursor> {
 
+	private static final int LOADER_ID = 0;
+
 	@ViewById DrawerLayout drawerLayout;
 	@ViewById Toolbar toolbar;
 	@ViewById SwipeRefreshLayout refresh;
 	@ViewById GridView grid;
+	@FragmentById InterestingViewPagerFragment interestingViewPager;
 
 	@Bean DataHelper dataHelper;
 	@Bean EventBus eventBus;
@@ -63,15 +67,13 @@ public class PlaceCategoriesActivity extends BaseActivity implements SwipeRefres
 		categoryAdapter = new CategoryAdapter(this, null);
 		grid.setAdapter(categoryAdapter);
 
-		//TODO Временно заблокировано
-//		refresh.setEnabled(false);
 		refresh.setOnRefreshListener(this);
 		refresh.setColorSchemeResources(R.color.refresh_color_1, R.color.refresh_color_2, R.color.refresh_color_1, R.color.refresh_color_2);
 
 		refresh.setProgressViewOffset(false, 0,
 				(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
 
-		getLoaderManager().initLoader(0, createForceBundle(false), this);
+		getLoaderManager().initLoader(LOADER_ID, createForceBundle(false), this);
 	}
 
 	@Override
@@ -87,7 +89,7 @@ public class PlaceCategoriesActivity extends BaseActivity implements SwipeRefres
 	}
 
 	public void onEvent(Events.PlaceCategoriesLoadedEvent event) {
-		getLoaderManager().restartLoader(0, createForceBundle(false), this);
+		getLoaderManager().restartLoader(LOADER_ID, createForceBundle(false), this);
 	}
 
 	public void onEvent(Events.PlaceCategoriesLoadErrorEvent event) {
@@ -95,7 +97,7 @@ public class PlaceCategoriesActivity extends BaseActivity implements SwipeRefres
 		showErrorDialog(new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				getLoaderManager().restartLoader(0, createForceBundle(true), PlaceCategoriesActivity.this);
+				getLoaderManager().restartLoader(LOADER_ID, createForceBundle(true), PlaceCategoriesActivity.this);
 			}
 		});
 	}
@@ -113,8 +115,8 @@ public class PlaceCategoriesActivity extends BaseActivity implements SwipeRefres
 
 	@Override
 	public void onRefresh() {
-		refresh.setRefreshing(true);
-		getLoaderManager().restartLoader(0, createForceBundle(true), this);
+		getLoaderManager().restartLoader(LOADER_ID, createForceBundle(true), this);
+		interestingViewPager.forceRefresh();
 	}
 
 	@Override

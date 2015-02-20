@@ -14,7 +14,7 @@ import ru.saransklife.dao.CacheInfo;
 /** 
  * DAO for table CACHE_INFO.
 */
-public class CacheInfoDao extends AbstractDao<CacheInfo, String> {
+public class CacheInfoDao extends AbstractDao<CacheInfo, Long> {
 
     public static final String TABLENAME = "CACHE_INFO";
 
@@ -23,8 +23,10 @@ public class CacheInfoDao extends AbstractDao<CacheInfo, String> {
      * Can be used for QueryBuilder and for referencing column names.
     */
     public static class Properties {
-        public final static Property Request = new Property(0, String.class, "request", true, "REQUEST");
-        public final static Property Last_updated = new Property(1, java.util.Date.class, "last_updated", false, "LAST_UPDATED");
+        public final static Property Id = new Property(0, Long.class, "id", true, "_id");
+        public final static Property Request = new Property(1, String.class, "request", false, "REQUEST");
+        public final static Property Params = new Property(2, String.class, "params", false, "PARAMS");
+        public final static Property Last_updated = new Property(3, java.util.Date.class, "last_updated", false, "LAST_UPDATED");
     };
 
 
@@ -40,8 +42,10 @@ public class CacheInfoDao extends AbstractDao<CacheInfo, String> {
     public static void createTable(SQLiteDatabase db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "'CACHE_INFO' (" + //
-                "'REQUEST' TEXT PRIMARY KEY NOT NULL ," + // 0: request
-                "'LAST_UPDATED' INTEGER);"); // 1: last_updated
+                "'_id' INTEGER PRIMARY KEY ," + // 0: id
+                "'REQUEST' TEXT," + // 1: request
+                "'PARAMS' TEXT," + // 2: params
+                "'LAST_UPDATED' INTEGER);"); // 3: last_updated
     }
 
     /** Drops the underlying database table. */
@@ -55,29 +59,41 @@ public class CacheInfoDao extends AbstractDao<CacheInfo, String> {
     protected void bindValues(SQLiteStatement stmt, CacheInfo entity) {
         stmt.clearBindings();
  
+        Long id = entity.getId();
+        if (id != null) {
+            stmt.bindLong(1, id);
+        }
+ 
         String request = entity.getRequest();
         if (request != null) {
-            stmt.bindString(1, request);
+            stmt.bindString(2, request);
+        }
+ 
+        String params = entity.getParams();
+        if (params != null) {
+            stmt.bindString(3, params);
         }
  
         java.util.Date last_updated = entity.getLast_updated();
         if (last_updated != null) {
-            stmt.bindLong(2, last_updated.getTime());
+            stmt.bindLong(4, last_updated.getTime());
         }
     }
 
     /** @inheritdoc */
     @Override
-    public String readKey(Cursor cursor, int offset) {
-        return cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0);
+    public Long readKey(Cursor cursor, int offset) {
+        return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
     }    
 
     /** @inheritdoc */
     @Override
     public CacheInfo readEntity(Cursor cursor, int offset) {
         CacheInfo entity = new CacheInfo( //
-            cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // request
-            cursor.isNull(offset + 1) ? null : new java.util.Date(cursor.getLong(offset + 1)) // last_updated
+            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
+            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // request
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // params
+            cursor.isNull(offset + 3) ? null : new java.util.Date(cursor.getLong(offset + 3)) // last_updated
         );
         return entity;
     }
@@ -85,21 +101,24 @@ public class CacheInfoDao extends AbstractDao<CacheInfo, String> {
     /** @inheritdoc */
     @Override
     public void readEntity(Cursor cursor, CacheInfo entity, int offset) {
-        entity.setRequest(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
-        entity.setLast_updated(cursor.isNull(offset + 1) ? null : new java.util.Date(cursor.getLong(offset + 1)));
+        entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
+        entity.setRequest(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
+        entity.setParams(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setLast_updated(cursor.isNull(offset + 3) ? null : new java.util.Date(cursor.getLong(offset + 3)));
      }
     
     /** @inheritdoc */
     @Override
-    protected String updateKeyAfterInsert(CacheInfo entity, long rowId) {
-        return entity.getRequest();
+    protected Long updateKeyAfterInsert(CacheInfo entity, long rowId) {
+        entity.setId(rowId);
+        return rowId;
     }
     
     /** @inheritdoc */
     @Override
-    public String getKey(CacheInfo entity) {
+    public Long getKey(CacheInfo entity) {
         if(entity != null) {
-            return entity.getRequest();
+            return entity.getId();
         } else {
             return null;
         }

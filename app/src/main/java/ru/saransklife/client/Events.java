@@ -13,6 +13,7 @@ public class Events {
 	public static class MenuLoadErrorEvent {
 	}
 
+
 	public static class PageLoadedEvent {
 		private Page page;
 
@@ -37,11 +38,13 @@ public class Events {
 		}
 	}
 
+
 	public static class InterestingPlacesLoadedEvent {
 	}
 
 	public static class InterestingPlacesLoadErrorEvent {
 	}
+
 
 	public static class PlaceCategoriesStartLoadingEvent {
 	}
@@ -50,6 +53,16 @@ public class Events {
 	}
 
 	public static class PlaceCategoriesLoadErrorEvent {
+	}
+
+
+	public static class PlaceEntitiesStartLoadingEvent {
+	}
+
+	public static class PlaceEntitiesLoadedEvent {
+	}
+
+	public static class PlaceEntitiesLoadErrorEvent {
 	}
 
 }

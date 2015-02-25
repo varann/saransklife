@@ -71,7 +71,7 @@ public class DataService extends IntentService {
 	void interestingPlacesAction() {
 		try {
 			PlaceEntitiesResponse places = apiClient.getInterestingPlaces();
-			dao.setPlaceEntities(places.getResponse().getEntities(), Dao.INTERESTING_PLACES_SLUG);
+			dao.setPlaceEntities(places.getResponse().getEntities(), Dao.Request.INTERESTING_PLACES, Dao.INTERESTING_PLACES_SLUG);
 		} catch (RestClientException e) {
 			eventBus.post(new Events.InterestingPlacesLoadErrorEvent());
 		}
@@ -89,5 +89,17 @@ public class DataService extends IntentService {
 		}
 
 		eventBus.post(new Events.PlaceCategoriesLoadedEvent());
+	}
+
+	@ServiceAction
+	void placeEntitiesAction(String slug) {
+		try {
+			PlaceEntitiesResponse entities = apiClient.getPlaceEntities(slug);
+			dao.setPlaceEntities(entities.getResponse().getEntities(), Dao.Request.PLACE_ENTITIES, slug);
+		} catch (RestClientException e) {
+			eventBus.post(new Events.PlaceEntitiesLoadErrorEvent());
+		}
+
+		eventBus.post(new Events.PlaceEntitiesLoadedEvent());
 	}
 }

@@ -38,6 +38,17 @@ public class DataHelper {
 		return cursor;
 	}
 
+	public Cursor getPlaceEntitiesCursor(String slug, boolean force, Context context) {
+		Cursor cursor = dao.getPlaceEntitiesBySlugCursor(slug);
+
+		if (force || needUpdate(Dao.Request.PLACE_ENTITIES, slug)) {
+			eventBus.post(new Events.PlaceEntitiesStartLoadingEvent());
+			DataService_.intent(context).placeEntitiesAction(slug).start();
+		}
+
+		return cursor;
+	}
+
 	private boolean needUpdate(Dao.Request request, String params) {
 		Date lastUpdated = dao.getLastUpdated(request, params);
 

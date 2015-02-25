@@ -51,7 +51,8 @@ public class Dao {
 
 	public enum Request {
 		INTERESTING_PLACES,
-		PLACE_CATEGORIES
+		PLACE_CATEGORIES,
+		PLACE_ENTITIES
 	}
 
 	private SQLiteDatabase db;
@@ -142,7 +143,7 @@ public class Dao {
 		return builder.where(PlaceCategoryDao.Properties.Id.eq(categoryId)).build().unique();
 	}
 
-	public void setPlaceEntities(List<PlaceEntity> entities, String slug) {
+	public void setPlaceEntities(List<PlaceEntity> entities, Request request, String slug) {
 		PlaceEntityDao entitiesDao = daoSession.getPlaceEntityDao();
 		QueryBuilder<PlaceEntity> builder = entitiesDao.queryBuilder().where(PlaceEntityDao.Properties.Slug.eq(slug));
 		List<PlaceEntity> oldEntities = builder.build().list();
@@ -152,7 +153,7 @@ public class Dao {
 			entitiesDao.insertOrReplace(entity);
 		}
 
-		setLastUpdated(Request.INTERESTING_PLACES, slug);
+		setLastUpdated(request, slug);
 	}
 
 	public PlaceEntity getPlaceEntity(long id) {

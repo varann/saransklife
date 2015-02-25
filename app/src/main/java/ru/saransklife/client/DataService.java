@@ -40,12 +40,12 @@ public class DataService extends IntentService {
 		try {
 			MenuResponse response = apiClient.getMenu();
 			dao.setMenuItems(response.getResponse());
-			eventBus.post(new Events().getMenuLoadedEvent());
+			eventBus.post(new Events.MenuLoadedEvent());
 		} catch (RestClientException e) {
 			if (dao.getRootMenuItems().size() == 0) {
-				eventBus.post(new Events().getMenuLoadErrorEvent());
+				eventBus.post(new Events.MenuLoadErrorEvent());
 			} else {
-				eventBus.post(new Events().getMenuLoadedEvent());
+				eventBus.post(new Events.MenuLoadedEvent());
 			}
 		}
 	}
@@ -59,12 +59,12 @@ public class DataService extends IntentService {
 				page = response.getResponse();
 				dao.setPage(page);
 			} catch (RestClientException e) {
-				eventBus.post(new Events().getPageLoadErrorEvent(slug));
+				eventBus.post(new Events.PageLoadErrorEvent(slug));
 				return;
 			}
 		}
 
-		eventBus.post(new Events().getPageLoadedEvent(page));
+		eventBus.post(new Events.PageLoadedEvent(page));
 	}
 
 	@ServiceAction
@@ -73,10 +73,10 @@ public class DataService extends IntentService {
 			PlaceEntitiesResponse places = apiClient.getInterestingPlaces();
 			dao.setPlaceEntities(places.getResponse().getEntities(), Dao.INTERESTING_PLACES_SLUG);
 		} catch (RestClientException e) {
-			eventBus.post(new Events().getInterestingPlacesLoadErrorEvent());
+			eventBus.post(new Events.InterestingPlacesLoadErrorEvent());
 		}
 
-		eventBus.post(new Events().getInterestingPlacesLoadedEvent());
+		eventBus.post(new Events.InterestingPlacesLoadedEvent());
 	}
 
 	@ServiceAction
@@ -85,9 +85,9 @@ public class DataService extends IntentService {
 			PlaceCategoriesResponse categories = apiClient.getPlaceCategories();
 			dao.setPlaceCategories(categories.getResponse());
 		} catch (RestClientException e) {
-			eventBus.post(new Events().getPlaceCategoriesLoadErrorEvent());
+			eventBus.post(new Events.PlaceCategoriesLoadErrorEvent());
 		}
 
-		eventBus.post(new Events().getPlaceCategoriesLoadedEvent());
+		eventBus.post(new Events.PlaceCategoriesLoadedEvent());
 	}
 }

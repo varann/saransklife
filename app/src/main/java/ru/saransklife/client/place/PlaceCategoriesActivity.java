@@ -88,8 +88,13 @@ public class PlaceCategoriesActivity extends BaseActivity implements SwipeRefres
 		eventBus.unregister(this);
 	}
 
+	public void onEvent(Events.PlaceCategoriesStartLoadingEvent event) {
+		setRefreshing(true);
+	}
+
 	public void onEvent(Events.PlaceCategoriesLoadedEvent event) {
 		getLoaderManager().restartLoader(LOADER_ID, createForceBundle(false), this);
+		setRefreshing(false);
 	}
 
 	public void onEvent(Events.PlaceCategoriesLoadErrorEvent event) {
@@ -123,12 +128,6 @@ public class PlaceCategoriesActivity extends BaseActivity implements SwipeRefres
 	public Loader<Cursor> onCreateLoader(int id, final Bundle args) {
 		return new CursorLoader(this) {
 			@Override
-			protected void onStartLoading() {
-				super.onStartLoading();
-				setRefreshing(true);
-			}
-
-			@Override
 			public Cursor loadInBackground() {
 				return dataHelper.getPlaceCategoriesCursor(isForceBundle(args), getContext());
 			}
@@ -137,7 +136,6 @@ public class PlaceCategoriesActivity extends BaseActivity implements SwipeRefres
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-		setRefreshing(false);
 		categoryAdapter.swapCursor(cursor);
 		categoryAdapter.notifyDataSetChanged();
 	}

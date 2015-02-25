@@ -7,47 +7,13 @@ import ru.saransklife.dao.Page;
  */
 public class Events {
 
-	public MenuLoadedEvent getMenuLoadedEvent() {
-		return new MenuLoadedEvent();
+	public static class MenuLoadedEvent {
 	}
 
-	public MenuLoadErrorEvent getMenuLoadErrorEvent() {
-		return new MenuLoadErrorEvent();
+	public static class MenuLoadErrorEvent {
 	}
 
-	public PageLoadedEvent getPageLoadedEvent(Page page) {
-		return new PageLoadedEvent(page);
-	}
-
-	public PageLoadErrorEvent getPageLoadErrorEvent(String slug) {
-		return new PageLoadErrorEvent(slug);
-	}
-
-	public InterestingPlacesLoadedEvent getInterestingPlacesLoadedEvent() {
-		return new InterestingPlacesLoadedEvent();
-	}
-
-	public InterestingPlacesLoadErrorEvent getInterestingPlacesLoadErrorEvent() {
-		return new InterestingPlacesLoadErrorEvent();
-	}
-
-	public PlaceCategoriesLoadedEvent getPlaceCategoriesLoadedEvent() {
-		return new PlaceCategoriesLoadedEvent();
-	}
-
-	public PlaceCategoriesLoadErrorEvent getPlaceCategoriesLoadErrorEvent() {
-		return new PlaceCategoriesLoadErrorEvent();
-	}
-
-
-	public class MenuLoadedEvent {
-	}
-
-	public class MenuLoadErrorEvent {
-	}
-
-
-	public class PageLoadedEvent {
+	public static class PageLoadedEvent {
 		private Page page;
 
 		public PageLoadedEvent(Page page) {
@@ -59,7 +25,7 @@ public class Events {
 		}
 	}
 
-	public class PageLoadErrorEvent {
+	public static class PageLoadErrorEvent {
 		private String slug;
 
 		public PageLoadErrorEvent(String slug) {
@@ -71,17 +37,19 @@ public class Events {
 		}
 	}
 
-	public class InterestingPlacesLoadedEvent {
+	public static class InterestingPlacesLoadedEvent {
 	}
 
-	public class InterestingPlacesLoadErrorEvent {
+	public static class InterestingPlacesLoadErrorEvent {
 	}
 
-
-	public class PlaceCategoriesLoadedEvent {
+	public static class PlaceCategoriesStartLoadingEvent {
 	}
 
-	public class PlaceCategoriesLoadErrorEvent {
+	public static class PlaceCategoriesLoadedEvent {
+	}
+
+	public static class PlaceCategoriesLoadErrorEvent {
 	}
 
 }

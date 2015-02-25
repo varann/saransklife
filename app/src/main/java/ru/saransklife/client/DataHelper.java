@@ -15,6 +15,7 @@ import java.util.Date;
 public class DataHelper {
 
 	@Bean Dao dao;
+	@Bean EventBus eventBus;
 
 	public Cursor getInterestingPlacesCursor(boolean force, Context context) {
 		Cursor cursor = dao.getPlaceEntitiesBySlugCursor(Dao.INTERESTING_PLACES_SLUG);
@@ -30,6 +31,7 @@ public class DataHelper {
 		Cursor cursor = dao.getPlaceCategoryCursor();
 
 		if (force || needUpdate(Dao.Request.PLACE_CATEGORIES, null)) {
+			eventBus.post(new Events.PlaceCategoriesStartLoadingEvent());
 			DataService_.intent(context).placeCategoriesAction().start();
 		}
 

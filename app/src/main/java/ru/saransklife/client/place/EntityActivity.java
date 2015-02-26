@@ -1,6 +1,10 @@
 package ru.saransklife.client.place;
 
+import android.app.LoaderManager;
+import android.content.AsyncTaskLoader;
 import android.content.DialogInterface;
+import android.content.Loader;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.support.v7.widget.CardView;
@@ -13,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
@@ -45,6 +48,12 @@ import ru.saransklife.dao.PlaceEntity;
  */
 @EActivity(R.layout.activity_entity)
 public class EntityActivity extends BaseActivity {
+
+	private static final int PLACE_VIEW_LOADER_ID = 0;
+	private static final int PLACE_RECOMMENDED_LOADER_ID = 1;
+	private static final int PLACE_RATING_LOADER_ID = 2;
+
+	private static final String SELECTED_RATING = "rating";
 
 	@ViewById Toolbar toolbar;
 	@ViewById ImageView photo;
@@ -96,12 +105,8 @@ public class EntityActivity extends BaseActivity {
 		setTextWithIcon(emailView, R.string.envelope, entity.getEmail());
 		setTextWithIcon(websiteView, R.string.globe, entity.getWebsite());
 
-		setPlaceView();
-	}
-
-	@Background
-	void setPlaceView() {
-		apiClient.setPlaceView(id, getDeviceId());
+		getLoaderManager().initLoader(PLACE_VIEW_LOADER_ID, null, new PlaceViewCallbacks())
+				.forceLoad();
 	}
 
 	private void setTextWithIcon(TextView view, int icon, String text) {
@@ -121,13 +126,8 @@ public class EntityActivity extends BaseActivity {
 	@Click
 	void setRecommendedClicked() {
 		progress.setVisibility(View.VISIBLE);
-		setPlaceRecommended();
-	}
-
-	@Background
-	void setPlaceRecommended() {
-		PostResponse result = apiClient.setPlaceRecommended(id, getDeviceId());
-		recommendedUpdate(result.isResult() ? getString(R.string.recommendation_setted) : result.getError());
+		getLoaderManager().initLoader(PLACE_RECOMMENDED_LOADER_ID, null, new PlaceRecommendedCallbacks())
+				.forceLoad();
 	}
 
 	@UiThread
@@ -143,16 +143,13 @@ public class EntityActivity extends BaseActivity {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				progress.setVisibility(View.VISIBLE);
-				setPlaceRating(ratingDialog.getSelectedRating());
+				Bundle bundle = new Bundle();
+				bundle.putInt(SELECTED_RATING, ratingDialog.getSelectedRating());
+				getLoaderManager().initLoader(PLACE_RATING_LOADER_ID, bundle, new PlaceRatingCallbacks())
+						.forceLoad();
 			}
 		});
 		ratingDialog.create().show();
-	}
-
-	@Background
-	void setPlaceRating(int rating) {
-		PostResponse result = apiClient.setPlaceRating(id, getDeviceId(), rating);
-		ratingUpdate(result.isResult() ? getString(R.string.rating_setted) : result.getError());
 	}
 
 	@UiThread
@@ -167,6 +164,73 @@ public class EntityActivity extends BaseActivity {
 			PlaceCategoriesActivity_.intent(this).start();
 		} else {
 			NavUtils.navigateUpFromSameTask(this);
+		}
+	}
+
+
+	class PlaceViewCallbacks implements LoaderManager.LoaderCallbacks<PostResponse> {
+		@Override
+		public Loader<PostResponse> onCreateLoader(int id, Bundle args) {
+			return new AsyncTaskLoader<PostResponse>(getApplicationContext()) {
+				@Override
+				public PostResponse loadInBackground() {
+					return apiClient.setPlaceView(EntityActivity.this.id, getDeviceId());
+				}
+			};
+		}
+
+		@Override
+		public void onLoadFinished(Loader<PostResponse> loader, PostResponse data) {
+			data.isResult();
+		}
+
+		@Override
+		public void onLoaderReset(Loader<PostResponse> loader) {
+		}
+	}
+
+
+	class PlaceRecommendedCallbacks implements LoaderManager.LoaderCallbacks<PostResponse> {
+		@Override
+		public Loader<PostResponse> onCreateLoader(int id, Bundle args) {
+			return new AsyncTaskLoader<PostResponse>(getApplicationContext()) {
+				@Override
+				public PostResponse loadInBackground() {
+					return apiClient.setPlaceRecommended(EntityActivity.this.id, getDeviceId());
+				}
+			};
+		}
+
+		@Override
+		public void onLoadFinished(Loader<PostResponse> loader, PostResponse data) {
+			recommendedUpdate(data.isResult() ? getString(R.string.recommendation_setted) : data.getError());
+		}
+
+		@Override
+		public void onLoaderReset(Loader<PostResponse> loader) {
+		}
+	}
+
+
+	class PlaceRatingCallbacks implements LoaderManager.LoaderCallbacks<PostResponse> {
+		@Override
+		public Loader<PostResponse> onCreateLoader(int id, final Bundle args) {
+			return new AsyncTaskLoader<PostResponse>(getApplicationContext()) {
+				@Override
+				public PostResponse loadInBackground() {
+					int rating = args.getInt(SELECTED_RATING);
+					return apiClient.setPlaceRating(EntityActivity.this.id, getDeviceId(), rating);
+				}
+			};
+		}
+
+		@Override
+		public void onLoadFinished(Loader<PostResponse> loader, PostResponse data) {
+			ratingUpdate(data.isResult() ? getString(R.string.rating_setted) : data.getError());
+		}
+
+		@Override
+		public void onLoaderReset(Loader<PostResponse> loader) {
 		}
 	}
 }

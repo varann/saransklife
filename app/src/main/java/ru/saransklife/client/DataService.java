@@ -10,6 +10,8 @@ import org.androidannotations.annotations.rest.RestService;
 import org.springframework.web.client.RestClientException;
 
 import ru.saransklife.api.RestApiClient;
+import ru.saransklife.api.model.EventCategoriesResponse;
+import ru.saransklife.api.model.EventsResponse;
 import ru.saransklife.api.model.MenuResponse;
 import ru.saransklife.api.model.PageResponse;
 import ru.saransklife.api.model.PlaceCategoriesResponse;
@@ -101,5 +103,22 @@ public class DataService extends IntentService {
 		}
 
 		eventBus.post(new Events.PlaceEntitiesLoadedEvent());
+	}
+
+	@ServiceAction
+	void eventsAndCategoriesAction() {
+		try {
+			EventCategoriesResponse categories = apiClient.getEventCategories();
+			dao.setEventCategories(categories.getResponse());
+
+			EventsResponse events = apiClient.getEvents();
+			dao.setEvents(events.getResponse());
+
+			dao.setLastUpdated(Dao.Request.EVENTS_AND_CATEGORIES, null);
+		} catch (RestClientException e) {
+			eventBus.post(new Events.EventsAndCategoriesLoadErrorEvent());
+		}
+
+		eventBus.post(new Events.EventsAndCategoriesLoadedEvent());
 	}
 }

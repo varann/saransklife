@@ -49,6 +49,17 @@ public class DataHelper {
 		return cursor;
 	}
 
+	public Cursor getEventCategoriesCursor(boolean force, Context context) {
+		Cursor cursor = dao.getEventCategories();
+
+		if (force || needUpdate(Dao.Request.EVENTS_AND_CATEGORIES, null)) {
+			eventBus.post(new Events.EventsAndCategoriesStartLoadingEvent());
+			DataService_.intent(context).eventsAndCategoriesAction().start();
+		}
+
+		return cursor;
+	}
+
 	private boolean needUpdate(Dao.Request request, String params) {
 		Date lastUpdated = dao.getLastUpdated(request, params);
 

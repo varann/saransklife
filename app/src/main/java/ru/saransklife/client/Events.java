@@ -65,4 +65,14 @@ public class Events {
 	public static class PlaceEntitiesLoadErrorEvent {
 	}
 
+
+	public static class EventsAndCategoriesStartLoadingEvent {
+	}
+
+	public static class EventsAndCategoriesLoadedEvent {
+	}
+
+	public static class EventsAndCategoriesLoadErrorEvent {
+	}
+
 }

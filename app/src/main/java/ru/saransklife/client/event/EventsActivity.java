@@ -1,6 +1,12 @@
 package ru.saransklife.client.event;
 
 
+import android.app.LoaderManager;
+import android.content.CursorLoader;
+import android.content.DialogInterface;
+import android.content.Loader;
+import android.database.Cursor;
+import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,25 +17,24 @@ import android.view.Gravity;
 import android.view.View;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.rest.RestService;
 
 import ru.saransklife.R;
-import ru.saransklife.api.RestApiClient;
-import ru.saransklife.api.model.EventCategoriesResponse;
-import ru.saransklife.api.model.EventsResponse;
 import ru.saransklife.client.BaseActivity;
 import ru.saransklife.client.Dao;
+import ru.saransklife.client.DataHelper;
 import ru.saransklife.client.EventBus;
+import ru.saransklife.client.Events;
 
 
 @EActivity(R.layout.activity_events)
-public class EventsActivity extends BaseActivity {
+public class EventsActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
+
+	private static final int LOADER_ID = 0;
 
 	@ViewById DrawerLayout drawerLayout;
 	@ViewById Toolbar toolbar;
@@ -39,8 +44,8 @@ public class EventsActivity extends BaseActivity {
 	@Extra String title;
 
 	@Bean Dao dao;
+	@Bean DataHelper dataHelper;
 	@Bean EventBus eventBus;
-	@RestService RestApiClient apiClient;
 
 	private EventsAdapter adapter;
 
@@ -58,32 +63,78 @@ public class EventsActivity extends BaseActivity {
 		});
 
 		recyclerView.setLayoutManager(new LinearLayoutManager(this));
-		adapter = new EventsAdapter(dao.getEventCategories(), dao);
+		adapter = new EventsAdapter(null, dao);
 		recyclerView.setAdapter(adapter);
 
+		refresh.setOnRefreshListener(this);
 		refresh.setColorSchemeResources(R.color.refresh_color_1, R.color.refresh_color_2, R.color.refresh_color_1, R.color.refresh_color_2);
 		refresh.setProgressViewOffset(false, 0,
 				(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
-		refresh.setEnabled(false);
-		refresh.setRefreshing(true);
-		loadEvents();
+
+		getLoaderManager().initLoader(LOADER_ID, createForceBundle(false), new Callbacks());
 	}
 
-	@Background
-	void loadEvents() {
-		EventCategoriesResponse categories = apiClient.getEventCategories();
-		dao.setEventCategories(categories.getResponse());
+	@Override
+	public void onResume() {
+		super.onResume();
+		eventBus.register(this);
+	}
 
-		EventsResponse events = apiClient.getEvents();
-		dao.setEvents(events.getResponse());
+	@Override
+	public void onPause() {
+		super.onPause();
+		eventBus.unregister(this);
+	}
 
-		updateUi();
+	public void onEvent(Events.EventsAndCategoriesStartLoadingEvent event) {
+		setRefreshing(true);
+	}
+
+	public void onEvent(Events.EventsAndCategoriesLoadedEvent event) {
+		getLoaderManager().restartLoader(LOADER_ID, createForceBundle(false), new Callbacks());
+		setRefreshing(false);
+	}
+
+	public void onEvent(Events.EventsAndCategoriesLoadErrorEvent event) {
+		setRefreshing(false);
+		showErrorDialog(new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				getLoaderManager().restartLoader(LOADER_ID, createForceBundle(true), new Callbacks());
+			}
+		});
 	}
 
 	@UiThread
-	void updateUi() {
-		refresh.setRefreshing(false);
-		adapter.swapCursor(dao.getEventCategories());
-		adapter.notifyDataSetChanged();
+	void setRefreshing(boolean refreshing) {
+		refresh.setRefreshing(refreshing);
+	}
+
+	@Override
+	public void onRefresh() {
+		getLoaderManager().restartLoader(LOADER_ID, createForceBundle(true), new Callbacks());
+	}
+
+	class Callbacks implements LoaderManager.LoaderCallbacks<Cursor> {
+
+		@Override
+		public Loader<Cursor> onCreateLoader(int id, final Bundle args) {
+			return new CursorLoader(getApplicationContext()) {
+				@Override
+				public Cursor loadInBackground() {
+					return dataHelper.getEventCategoriesCursor(isForceBundle(args), getContext());
+				}
+			};
+		}
+
+		@Override
+		public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+			adapter.swapCursor(cursor);
+			adapter.notifyDataSetChanged();
+		}
+
+		@Override
+		public void onLoaderReset(Loader<Cursor> loader) {
+		}
 	}
 }

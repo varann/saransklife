@@ -52,7 +52,8 @@ public class Dao {
 	public enum Request {
 		INTERESTING_PLACES,
 		PLACE_CATEGORIES,
-		PLACE_ENTITIES
+		PLACE_ENTITIES,
+		EVENTS_AND_CATEGORIES
 	}
 
 	private SQLiteDatabase db;
@@ -266,7 +267,6 @@ public class Dao {
 	}
 
 	public Date getLastUpdated(Request request, String params) {
-		CacheInfoDao cacheInfoDao = daoSession.getCacheInfoDao();
 		CacheInfo cacheInfo = getCacheInfo(request, params);
 		if (cacheInfo == null) {
 			return null;

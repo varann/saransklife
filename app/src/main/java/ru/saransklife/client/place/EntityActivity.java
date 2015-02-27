@@ -105,8 +105,8 @@ public class EntityActivity extends BaseActivity {
 		setTextWithIcon(emailView, R.string.envelope, entity.getEmail());
 		setTextWithIcon(websiteView, R.string.globe, entity.getWebsite());
 
-		getLoaderManager().initLoader(PLACE_VIEW_LOADER_ID, null, new PlaceViewCallbacks())
-				.forceLoad();
+		getLoaderManager().initLoader(PLACE_VIEW_LOADER_ID, createForceBundle(false), new PlaceViewCallbacks());
+//				.forceLoad();
 	}
 
 	private void setTextWithIcon(TextView view, int icon, String text) {

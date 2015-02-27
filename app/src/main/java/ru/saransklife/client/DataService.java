@@ -16,6 +16,8 @@ import ru.saransklife.api.model.MenuResponse;
 import ru.saransklife.api.model.PageResponse;
 import ru.saransklife.api.model.PlaceCategoriesResponse;
 import ru.saransklife.api.model.PlaceEntitiesResponse;
+import ru.saransklife.api.model.ReferenceCategoriesResponse;
+import ru.saransklife.api.model.ReferencesResponse;
 import ru.saransklife.dao.Page;
 
 /**
@@ -120,5 +122,29 @@ public class DataService extends IntentService {
 		}
 
 		eventBus.post(new Events.EventsAndCategoriesLoadedEvent());
+	}
+
+	@ServiceAction
+	void referenceCategoriesAction() {
+		try {
+			ReferenceCategoriesResponse categories = apiClient.getReferenceCategories();
+			dao.setReferenceCategories(categories.getResponse());
+		} catch (RestClientException e) {
+			eventBus.post(new Events.ReferenceCategoriesLoadErrorEvent());
+		}
+
+		eventBus.post(new Events.ReferenceCategoriesLoadedEvent());
+	}
+
+	@ServiceAction
+	void referencesAction(String slug) {
+		try {
+			ReferencesResponse data = apiClient.getReferences(slug);
+			dao.setReferences(data.getResponse().getEntities(), slug);
+		} catch (RestClientException e) {
+			eventBus.post(new Events.ReferencesLoadErrorEvent());
+		}
+
+		eventBus.post(new Events.ReferencesLoadedEvent());
 	}
 }

@@ -53,7 +53,9 @@ public class Dao {
 		INTERESTING_PLACES,
 		PLACE_CATEGORIES,
 		PLACE_ENTITIES,
-		EVENTS_AND_CATEGORIES
+		EVENTS_AND_CATEGORIES,
+		REFERENCE_CATEGORIES,
+		REFERENCES
 	}
 
 	private SQLiteDatabase db;
@@ -218,6 +220,8 @@ public class Dao {
 		ReferenceCategoryDao refCategoriesDao = daoSession.getReferenceCategoryDao();
 		refCategoriesDao.deleteAll();
 		refCategoriesDao.insertInTx(categories);
+
+		setLastUpdated(Request.REFERENCE_CATEGORIES, null);
 	}
 
 	public List<ReferenceCategory> getReferenceCategories() {
@@ -240,6 +244,8 @@ public class Dao {
 			reference.setSlug(slug);
 			referenceDao.insertOrReplace(reference);
 		}
+
+		setLastUpdated(Request.REFERENCES, slug);
 	}
 
 	public List<Reference> getReferences(String slug) {

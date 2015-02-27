@@ -38,6 +38,7 @@ public class ReferenceCategoryAdapter extends RecyclerView.Adapter<ReferenceCate
 
 	@Override
 	public int getItemCount() {
+		if (categories == null) return 0;
 		return categories.size();
 	}
 

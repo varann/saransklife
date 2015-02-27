@@ -75,4 +75,24 @@ public class Events {
 	public static class EventsAndCategoriesLoadErrorEvent {
 	}
 
+
+	public static class ReferenceCategoriesStartLoadingEvent {
+	}
+
+	public static class ReferenceCategoriesLoadedEvent {
+	}
+
+	public static class ReferenceCategoriesLoadErrorEvent {
+	}
+
+
+	public static class ReferencesStartLoadingEvent {
+	}
+
+	public static class ReferencesLoadedEvent {
+	}
+
+	public static class ReferencesLoadErrorEvent {
+	}
+
 }

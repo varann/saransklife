@@ -37,6 +37,7 @@ public class ReferencesAdapter extends RecyclerView.Adapter<ReferencesAdapter.Vi
 
 	@Override
 	public int getItemCount() {
+		if (references == null) return 0;
 		return references.size();
 	}
 

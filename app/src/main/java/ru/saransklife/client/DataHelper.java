@@ -7,6 +7,10 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 
 import java.util.Date;
+import java.util.List;
+
+import ru.saransklife.dao.Reference;
+import ru.saransklife.dao.ReferenceCategory;
 
 /**
  * Created by asavinova on 19/02/15.
@@ -58,6 +62,28 @@ public class DataHelper {
 		}
 
 		return cursor;
+	}
+
+	public List<ReferenceCategory> getReferenceCategories(boolean force, Context context) {
+		List<ReferenceCategory> data = dao.getReferenceCategories();
+
+		if (force || needUpdate(Dao.Request.REFERENCE_CATEGORIES, null)) {
+			eventBus.post(new Events.ReferenceCategoriesStartLoadingEvent());
+			DataService_.intent(context).referenceCategoriesAction().start();
+		}
+
+		return data;
+	}
+
+	public List<Reference> getReferences(String slug, boolean force, Context context) {
+		List<Reference> data = dao.getReferences(slug);
+
+		if (force || needUpdate(Dao.Request.REFERENCES, slug)) {
+			eventBus.post(new Events.ReferencesStartLoadingEvent());
+			DataService_.intent(context).referencesAction(slug).start();
+		}
+
+		return data;
 	}
 
 	private boolean needUpdate(Dao.Request request, String params) {

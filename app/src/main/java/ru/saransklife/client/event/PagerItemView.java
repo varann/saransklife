@@ -25,12 +25,10 @@ public class PagerItemView extends FrameLayout implements View.OnClickListener {
 	@ViewById ItemNameView name;
 
 	@Bean Dao dao;
-	private Context context;
 	private long id;
 
 	public PagerItemView(Context context) {
 		super(context);
-		this.context = context;
 		setOnClickListener(this);
 	}
 
@@ -47,6 +45,6 @@ public class PagerItemView extends FrameLayout implements View.OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		EventInfoActivity_.intent(context).id(id).start();
+		EventInfoActivity_.intent(getContext()).id(id).start();
 	}
 }

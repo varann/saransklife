@@ -5,6 +5,7 @@ import android.app.Application;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import org.androidannotations.annotations.EApplication;
 
@@ -23,14 +24,11 @@ public class App extends Application {
 
 	private void initImageLoader() {
 		DisplayImageOptions options = new DisplayImageOptions.Builder()
-				.cacheOnDisk(true)
-				.cacheInMemory(true)
-				.resetViewBeforeLoading(true)
+				.imageScaleType(ImageScaleType.IN_SAMPLE_INT)
 				.build();
 
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
 				.defaultDisplayImageOptions(options)
-				.discCacheSize(1024 * 1024 * 512)
 				.build();
 
 		ImageLoader.getInstance().init(config);

@@ -76,11 +76,10 @@ public class DataService extends IntentService {
 		try {
 			PlaceEntitiesResponse places = apiClient.getInterestingPlaces();
 			dao.setPlaceEntities(places.getResponse().getEntities(), Dao.Request.INTERESTING_PLACES, Dao.INTERESTING_PLACES_SLUG);
+			eventBus.post(new Events.InterestingPlacesLoadedEvent());
 		} catch (RestClientException e) {
 			eventBus.post(new Events.InterestingPlacesLoadErrorEvent());
 		}
-
-		eventBus.post(new Events.InterestingPlacesLoadedEvent());
 	}
 
 	@ServiceAction
@@ -88,11 +87,10 @@ public class DataService extends IntentService {
 		try {
 			PlaceCategoriesResponse categories = apiClient.getPlaceCategories();
 			dao.setPlaceCategories(categories.getResponse());
+			eventBus.post(new Events.PlaceCategoriesLoadedEvent());
 		} catch (RestClientException e) {
 			eventBus.post(new Events.PlaceCategoriesLoadErrorEvent());
 		}
-
-		eventBus.post(new Events.PlaceCategoriesLoadedEvent());
 	}
 
 	@ServiceAction
@@ -100,11 +98,10 @@ public class DataService extends IntentService {
 		try {
 			PlaceEntitiesResponse entities = apiClient.getPlaceEntities(slug);
 			dao.setPlaceEntities(entities.getResponse().getEntities(), Dao.Request.PLACE_ENTITIES, slug);
+			eventBus.post(new Events.PlaceEntitiesLoadedEvent());
 		} catch (RestClientException e) {
 			eventBus.post(new Events.PlaceEntitiesLoadErrorEvent());
 		}
-
-		eventBus.post(new Events.PlaceEntitiesLoadedEvent());
 	}
 
 	@ServiceAction
@@ -117,11 +114,11 @@ public class DataService extends IntentService {
 			dao.setEvents(events.getResponse());
 
 			dao.setLastUpdated(Dao.Request.EVENTS_AND_CATEGORIES, null);
+
+			eventBus.post(new Events.EventsAndCategoriesLoadedEvent());
 		} catch (RestClientException e) {
 			eventBus.post(new Events.EventsAndCategoriesLoadErrorEvent());
 		}
-
-		eventBus.post(new Events.EventsAndCategoriesLoadedEvent());
 	}
 
 	@ServiceAction
@@ -129,11 +126,10 @@ public class DataService extends IntentService {
 		try {
 			ReferenceCategoriesResponse categories = apiClient.getReferenceCategories();
 			dao.setReferenceCategories(categories.getResponse());
+			eventBus.post(new Events.ReferenceCategoriesLoadedEvent());
 		} catch (RestClientException e) {
 			eventBus.post(new Events.ReferenceCategoriesLoadErrorEvent());
 		}
-
-		eventBus.post(new Events.ReferenceCategoriesLoadedEvent());
 	}
 
 	@ServiceAction
@@ -141,10 +137,9 @@ public class DataService extends IntentService {
 		try {
 			ReferencesResponse data = apiClient.getReferences(slug);
 			dao.setReferences(data.getResponse().getEntities(), slug);
+			eventBus.post(new Events.ReferencesLoadedEvent());
 		} catch (RestClientException e) {
 			eventBus.post(new Events.ReferencesLoadErrorEvent());
 		}
-
-		eventBus.post(new Events.ReferencesLoadedEvent());
 	}
 }

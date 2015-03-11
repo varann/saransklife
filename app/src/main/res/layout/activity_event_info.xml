@@ -9,56 +9,77 @@
 
 	<FrameLayout
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
+		android:layout_height="match_parent">
 
-		<ImageView
-			android:id="@+id/photo"
+		<TextView
+			android:id="@+id/message"
 			android:layout_width="match_parent"
-			android:layout_height="200dp"
-			android:scaleType="centerCrop"/>
+			android:layout_height="wrap_content"
+			android:layout_margin="@dimen/offset_big"
+			android:gravity="center"
+			android:text="@string/old_event_message"
+			android:visibility="gone"/>
 
 		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_gravity="bottom|left"
-			android:orientation="vertical"
-			android:padding="@dimen/offset_normal">
-
-			<TextView
-				android:id="@+id/category_name"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:textColor="@color/white"
-				android:textSize="@dimen/event_category_title_size"/>
-
-		</LinearLayout>
-
-		<ru.saransklife.client.ui.DetailsButton
-			android:id="@+id/details_button"
+			android:id="@+id/event_layout"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_gravity="bottom|right"
-			android:layout_marginBottom="@dimen/offset_normal"
-			android:layout_marginRight="@dimen/offset_big"/>
+			android:orientation="vertical">
 
+			<FrameLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+
+				<ImageView
+					android:id="@+id/photo"
+					android:layout_width="match_parent"
+					android:layout_height="200dp"
+					android:scaleType="centerCrop"/>
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_gravity="bottom|left"
+					android:orientation="vertical"
+					android:padding="@dimen/offset_normal">
+
+					<TextView
+						android:id="@+id/category_name"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textColor="@color/white"
+						android:textSize="@dimen/event_category_title_size"/>
+
+				</LinearLayout>
+
+				<ru.saransklife.client.ui.DetailsButton
+					android:id="@+id/details_button"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="bottom|right"
+					android:layout_marginBottom="@dimen/offset_normal"
+					android:layout_marginRight="@dimen/offset_big"/>
+
+			</FrameLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_margin="@dimen/offset_normal"
+				android:orientation="vertical">
+
+				<ru.saransklife.client.ui.TitleView_
+					android:id="@+id/title_view"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"/>
+
+				<ru.saransklife.client.ui.DescriptionView_
+					android:id="@+id/description_view"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"/>
+
+			</LinearLayout>
+		</LinearLayout>
 	</FrameLayout>
-
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_margin="@dimen/offset_normal"
-		android:orientation="vertical">
-
-		<ru.saransklife.client.ui.TitleView_
-			android:id="@+id/title_view"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"/>
-
-		<ru.saransklife.client.ui.DescriptionView_
-			android:id="@+id/description_view"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"/>
-
-	</LinearLayout>
 
 </LinearLayout>

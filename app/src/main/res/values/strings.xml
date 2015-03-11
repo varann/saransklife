@@ -29,6 +29,8 @@
 	<string name="loading">Загрузка данных...</string>
 	<string name="loading_error">Ошибка загрузки данных</string>
 
+	<string name="old_event_message">Мероприятие устарело</string>
+
 	<string name="title_activity_splash">SplashActivity</string>
 	<string name="hello_blank_fragment">Hello blank fragment</string>
 

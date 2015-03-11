@@ -4,6 +4,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.androidannotations.annotations.AfterViews;
@@ -35,6 +36,8 @@ public class EventInfoActivity extends BaseActivity {
 	@ViewById TextView categoryName;
 	@ViewById TitleView titleView;
 	@ViewById DescriptionView descriptionView;
+	@ViewById TextView message;
+	@ViewById LinearLayout eventLayout;
 
 	@Bean Dao dao;
 	@Extra long id;
@@ -45,22 +48,28 @@ public class EventInfoActivity extends BaseActivity {
 	void afterViews() {
 		logExtra(new String[]{"id"}, Long.toString(id));
 
-		event = dao.getEventById(id);
-
-		toolbar.setTitle(event.getName());
 		toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
 		setSupportActionBar(toolbar);
 
-		if (event.getPhoto_path() != null) {
-			Utils.displayImage(photo, event.getPhoto_path());
+		event = dao.getEventById(id);
+
+		message.setVisibility(event == null ? View.VISIBLE : View.GONE);
+		eventLayout.setVisibility(event == null ? View.GONE : View.VISIBLE);
+
+		if (event != null) {
+			toolbar.setTitle(event.getName());
+
+			if (event.getPhoto_path() != null) {
+				Utils.displayImage(photo, event.getPhoto_path());
+			}
+
+			detailsButton.setVisibility(TextUtils.isEmpty(event.getStory()) ? View.GONE : View.VISIBLE);
+
+			EventCategory category = dao.getEventCategoryById(event.getCategory_id());
+			setText(categoryName, category.getName());
+			titleView.setTitle(event.getName());
+			descriptionView.setText(event.getDescription());
 		}
-
-		detailsButton.setVisibility(TextUtils.isEmpty(event.getStory()) ? View.GONE : View.VISIBLE);
-
-		EventCategory category = dao.getEventCategoryById(event.getCategory_id());
-		setText(categoryName, category.getName());
-		titleView.setTitle(event.getName());
-		descriptionView.setText(event.getDescription());
 	}
 
 	private void setText(TextView view, String text) {

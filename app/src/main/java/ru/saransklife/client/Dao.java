@@ -74,28 +74,35 @@ public class Dao {
 		daoSession = daoMaster.newSession();
 	}
 
-	public void setMenuItems(List<ApiSectionItem> menuItems) {
-		SectionItemDao sectionItemDao = daoSession.getSectionItemDao();
-		sectionItemDao.deleteAll();
+	public void setMenuItems(final List<ApiSectionItem> menuItems) {
+		daoSession.runInTx(new Runnable() {
+			@Override
+			public void run() {
 
-		SectionItem mainItem = new SectionItem();
-		mainItem.setId(0l);
-		mainItem.setModule(SectionItemType.MAIN.name());
-		mainItem.setName(context.getString(R.string.main_menu_item_title));
-		sectionItemDao.insert(mainItem);
+				SectionItemDao sectionItemDao = daoSession.getSectionItemDao();
+				sectionItemDao.deleteAll();
 
-		for (ApiSectionItem apiItem : menuItems) {
-			if (SectionItemType.PAGE.name().equalsIgnoreCase(apiItem.getModule())) {
-				long itemId = sectionItemDao.insert(apiItem);
-				List<ApiSectionItem> pageItemChild = apiItem.getChild();
-				for (ApiSectionItem apiChild : pageItemChild) {
-					apiChild.setParentId(itemId);
-					sectionItemDao.insert(apiChild);
+				SectionItem mainItem = new SectionItem();
+				mainItem.setId(0l);
+				mainItem.setModule(SectionItemType.MAIN.name());
+				mainItem.setName(context.getString(R.string.main_menu_item_title));
+				sectionItemDao.insert(mainItem);
+
+				for (ApiSectionItem apiItem : menuItems) {
+					if (SectionItemType.PAGE.name().equalsIgnoreCase(apiItem.getModule())) {
+						long itemId = sectionItemDao.insert(apiItem);
+						List<ApiSectionItem> pageItemChild = apiItem.getChild();
+						for (ApiSectionItem apiChild : pageItemChild) {
+							apiChild.setParentId(itemId);
+							sectionItemDao.insert(apiChild);
+						}
+					} else {
+						sectionItemDao.insert(apiItem);
+					}
 				}
-			} else {
-				sectionItemDao.insert(apiItem);
+
 			}
-		}
+		});
 	}
 
 	public List<SectionItem> getRootMenuItems() {
@@ -116,7 +123,7 @@ public class Dao {
 
 	public void setPage(Page page) {
 		PageDao pageDao = daoSession.getPageDao();
-		pageDao.insert(page);
+		pageDao.insertOrReplace(page);
 	}
 
 	public Cursor getPlaceCategoryCursor() {
@@ -126,12 +133,19 @@ public class Dao {
 				PlaceCategoryDao.Properties.Slug.columnName + " != '" + INTERESTING_PLACES_SLUG + "'", null, null, null, null);
 	}
 
-	public void setPlaceCategories(List<PlaceCategory> categories) {
-		PlaceCategoryDao categoryDao = daoSession.getPlaceCategoryDao();
-		categoryDao.deleteAll();
-		categoryDao.insertInTx(categories);
+	public void setPlaceCategories(final List<PlaceCategory> categories) {
+		daoSession.runInTx(new Runnable() {
+			@Override
+			public void run() {
 
-		setLastUpdated(Dao.Request.PLACE_CATEGORIES, null);
+				PlaceCategoryDao categoryDao = daoSession.getPlaceCategoryDao();
+				categoryDao.deleteAll();
+				categoryDao.insertInTx(categories);
+
+				setLastUpdated(Dao.Request.PLACE_CATEGORIES, null);
+
+			}
+		});
 	}
 
 	public Cursor getPlaceEntitiesBySlugCursor(String slug) {
@@ -146,17 +160,24 @@ public class Dao {
 		return builder.where(PlaceCategoryDao.Properties.Id.eq(categoryId)).build().unique();
 	}
 
-	public void setPlaceEntities(List<PlaceEntity> entities, Request request, String slug) {
-		PlaceEntityDao entitiesDao = daoSession.getPlaceEntityDao();
-		QueryBuilder<PlaceEntity> builder = entitiesDao.queryBuilder().where(PlaceEntityDao.Properties.Slug.eq(slug));
-		List<PlaceEntity> oldEntities = builder.build().list();
-		entitiesDao.deleteInTx(oldEntities);
-		for (PlaceEntity entity : entities) {
-			entity.setSlug(slug);
-			entitiesDao.insertOrReplace(entity);
-		}
+	public void setPlaceEntities(final List<PlaceEntity> entities, final Request request, final String slug) {
+		daoSession.runInTx(new Runnable() {
+			@Override
+			public void run() {
 
-		setLastUpdated(request, slug);
+				PlaceEntityDao entitiesDao = daoSession.getPlaceEntityDao();
+				QueryBuilder<PlaceEntity> builder = entitiesDao.queryBuilder().where(PlaceEntityDao.Properties.Slug.eq(slug));
+				List<PlaceEntity> oldEntities = builder.build().list();
+				entitiesDao.deleteInTx(oldEntities);
+				for (PlaceEntity entity : entities) {
+					entity.setSlug(slug);
+					entitiesDao.insertOrReplace(entity);
+				}
+
+				setLastUpdated(request, slug);
+
+			}
+		});
 	}
 
 	public PlaceEntity getPlaceEntity(long id) {
@@ -165,24 +186,38 @@ public class Dao {
 		return builder.build().unique();
 	}
 
-	public void setEventCategories(List<EventCategory> categories) {
-		EventCategoryDao categoryDao = daoSession.getEventCategoryDao();
-		categoryDao.deleteAll();
-		categoryDao.insertInTx(categories);
+	public void setEventCategories(final List<EventCategory> categories) {
+		daoSession.runInTx(new Runnable() {
+			@Override
+			public void run() {
+
+				EventCategoryDao categoryDao = daoSession.getEventCategoryDao();
+				categoryDao.deleteAll();
+				categoryDao.insertInTx(categories);
+
+			}
+		});
 	}
 
-	public void setEvents(List<ApiEvent> apiEvents) {
-		PlaceEntityDao placeEntityDao = daoSession.getPlaceEntityDao();
+	public void setEvents(final List<ApiEvent> apiEvents) {
+		daoSession.runInTx(new Runnable() {
+			@Override
+			public void run() {
 
-		EventDao eventDao = daoSession.getEventDao();
-		eventDao.deleteAll();
-		for (ApiEvent apiEvent : apiEvents) {
-			eventDao.insert(apiEvent);
-			List<PlaceEntity> places = apiEvent.getPlaces();
-			if (places != null && !places.isEmpty()) {
-				placeEntityDao.insertOrReplaceInTx(places);
+				PlaceEntityDao placeEntityDao = daoSession.getPlaceEntityDao();
+				EventDao eventDao = daoSession.getEventDao();
+
+				eventDao.deleteAll();
+				for (ApiEvent apiEvent : apiEvents) {
+					eventDao.insert(apiEvent);
+					List<PlaceEntity> places = apiEvent.getPlaces();
+					if (places != null && !places.isEmpty()) {
+						placeEntityDao.insertOrReplaceInTx(places);
+					}
+				}
+
 			}
-		}
+		});
 	}
 
 	public Cursor getEventCategories() {
@@ -216,12 +251,19 @@ public class Dao {
 		return builder.build().unique();
 	}
 
-	public void setReferenceCategories(List<ReferenceCategory> categories) {
-		ReferenceCategoryDao refCategoriesDao = daoSession.getReferenceCategoryDao();
-		refCategoriesDao.deleteAll();
-		refCategoriesDao.insertInTx(categories);
+	public void setReferenceCategories(final List<ReferenceCategory> categories) {
+		daoSession.runInTx(new Runnable() {
+			@Override
+			public void run() {
 
-		setLastUpdated(Request.REFERENCE_CATEGORIES, null);
+				ReferenceCategoryDao refCategoriesDao = daoSession.getReferenceCategoryDao();
+				refCategoriesDao.deleteAll();
+				refCategoriesDao.insertInTx(categories);
+
+				setLastUpdated(Request.REFERENCE_CATEGORIES, null);
+
+			}
+		});
 	}
 
 	public List<ReferenceCategory> getReferenceCategories() {
@@ -235,17 +277,24 @@ public class Dao {
 		return builder.build().unique();
 	}
 
-	public void setReferences(List<Reference> references, String slug) {
-		ReferenceDao referenceDao = daoSession.getReferenceDao();
-		QueryBuilder<Reference> builder = referenceDao.queryBuilder().where(ReferenceDao.Properties.Slug.eq(slug));
-		List<Reference> oldEntities = builder.build().list();
-		referenceDao.deleteInTx(oldEntities);
-		for (Reference reference : references) {
-			reference.setSlug(slug);
-			referenceDao.insertOrReplace(reference);
-		}
+	public void setReferences(final List<Reference> references, final String slug) {
+		daoSession.runInTx(new Runnable() {
+			@Override
+			public void run() {
 
-		setLastUpdated(Request.REFERENCES, slug);
+				ReferenceDao referenceDao = daoSession.getReferenceDao();
+				QueryBuilder<Reference> builder = referenceDao.queryBuilder().where(ReferenceDao.Properties.Slug.eq(slug));
+				List<Reference> oldEntities = builder.build().list();
+				referenceDao.deleteInTx(oldEntities);
+				for (Reference reference : references) {
+					reference.setSlug(slug);
+					referenceDao.insertOrReplace(reference);
+				}
+
+				setLastUpdated(Request.REFERENCES, slug);
+
+			}
+		});
 	}
 
 	public List<Reference> getReferences(String slug) {

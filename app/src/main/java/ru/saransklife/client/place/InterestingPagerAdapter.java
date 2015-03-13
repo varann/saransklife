@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import ru.saransklife.R;
 import ru.saransklife.client.Utils;
 import ru.saransklife.client.ui.ItemAddressView;
@@ -18,6 +21,8 @@ import ru.saransklife.dao.PlaceEntityDao;
  * Created by asavinova on 04/02/15.
  */
 public class InterestingPagerAdapter extends PagerAdapter {
+
+	private Logger L = LoggerFactory.getLogger(InterestingPagerAdapter.class);
 
 	private Cursor cursor;
 
@@ -50,7 +55,7 @@ public class InterestingPagerAdapter extends PagerAdapter {
 		String address = cursor.getString(cursor.getColumnIndex(PlaceEntityDao.Properties.Address.columnName));
 
 		if (photoPath != null) {
-			Utils.displayImage(photo, photoPath);
+			Utils.displayImage(photo, photoPath, null, 200);
 		}
 		nameView.setText(name);
 		addressView.setAddress(address);

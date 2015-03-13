@@ -26,7 +26,7 @@ public class RatingView extends LinearLayout {
 		super(context, attrs);
 	}
 
-	public void setRating(float rating) {
-		this.rating.setText(String.valueOf(rating));
+	public void setRating(Float rating) {
+		this.rating.setText(rating == null ? "0.0" : String.valueOf(rating));
 	}
 }

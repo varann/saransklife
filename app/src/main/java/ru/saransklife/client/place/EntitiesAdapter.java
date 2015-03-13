@@ -85,9 +85,7 @@ public class EntitiesAdapter extends RecyclerView.Adapter<EntitiesAdapter.ViewHo
 			int viewCount = cursor.getInt(cursor.getColumnIndex(PlaceEntityDao.Properties.View_count.columnName));
 			int recommendedCount = cursor.getInt(cursor.getColumnIndex(PlaceEntityDao.Properties.Recommended_count.columnName));
 
-			if (photoPath != null) {
-				Utils.displayImage(this.photo, photoPath, null, 200);
-			}
+			Utils.displayImage(this.photo, photoPath, null, 200);
 
 			this.rating.setRating(rating);
 			this.name.setText(name);

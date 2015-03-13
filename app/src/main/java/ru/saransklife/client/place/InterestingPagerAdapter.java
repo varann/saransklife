@@ -54,9 +54,7 @@ public class InterestingPagerAdapter extends PagerAdapter {
 		String name = cursor.getString(cursor.getColumnIndex(PlaceEntityDao.Properties.Name.columnName));
 		String address = cursor.getString(cursor.getColumnIndex(PlaceEntityDao.Properties.Address.columnName));
 
-		if (photoPath != null) {
-			Utils.displayImage(photo, photoPath, null, 200);
-		}
+		Utils.displayImage(photo, photoPath, null, 200);
 		nameView.setText(name);
 		addressView.setAddress(address);
 

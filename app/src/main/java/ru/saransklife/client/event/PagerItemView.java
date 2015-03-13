@@ -36,10 +36,7 @@ public class PagerItemView extends FrameLayout implements View.OnClickListener {
 		this.id = id;
 		Event event = dao.getEventById(id);
 
-		if (event.getPhoto_path() != null) {
-			Utils.displayImage(photo, event.getPhoto_path(), null, 200);
-		}
-
+		Utils.displayImage(photo, event.getPhoto_path(), null, 200);
 		name.setText(event.getName());
 	}
 

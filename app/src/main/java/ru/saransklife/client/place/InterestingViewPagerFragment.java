@@ -56,13 +56,10 @@ public class InterestingViewPagerFragment extends Fragment implements LoaderMana
 
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
-				restartTimer();
 				view.getParent().requestDisallowInterceptTouchEvent(true);
 				return false;
 			}
 		});
-
-		restartTimer();
 
 		getLoaderManager().initLoader(LOADER_ID, ((BaseActivity) getActivity()).createForceBundle(false), this);
 	}
@@ -71,12 +68,24 @@ public class InterestingViewPagerFragment extends Fragment implements LoaderMana
 	public void onResume() {
 		super.onResume();
 		eventBus.register(this);
+
+		timerTask = new TimerTask() {
+			@Override
+			public void run() {
+				changeItem();
+			}
+		};
+
+		timer = new Timer();
+		timer.schedule(timerTask, 3000, 2000);
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
 		eventBus.unregister(this);
+		timerTask.cancel();
+		timer.cancel();
 	}
 
 	public void onEvent(Events.InterestingPlacesLoadedEvent event) {
@@ -87,16 +96,6 @@ public class InterestingViewPagerFragment extends Fragment implements LoaderMana
 		//TODO Show error
 	}
 
-	private void restartTimer() {
-		if (timer != null) timer.cancel();
-		timer = new Timer();
-
-		if (timerTask != null) timerTask.cancel();
-		timerTask = newTimerTask();
-
-		timer.schedule(timerTask, 3000, 2000);
-	}
-
 	@UiThread
 	void changeItem() {
 		int nextItem = pager.getCurrentItem() + 1;
@@ -105,15 +104,6 @@ public class InterestingViewPagerFragment extends Fragment implements LoaderMana
 		} else {
 			pager.setCurrentItem(nextItem);
 		}
-	}
-
-	private TimerTask newTimerTask() {
-		return new TimerTask() {
-			@Override
-			public void run() {
-				changeItem();
-			}
-		};
 	}
 
 	@Override
@@ -132,7 +122,6 @@ public class InterestingViewPagerFragment extends Fragment implements LoaderMana
 		interestingPagerAdapter.notifyDataSetChanged();
 
 		pager.setCurrentItem(0);
-		restartTimer();
 	}
 
 	@Override

@@ -4,10 +4,10 @@
 	>
 
 	<ImageView
+		android:id="@+id/back"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:scaleType="centerCrop"
-		android:src="@drawable/saransk_1"/>
+		android:scaleType="centerCrop"/>
 
 	<TextView
 		android:id="@+id/loading"

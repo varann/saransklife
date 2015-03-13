@@ -1,12 +1,16 @@
 package ru.saransklife.client;
 
+import android.graphics.Point;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -58,6 +62,13 @@ public class MainActivity extends BaseActivity {
 			}
 		});
 
+		Display display = getWindowManager().getDefaultDisplay();
+		Point size = new Point();
+		display.getSize(size);
+
+		Picasso.with(this).load(R.drawable.saransk_1).resize(size.x, size.y).centerCrop().into(image1);
+		Picasso.with(this).load(R.drawable.saransk_2).resize(size.x, size.y).centerCrop().into(image2);
+		Picasso.with(this).load(R.drawable.saransk_3).resize(size.x, size.y).centerCrop().into(image3);
 		images.add(image1);
 		images.add(image2);
 		images.add(image3);

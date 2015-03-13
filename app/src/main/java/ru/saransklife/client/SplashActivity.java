@@ -4,11 +4,15 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Window;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
+import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.WindowFeature;
 
 import ru.saransklife.R;
@@ -17,10 +21,14 @@ import ru.saransklife.R;
 @EActivity(R.layout.activity_splash)
 public class SplashActivity extends BaseActivity {
 
+	@ViewById ImageView back;
+
 	@Bean EventBus eventBus;
 
 	@AfterViews
 	void afterViews() {
+		Picasso.with(this).load(R.drawable.saransk_1).into(back);
+
 		loadMenu();
 	}
 

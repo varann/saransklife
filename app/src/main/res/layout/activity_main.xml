@@ -23,15 +23,13 @@
 				android:id="@+id/image1"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:scaleType="centerCrop"
-				android:src="@drawable/saransk_1"/>
+				android:scaleType="centerCrop"/>
 
 			<ImageView
 				android:id="@+id/image2"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:scaleType="centerCrop"
-				android:src="@drawable/saransk_2"
 				android:visibility="invisible"/>
 
 			<ImageView
@@ -39,7 +37,6 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:scaleType="centerCrop"
-				android:src="@drawable/saransk_3"
 				android:visibility="invisible"/>
 
 			<ImageView

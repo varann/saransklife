@@ -88,7 +88,7 @@ public class EntityActivity extends BaseActivity {
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		if (entity.getPhoto_path() != null) {
-			Utils.displayImage(photo, entity.getPhoto_path());
+			Utils.displayImage(photo, entity.getPhoto_path(), null, 200);
 		}
 
 		ratingView.setRating(entity.getRating());

@@ -60,7 +60,7 @@ public class EventInfoActivity extends BaseActivity {
 			toolbar.setTitle(event.getName());
 
 			if (event.getPhoto_path() != null) {
-				Utils.displayImage(photo, event.getPhoto_path());
+				Utils.displayImage(photo, event.getPhoto_path(), null, 200);
 			}
 
 			detailsButton.setVisibility(TextUtils.isEmpty(event.getStory()) ? View.GONE : View.VISIBLE);

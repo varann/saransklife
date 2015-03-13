@@ -21,12 +21,6 @@ public class Utils {
 	private static Logger L = LoggerFactory.getLogger(Utils.class);
 
 	public static final String IMAGE_BASE_URL = "http://images.pointresearch.ru";
-	public static final String DEFAULT_IMAGE_SIZE = "?s=800x600";
-
-	public static void displayImage(ImageView view, String path) {
-		String url = Utils.IMAGE_BASE_URL + path + DEFAULT_IMAGE_SIZE;
-		Picasso.with(view.getContext()).load(url).into(view);
-	}
 
 	public static void displayImage(ImageView view, String path, Integer widthDP, Integer heightDP) {
 		int widthPX = 0;

@@ -6,6 +6,7 @@ package ru.saransklife.dao;
  */
 public class PlaceEntity {
 
+    private Long local_id;
     private Long id;
     private String slug;
     private String name;
@@ -27,11 +28,12 @@ public class PlaceEntity {
     public PlaceEntity() {
     }
 
-    public PlaceEntity(Long id) {
-        this.id = id;
+    public PlaceEntity(Long local_id) {
+        this.local_id = local_id;
     }
 
-    public PlaceEntity(Long id, String slug, String name, String address, String phone, String email, String website, Float latitude, Float longitude, String description, String photo_author, String photo_path, String information, String working_time, Float rating, Integer view_count, Integer recommended_count) {
+    public PlaceEntity(Long local_id, Long id, String slug, String name, String address, String phone, String email, String website, Float latitude, Float longitude, String description, String photo_author, String photo_path, String information, String working_time, Float rating, Integer view_count, Integer recommended_count) {
+        this.local_id = local_id;
         this.id = id;
         this.slug = slug;
         this.name = name;
@@ -49,6 +51,14 @@ public class PlaceEntity {
         this.rating = rating;
         this.view_count = view_count;
         this.recommended_count = recommended_count;
+    }
+
+    public Long getLocal_id() {
+        return local_id;
+    }
+
+    public void setLocal_id(Long local_id) {
+        this.local_id = local_id;
     }
 
     public Long getId() {

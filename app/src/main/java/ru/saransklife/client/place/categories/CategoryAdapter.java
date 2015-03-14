@@ -1,4 +1,4 @@
-package ru.saransklife.client.place;
+package ru.saransklife.client.place.categories;
 
 import android.content.Context;
 import android.database.Cursor;

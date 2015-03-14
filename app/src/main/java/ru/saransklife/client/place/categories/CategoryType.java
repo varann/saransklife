@@ -1,4 +1,4 @@
-package ru.saransklife.client.place;
+package ru.saransklife.client.place.categories;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -5,7 +5,7 @@ import ru.saransklife.client.AboutActivity_;
 import ru.saransklife.client.MainActivity_;
 import ru.saransklife.client.event.EventsActivity_;
 import ru.saransklife.client.page.PagesActivity_;
-import ru.saransklife.client.place.PlaceCategoriesActivity_;
+import ru.saransklife.client.place.categories.PlaceCategoriesActivity_;
 import ru.saransklife.client.reference.ReferenceCategoriesActivity_;
 
 /**

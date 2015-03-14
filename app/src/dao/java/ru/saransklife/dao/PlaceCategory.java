@@ -9,6 +9,7 @@ public class PlaceCategory {
     private Long id;
     private String name;
     private String slug;
+    private String parent_slug;
 
     public PlaceCategory() {
     }
@@ -17,10 +18,11 @@ public class PlaceCategory {
         this.id = id;
     }
 
-    public PlaceCategory(Long id, String name, String slug) {
+    public PlaceCategory(Long id, String name, String slug, String parent_slug) {
         this.id = id;
         this.name = name;
         this.slug = slug;
+        this.parent_slug = parent_slug;
     }
 
     public Long getId() {
@@ -45,6 +47,14 @@ public class PlaceCategory {
 
     public void setSlug(String slug) {
         this.slug = slug;
+    }
+
+    public String getParent_slug() {
+        return parent_slug;
+    }
+
+    public void setParent_slug(String parent_slug) {
+        this.parent_slug = parent_slug;
     }
 
 }

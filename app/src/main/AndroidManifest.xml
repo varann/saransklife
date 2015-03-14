@@ -29,17 +29,17 @@
 			android:launchMode="singleTop"/>
 
 		<activity
-			android:name=".client.place.PlaceCategoriesActivity_"
+			android:name=".client.place.categories.PlaceCategoriesActivity_"
 			android:launchMode="singleTop"/>
 
 		<activity
-			android:name=".client.place.EntitiesByCategoryActivity_"
-			android:parentActivityName=".client.place.PlaceCategoriesActivity_"
+			android:name=".client.place.entities.EntitiesByCategoryActivity_"
+			android:parentActivityName=".client.place.categories.PlaceCategoriesActivity_"
 			android:launchMode="singleTop"/>
 
 		<activity
 			android:name=".client.place.EntityActivity_"
-			android:parentActivityName=".client.place.EntitiesByCategoryActivity_"/>
+			android:parentActivityName=".client.place.entities.EntitiesByCategoryActivity_"/>
 
 		<activity
 			android:name=".client.event.EventsActivity_"

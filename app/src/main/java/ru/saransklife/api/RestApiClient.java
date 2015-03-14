@@ -33,7 +33,10 @@ public interface RestApiClient {
 	@Get("/place/categories")
 	PlaceCategoriesResponse getPlaceCategories();
 
-	@Get("/place/category/{category}?withChildren=true")
+	@Get("/place/categories/{slug}")
+	PlaceCategoriesResponse getSubPlaceCategories(String slug);
+
+	@Get("/place/category/{category}?withChildren=true&showInParent=true")
 	PlaceEntitiesResponse getPlaceEntities(String category);
 
 	@Get("/event/categories")

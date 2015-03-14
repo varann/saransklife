@@ -1,4 +1,4 @@
-package ru.saransklife.client.place;
+package ru.saransklife.client.place.categories;
 
 
 import android.app.LoaderManager;
@@ -30,6 +30,8 @@ import ru.saransklife.client.BaseActivity;
 import ru.saransklife.client.DataHelper;
 import ru.saransklife.client.EventBus;
 import ru.saransklife.client.Events;
+import ru.saransklife.client.place.entities.EntitiesByCategoryActivity_;
+import ru.saransklife.client.place.InterestingViewPagerFragment;
 
 /**
  * A simple {@link Fragment} subclass.

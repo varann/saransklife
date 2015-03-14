@@ -86,10 +86,21 @@ public class DataService extends IntentService {
 	void placeCategoriesAction() {
 		try {
 			PlaceCategoriesResponse categories = apiClient.getPlaceCategories();
-			dao.setPlaceCategories(categories.getResponse());
+			dao.setPlaceCategories(categories.getResponse(), null);
 			eventBus.post(new Events.PlaceCategoriesLoadedEvent());
 		} catch (RestClientException e) {
 			eventBus.post(new Events.PlaceCategoriesLoadErrorEvent());
+		}
+	}
+
+	@ServiceAction
+	void subPlaceCategoriesAction(String slug) {
+		try {
+			PlaceCategoriesResponse categories = apiClient.getSubPlaceCategories(slug);
+			dao.setPlaceCategories(categories.getResponse(), slug);
+			eventBus.post(new Events.SubPlaceCategoriesLoadedEvent());
+		} catch (RestClientException e) {
+			eventBus.post(new Events.SubPlaceCategoriesLoadErrorEvent());
 		}
 	}
 

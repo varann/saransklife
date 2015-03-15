@@ -130,19 +130,34 @@ public class Dao {
 		PlaceCategoryDao categoryDao = daoSession.getPlaceCategoryDao();
 		return db.query(categoryDao.getTablename(),
 				categoryDao.getAllColumns(),
-				PlaceCategoryDao.Properties.Slug.columnName + " != '" + INTERESTING_PLACES_SLUG + "'", null, null, null, null);
+				PlaceCategoryDao.Properties.Parent_slug.columnName + " IS NULL",
+				null, null, null, null);
 	}
 
-	public void setPlaceCategories(final List<PlaceCategory> categories) {
+	public List<PlaceCategory> getSubPlaceCategories(String slug) {
+		PlaceCategoryDao categoryDao = daoSession.getPlaceCategoryDao();
+		return categoryDao.queryBuilder().where(PlaceCategoryDao.Properties.Parent_slug.eq(slug)).list();
+	}
+
+	public void setPlaceCategories(final List<PlaceCategory> categories, final String slug) {
 		daoSession.runInTx(new Runnable() {
 			@Override
 			public void run() {
 
 				PlaceCategoryDao categoryDao = daoSession.getPlaceCategoryDao();
-				categoryDao.deleteAll();
-				categoryDao.insertInTx(categories);
+				List<PlaceCategory> oldCategories;
+				if (slug == null) {
+					oldCategories = categoryDao.queryBuilder().where(PlaceCategoryDao.Properties.Parent_slug.isNull()).build().list();
+				} else {
+					oldCategories = categoryDao.queryBuilder().where(PlaceCategoryDao.Properties.Parent_slug.eq(slug)).build().list();
+					for (PlaceCategory category : categories) {
+						category.setParent_slug(slug);
+					}
+				}
+				categoryDao.deleteInTx(oldCategories);
+				categoryDao.insertOrReplaceInTx(categories);
 
-				setLastUpdated(Dao.Request.PLACE_CATEGORIES, null);
+				setLastUpdated(Dao.Request.PLACE_CATEGORIES, slug);
 
 			}
 		});
@@ -166,8 +181,7 @@ public class Dao {
 			public void run() {
 
 				PlaceEntityDao entitiesDao = daoSession.getPlaceEntityDao();
-				QueryBuilder<PlaceEntity> builder = entitiesDao.queryBuilder().where(PlaceEntityDao.Properties.Slug.eq(slug));
-				List<PlaceEntity> oldEntities = builder.build().list();
+				List<PlaceEntity> oldEntities = entitiesDao.queryBuilder().where(PlaceEntityDao.Properties.Slug.eq(slug)).build().list();
 				entitiesDao.deleteInTx(oldEntities);
 				for (PlaceEntity entity : entities) {
 					entity.setSlug(slug);
@@ -182,7 +196,7 @@ public class Dao {
 
 	public PlaceEntity getPlaceEntity(long id) {
 		PlaceEntityDao entitiesDao = daoSession.getPlaceEntityDao();
-		QueryBuilder<PlaceEntity> builder = entitiesDao.queryBuilder().where(PlaceEntityDao.Properties.Id.eq(id));
+		QueryBuilder<PlaceEntity> builder = entitiesDao.queryBuilder().where(PlaceEntityDao.Properties.Id.eq(id)).limit(1);
 		return builder.build().unique();
 	}
 

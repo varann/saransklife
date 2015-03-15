@@ -26,6 +26,7 @@ public class PlaceCategoryDao extends AbstractDao<PlaceCategory, Long> {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property Name = new Property(1, String.class, "name", false, "NAME");
         public final static Property Slug = new Property(2, String.class, "slug", false, "SLUG");
+        public final static Property Parent_slug = new Property(3, String.class, "parent_slug", false, "PARENT_SLUG");
     };
 
 
@@ -43,7 +44,8 @@ public class PlaceCategoryDao extends AbstractDao<PlaceCategory, Long> {
         db.execSQL("CREATE TABLE " + constraint + "'PLACE_CATEGORY' (" + //
                 "'_id' INTEGER PRIMARY KEY ," + // 0: id
                 "'NAME' TEXT," + // 1: name
-                "'SLUG' TEXT UNIQUE );"); // 2: slug
+                "'SLUG' TEXT UNIQUE ," + // 2: slug
+                "'PARENT_SLUG' TEXT);"); // 3: parent_slug
     }
 
     /** Drops the underlying database table. */
@@ -71,6 +73,11 @@ public class PlaceCategoryDao extends AbstractDao<PlaceCategory, Long> {
         if (slug != null) {
             stmt.bindString(3, slug);
         }
+ 
+        String parent_slug = entity.getParent_slug();
+        if (parent_slug != null) {
+            stmt.bindString(4, parent_slug);
+        }
     }
 
     /** @inheritdoc */
@@ -85,7 +92,8 @@ public class PlaceCategoryDao extends AbstractDao<PlaceCategory, Long> {
         PlaceCategory entity = new PlaceCategory( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // name
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2) // slug
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // slug
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3) // parent_slug
         );
         return entity;
     }
@@ -96,6 +104,7 @@ public class PlaceCategoryDao extends AbstractDao<PlaceCategory, Long> {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setName(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setSlug(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setParent_slug(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
      }
     
     /** @inheritdoc */

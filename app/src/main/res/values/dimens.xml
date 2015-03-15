@@ -23,4 +23,5 @@
 	<dimen name="raised_button_height">48dp</dimen>
 	<dimen name="external_padding_button">4dp</dimen>
 
+	<dimen name="spinner_item_height">48dp</dimen>
 </resources>

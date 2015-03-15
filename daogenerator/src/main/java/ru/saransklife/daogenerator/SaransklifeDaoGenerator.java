@@ -17,6 +17,29 @@ public class SaransklifeDaoGenerator {
 
 		Schema schema = new Schema(1, "ru.saransklife.dao");
 
+		addSectionItemEntity(schema);
+
+		addPageEntity(schema);
+
+		addPlaceCategoryEntity(schema);
+		addPlaceEntity(schema);
+
+		Entity eventCategory = addEventCategoryEntity(schema);
+		addEventEntity(schema, eventCategory);
+
+		addReferenceCategoryEntity(schema);
+		addReferenceEntity(schema);
+
+		addCacheInfoEntity(schema);
+
+
+		String outDir = "app/src/dao/java";
+		new File(outDir).mkdirs();
+
+		new DaoGenerator().generateAll(schema, outDir);
+	}
+
+	private static void addSectionItemEntity(Schema schema) {
 		Entity sectionItem = schema.addEntity("SectionItem");
 		sectionItem.addIdProperty();
 		sectionItem.addStringProperty("name");
@@ -26,20 +49,28 @@ public class SaransklifeDaoGenerator {
 		Property parentId = sectionItem.addLongProperty("parentId").getProperty();
 		ToMany itemToItems = sectionItem.addToMany(sectionItem, parentId);
 		itemToItems.setName("children");
+	}
 
+	private static void addPageEntity(Schema schema) {
 		Entity page = schema.addEntity("Page");
 		page.addIdProperty();
 		page.addStringProperty("title");
 		page.addStringProperty("text");
 		page.addStringProperty("slug").unique();
+	}
 
+	private static void addPlaceCategoryEntity(Schema schema) {
 		Entity placeCategory = schema.addEntity("PlaceCategory");
 		placeCategory.addIdProperty();
 		placeCategory.addStringProperty("name");
 		placeCategory.addStringProperty("slug").unique();
+		placeCategory.addStringProperty("parent_slug");
+	}
 
+	private static void addPlaceEntity(Schema schema) {
 		Entity entity = schema.addEntity("PlaceEntity");
-		entity.addIdProperty();
+		entity.addLongProperty("local_id").primaryKey();
+		entity.addLongProperty("id");
 		entity.addStringProperty("slug");
 		entity.addStringProperty("name");
 		entity.addStringProperty("address");
@@ -59,13 +90,17 @@ public class SaransklifeDaoGenerator {
 
 //		Property placeCategorySlug = entity.addStringProperty("slug").getProperty();
 //		entity.addToOne(placeCategory, placeCategorySlug);
+	}
 
-
+	private static Entity addEventCategoryEntity(Schema schema) {
 		Entity eventCategory = schema.addEntity("EventCategory");
 		eventCategory.addIdProperty();
 		eventCategory.addStringProperty("name");
 		eventCategory.addStringProperty("slug").unique();
+		return eventCategory;
+	}
 
+	private static void addEventEntity(Schema schema, Entity eventCategory) {
 		Entity event = schema.addEntity("Event");
 		event.addIdProperty();
 		event.addStringProperty("name");
@@ -83,14 +118,17 @@ public class SaransklifeDaoGenerator {
 
 		Property categoryId = event.addLongProperty("category_id").getProperty();
 		event.addToOne(eventCategory, categoryId);
+	}
 
-
+	private static void addReferenceCategoryEntity(Schema schema) {
 		Entity refCategory = schema.addEntity("ReferenceCategory");
 		refCategory.addIdProperty();
 		refCategory.addStringProperty("name");
 		refCategory.addStringProperty("description");
 		refCategory.addStringProperty("slug").unique();
+	}
 
+	private static void addReferenceEntity(Schema schema) {
 		Entity reference = schema.addEntity("Reference");
 		reference.addIdProperty();
 		reference.addStringProperty("slug");
@@ -100,19 +138,13 @@ public class SaransklifeDaoGenerator {
 		reference.addStringProperty("information");
 		reference.addStringProperty("address");
 		reference.addStringProperty("site");
+	}
 
-
+	private static void addCacheInfoEntity(Schema schema) {
 		Entity cache = schema.addEntity("CacheInfo");
 		cache.addIdProperty();
 		cache.addStringProperty("request");
 		cache.addStringProperty("params");
 		cache.addDateProperty("last_updated");
-
-
-		String outDir = "app/src/dao/java";
-
-		new File(outDir).mkdirs();
-
-		new DaoGenerator().generateAll(schema, outDir);
 	}
 }

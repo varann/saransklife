@@ -55,6 +55,14 @@ public class Events {
 	public static class PlaceCategoriesLoadErrorEvent {
 	}
 
+	public static class SubPlaceCategoriesStartLoadingEvent {
+	}
+
+	public static class SubPlaceCategoriesLoadedEvent {
+	}
+
+	public static class SubPlaceCategoriesLoadErrorEvent {
+	}
 
 	public static class PlaceEntitiesStartLoadingEvent {
 	}

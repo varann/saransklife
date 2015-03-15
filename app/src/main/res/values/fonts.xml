@@ -8,5 +8,6 @@
 	<dimen name="font_size_button">18sp</dimen>
 	<dimen name="item_title_size">18sp</dimen>
 	<dimen name="item_subtitle_size">14sp</dimen>
+	<dimen name="spinner_item_title_size">20sp</dimen>
 
 </resources>

@@ -34,6 +34,7 @@ import ru.saransklife.client.Dao;
 import ru.saransklife.client.DetailsActivity;
 import ru.saransklife.client.DetailsActivity_;
 import ru.saransklife.client.Utils;
+import ru.saransklife.client.place.categories.PlaceCategoriesActivity_;
 import ru.saransklife.client.ui.AwesomeIconTextView;
 import ru.saransklife.client.ui.DescriptionView;
 import ru.saransklife.client.ui.DetailsButton;

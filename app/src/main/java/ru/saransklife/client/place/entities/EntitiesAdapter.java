@@ -1,4 +1,4 @@
-package ru.saransklife.client.place;
+package ru.saransklife.client.place.entities;
 
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import ru.saransklife.R;
 import ru.saransklife.client.Utils;
+import ru.saransklife.client.place.EntityActivity_;
 import ru.saransklife.client.ui.ItemAddressView;
 import ru.saransklife.client.ui.ItemNameView;
 import ru.saransklife.client.ui.ItemRecommendedInfoView;
@@ -43,7 +44,7 @@ public class EntitiesAdapter extends RecyclerView.Adapter<EntitiesAdapter.ViewHo
 
 	@Override
 	public int getItemCount() {
-		return cursor.getCount();
+		return cursor == null ? 0 : cursor.getCount();
 	}
 
 	public void swapCursor(Cursor cursor) {

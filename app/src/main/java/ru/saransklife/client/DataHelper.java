@@ -9,6 +9,7 @@ import org.androidannotations.annotations.EBean;
 import java.util.Date;
 import java.util.List;
 
+import ru.saransklife.dao.PlaceCategory;
 import ru.saransklife.dao.Reference;
 import ru.saransklife.dao.ReferenceCategory;
 
@@ -40,6 +41,17 @@ public class DataHelper {
 		}
 
 		return cursor;
+	}
+
+	public List<PlaceCategory> getSubPlaceCategories(String slug, Context context) {
+		List<PlaceCategory> data = dao.getSubPlaceCategories(slug);
+
+		if (needUpdate(Dao.Request.PLACE_CATEGORIES, slug)) {
+			eventBus.post(new Events.SubPlaceCategoriesStartLoadingEvent());
+			DataService_.intent(context).subPlaceCategoriesAction(slug).start();
+		}
+
+		return data;
 	}
 
 	public Cursor getPlaceEntitiesCursor(String slug, boolean force, Context context) {

@@ -1,11 +1,13 @@
 package ru.saransklife.client.event;
 
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.viewpagerindicator.CirclePageIndicator;
@@ -56,6 +58,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 
 	public static class ViewHolder extends RecyclerView.ViewHolder {
 
+		public ImageView icon;
 		public TextView name;
 		public ViewPager pager;
 		public CirclePageIndicator indicator;
@@ -63,6 +66,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 
 		public ViewHolder(View view) {
 			super(view);
+			icon = (ImageView) view.findViewById(R.id.icon);
 			name = (TextView) view.findViewById(R.id.name);
 			pager = (ViewPager) view.findViewById(R.id.pager);
 			indicator = (CirclePageIndicator) view.findViewById(R.id.indicator);
@@ -75,6 +79,15 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 		public void setParams(Cursor cursor, Dao dao) {
 			String name = cursor.getString(cursor.getColumnIndex(EventCategoryDao.Properties.Name.columnName));
 			this.name.setText(name);
+
+			String slug = cursor.getString(cursor.getColumnIndex(EventCategoryDao.Properties.Slug.columnName));
+			CategoryType type = CategoryType.findTypeBySlug(slug);
+			if (type == null) {
+				this.icon.setVisibility(View.GONE);
+			} else {
+				this.icon.setImageResource(type.getIcon());
+				this.icon.setVisibility(View.VISIBLE);
+			}
 
 			long id = cursor.getLong(cursor.getColumnIndex(EventCategoryDao.Properties.Id.columnName));
 			List<Event> events = dao.getEventsByCategory(id);

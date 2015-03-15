@@ -6,12 +6,27 @@
 	android:layout_height="wrap_content"
 	android:orientation="vertical">
 
-	<TextView
-		android:id="@+id/name"
+	<LinearLayout
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:layout_margin="@dimen/offset_small"
-		android:textSize="@dimen/event_category_title_size"/>
+		android:layout_height="48dp"
+		android:orientation="horizontal"
+		android:paddingLeft="@dimen/offset_bigger">
+
+		<ImageView
+			android:id="@+id/icon"
+			android:layout_width="24dp"
+			android:layout_height="24dp"
+			android:layout_gravity="center_vertical"
+			android:layout_marginRight="@dimen/offset_normal"/>
+
+		<TextView
+			android:id="@+id/name"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_vertical"
+			android:textSize="@dimen/event_category_title_size"/>
+
+	</LinearLayout>
 
 	<FrameLayout
 		android:layout_width="wrap_content"

@@ -11,7 +11,6 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +37,7 @@ import ru.saransklife.client.place.categories.PlaceCategoriesActivity_;
 import ru.saransklife.client.ui.AwesomeIconTextView;
 import ru.saransklife.client.ui.DescriptionView;
 import ru.saransklife.client.ui.DetailsButton;
+import ru.saransklife.client.ui.HazyImageView;
 import ru.saransklife.client.ui.ItemRecommendedInfoView;
 import ru.saransklife.client.ui.RatingView;
 import ru.saransklife.client.ui.SetRatingAlertDialog;
@@ -57,7 +57,7 @@ public class EntityActivity extends BaseActivity {
 	private static final String SELECTED_RATING = "rating";
 
 	@ViewById Toolbar toolbar;
-	@ViewById ImageView photo;
+	@ViewById HazyImageView photo;
 	@ViewById RatingView ratingView;
 	@ViewById ItemRecommendedInfoView recommendedInfo;
 	@ViewById DetailsButton detailsButton;

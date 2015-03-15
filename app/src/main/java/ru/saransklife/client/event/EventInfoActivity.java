@@ -3,7 +3,6 @@ package ru.saransklife.client.event;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -22,6 +21,7 @@ import ru.saransklife.client.DetailsActivity_;
 import ru.saransklife.client.Utils;
 import ru.saransklife.client.ui.DescriptionView;
 import ru.saransklife.client.ui.DetailsButton;
+import ru.saransklife.client.ui.HazyImageView;
 import ru.saransklife.client.ui.TitleView;
 import ru.saransklife.dao.Event;
 import ru.saransklife.dao.EventCategory;
@@ -31,7 +31,7 @@ import ru.saransklife.dao.EventCategory;
 public class EventInfoActivity extends BaseActivity {
 
 	@ViewById Toolbar toolbar;
-	@ViewById ImageView photo;
+	@ViewById HazyImageView photo;
 	@ViewById DetailsButton detailsButton;
 	@ViewById TextView categoryName;
 	@ViewById TitleView titleView;

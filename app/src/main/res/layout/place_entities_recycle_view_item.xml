@@ -13,7 +13,7 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content">
 
-		<ImageView
+		<ru.saransklife.client.ui.HazyImageView_
 			android:id="@+id/photo"
 			android:layout_width="match_parent"
 			android:layout_height="200dp"

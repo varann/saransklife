@@ -3,7 +3,6 @@ package ru.saransklife.client.event;
 import android.content.Context;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EViewGroup;
@@ -12,6 +11,7 @@ import org.androidannotations.annotations.ViewById;
 import ru.saransklife.R;
 import ru.saransklife.client.Dao;
 import ru.saransklife.client.Utils;
+import ru.saransklife.client.ui.HazyImageView;
 import ru.saransklife.client.ui.ItemNameView;
 import ru.saransklife.dao.Event;
 
@@ -21,7 +21,7 @@ import ru.saransklife.dao.Event;
 @EViewGroup(R.layout.event_pager_item)
 public class PagerItemView extends FrameLayout implements View.OnClickListener {
 
-	@ViewById ImageView photo;
+	@ViewById HazyImageView photo;
 	@ViewById ItemNameView name;
 
 	@Bean Dao dao;

@@ -5,11 +5,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import ru.saransklife.R;
 import ru.saransklife.client.Utils;
 import ru.saransklife.client.place.EntityActivity_;
+import ru.saransklife.client.ui.HazyImageView;
 import ru.saransklife.client.ui.ItemAddressView;
 import ru.saransklife.client.ui.ItemNameView;
 import ru.saransklife.client.ui.ItemRecommendedInfoView;
@@ -53,7 +53,7 @@ public class EntitiesAdapter extends RecyclerView.Adapter<EntitiesAdapter.ViewHo
 
 	public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-		public ImageView photo;
+		public HazyImageView photo;
 		public RatingView rating;
 		public ItemNameView name;
 		public ItemAddressView address;
@@ -64,7 +64,7 @@ public class EntitiesAdapter extends RecyclerView.Adapter<EntitiesAdapter.ViewHo
 			super(view);
 			view.setOnClickListener(this);
 
-			photo = (ImageView) view.findViewById(R.id.photo);
+			photo = (HazyImageView) view.findViewById(R.id.photo);
 			rating = (RatingView) view.findViewById(R.id.rating_view);
 			name = (ItemNameView) view.findViewById(R.id.name);
 			address = (ItemAddressView) view.findViewById(R.id.address);

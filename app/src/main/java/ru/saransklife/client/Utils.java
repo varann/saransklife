@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ru.saransklife.R;
+import ru.saransklife.client.ui.HazyImageView;
 
 /**
  * Created by asavinova on 07/11/14.
@@ -24,6 +25,10 @@ public class Utils {
 	private static Logger L = LoggerFactory.getLogger(Utils.class);
 
 	public static final String IMAGE_BASE_URL = "http://images.pointresearch.ru";
+
+	public static void displayImage(HazyImageView view, String path, Integer widthDP, Integer heightDP) {
+		displayImage(view.getImage(), path, widthDP, heightDP);
+	}
 
 	public static void displayImage(ImageView view, String path, Integer widthDP, Integer heightDP) {
 		String url = null;

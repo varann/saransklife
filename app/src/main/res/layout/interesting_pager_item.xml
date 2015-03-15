@@ -5,7 +5,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content">
 
-	<ImageView
+	<ru.saransklife.client.ui.HazyImageView_
 		android:id="@+id/photo"
 		android:layout_width="match_parent"
 		android:layout_height="200dp"
@@ -14,10 +14,10 @@
 	<LinearLayout
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:orientation="vertical"
 		android:layout_gravity="bottom"
 		android:layout_marginBottom="@dimen/offset_big"
-		android:layout_marginLeft="@dimen/offset_normal">
+		android:layout_marginLeft="@dimen/offset_normal"
+		android:orientation="vertical">
 
 		<ru.saransklife.client.ui.ItemNameView
 			android:id="@+id/name"
@@ -29,9 +29,9 @@
 			android:id="@+id/address"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:textSize="@dimen/pager_subtitle_size"
 			android:maxLines="1"
-			android:textColor="@color/white"/>
+			android:textColor="@color/white"
+			android:textSize="@dimen/pager_subtitle_size"/>
 
 	</LinearLayout>
 

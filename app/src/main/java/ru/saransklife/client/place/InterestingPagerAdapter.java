@@ -6,13 +6,13 @@ import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ru.saransklife.R;
 import ru.saransklife.client.Utils;
+import ru.saransklife.client.ui.HazyImageView;
 import ru.saransklife.client.ui.ItemAddressView;
 import ru.saransklife.client.ui.ItemNameView;
 import ru.saransklife.dao.PlaceEntityDao;
@@ -44,7 +44,7 @@ public class InterestingPagerAdapter extends PagerAdapter {
 	public Object instantiateItem(ViewGroup container, int position) {
 		final Context context = container.getContext();
 		View view = LayoutInflater.from(context).inflate(R.layout.interesting_pager_item, null);
-		ImageView photo = (ImageView) view.findViewById(R.id.photo);
+		HazyImageView photo = (HazyImageView) view.findViewById(R.id.photo);
 		ItemNameView nameView = (ItemNameView) view.findViewById(R.id.name);
 		ItemAddressView addressView = (ItemAddressView) view.findViewById(R.id.address);
 

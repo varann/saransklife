@@ -65,12 +65,12 @@ public class DataHelper {
 		return cursor;
 	}
 
-	public Cursor getEventCategoriesCursor(boolean force, Context context) {
-		Cursor cursor = dao.getEventCategories();
+	public Cursor getEventCategoriesCursor(String type, boolean force, Context context) {
+		Cursor cursor = dao.getEventCategories(type);
 
-		if (force || needUpdate(Dao.Request.EVENTS_AND_CATEGORIES, null)) {
-			eventBus.post(new Events.EventsAndCategoriesStartLoadingEvent());
-			DataService_.intent(context).eventsAndCategoriesAction().start();
+		if (force || needUpdate(Dao.Request.EVENTS, type)) {
+			eventBus.post(new Events.EventsStartLoadingEvent());
+			DataService_.intent(context).eventsAction(type).start();
 		}
 
 		return cursor;

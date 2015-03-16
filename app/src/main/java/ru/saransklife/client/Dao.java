@@ -53,7 +53,7 @@ public class Dao {
 		INTERESTING_PLACES,
 		PLACE_CATEGORIES,
 		PLACE_ENTITIES,
-		EVENTS_AND_CATEGORIES,
+		EVENTS,
 		REFERENCE_CATEGORIES,
 		REFERENCES
 	}
@@ -200,20 +200,12 @@ public class Dao {
 		return builder.build().unique();
 	}
 
-	public void setEventCategories(final List<EventCategory> categories) {
-		daoSession.runInTx(new Runnable() {
-			@Override
-			public void run() {
-
-				EventCategoryDao categoryDao = daoSession.getEventCategoryDao();
-				categoryDao.deleteAll();
-				categoryDao.insertInTx(categories);
-
-			}
-		});
+	public void setEventCategory(EventCategory category) {
+		EventCategoryDao categoryDao = daoSession.getEventCategoryDao();
+		categoryDao.insertOrReplace(category);
 	}
 
-	public void setEvents(final List<ApiEvent> apiEvents) {
+	public void setEvents(final List<ApiEvent> apiEvents, final String type) {
 		daoSession.runInTx(new Runnable() {
 			@Override
 			public void run() {
@@ -221,20 +213,25 @@ public class Dao {
 				PlaceEntityDao placeEntityDao = daoSession.getPlaceEntityDao();
 				EventDao eventDao = daoSession.getEventDao();
 
-				eventDao.deleteAll();
+				List<Event> oldEvents = eventDao.queryBuilder().where(EventDao.Properties.Type.eq(type)).build().list();
+				eventDao.deleteInTx(oldEvents);
+
 				for (ApiEvent apiEvent : apiEvents) {
+					apiEvent.setType(type);
 					eventDao.insert(apiEvent);
+					setEventCategory(apiEvent.getCategory());
 					List<PlaceEntity> places = apiEvent.getPlaces();
 					if (places != null && !places.isEmpty()) {
 						placeEntityDao.insertOrReplaceInTx(places);
 					}
 				}
 
+				setLastUpdated(Dao.Request.EVENTS, type);
 			}
 		});
 	}
 
-	public Cursor getEventCategories() {
+	public Cursor getEventCategories(String type) {
 		Cursor query = db.rawQuery("SELECT DISTINCT " +
 				EventCategoryDao.TABLENAME + "." + EventCategoryDao.Properties.Id.columnName + ", " +
 				EventCategoryDao.TABLENAME + "." + EventCategoryDao.Properties.Name.columnName + ", " +
@@ -242,20 +239,23 @@ public class Dao {
 				" FROM " + EventCategoryDao.TABLENAME +
 				" INNER JOIN " + EventDao.TABLENAME +
 				" ON " + EventCategoryDao.TABLENAME + "." + EventCategoryDao.Properties.Id.columnName +
-				" = " + EventDao.Properties.Category_id.columnName, null);
+				" = " + EventDao.Properties.Category_id.columnName +
+				" WHERE " + EventDao.Properties.Type.columnName + " == '" + type + "'", null);
 
 		return query;
 	}
 
-	public List<Event> getEventsByCategory(long categoryId) {
+	public List<Event> getEventsByCategory(long categoryId, String type) {
 		EventDao eventDao = daoSession.getEventDao();
-		QueryBuilder<Event> builder = eventDao.queryBuilder().where(EventDao.Properties.Category_id.eq(categoryId));
+		QueryBuilder<Event> builder = eventDao.queryBuilder()
+				.where(EventDao.Properties.Category_id.eq(categoryId),
+						EventDao.Properties.Type.eq(type));
 		return builder.build().list();
 	}
 
 	public Event getEventById(long id) {
 		EventDao eventDao = daoSession.getEventDao();
-		QueryBuilder<Event> builder = eventDao.queryBuilder().where(EventDao.Properties.Id.eq(id));
+		QueryBuilder<Event> builder = eventDao.queryBuilder().where(EventDao.Properties.Id.eq(id)).limit(1);
 		return builder.build().unique();
 	}
 

@@ -6,6 +6,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import java.util.List;
 
 import ru.saransklife.dao.Event;
+import ru.saransklife.dao.EventCategory;
 import ru.saransklife.dao.PlaceEntity;
 
 /**
@@ -14,6 +15,8 @@ import ru.saransklife.dao.PlaceEntity;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ApiEvent extends Event {
 
+	@JsonProperty(value = "Category")
+	private EventCategory category;
 	@JsonProperty(value = "Places")
 	private List<PlaceEntity> places;
 
@@ -25,4 +28,11 @@ public class ApiEvent extends Event {
 		this.places = places;
 	}
 
+	public EventCategory getCategory() {
+		return category;
+	}
+
+	public void setCategory(EventCategory category) {
+		this.category = category;
+	}
 }

@@ -15,6 +15,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -38,6 +40,7 @@ public class EventsActivity extends BaseActivity implements SwipeRefreshLayout.O
 
 	@ViewById DrawerLayout drawerLayout;
 	@ViewById Toolbar toolbar;
+	@ViewById Spinner spinner;
 	@ViewById SwipeRefreshLayout refresh;
 	@ViewById RecyclerView recyclerView;
 
@@ -48,6 +51,8 @@ public class EventsActivity extends BaseActivity implements SwipeRefreshLayout.O
 	@Bean EventBus eventBus;
 
 	private EventsAdapter adapter;
+	private DateType type = DateType.WEEK;
+	private DateTypeAdapter dateTypeAdapter;
 
 	@AfterViews
 	void afterViews() {
@@ -62,8 +67,23 @@ public class EventsActivity extends BaseActivity implements SwipeRefreshLayout.O
 			}
 		});
 
+		dateTypeAdapter = new DateTypeAdapter();
+		spinner.setAdapter(dateTypeAdapter);
+		spinner.setSelection(3);
+		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				type = (DateType) dateTypeAdapter.getItem(position);
+				getLoaderManager().restartLoader(LOADER_ID, createForceBundle(false), new Callbacks());
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+			}
+		});
+
 		recyclerView.setLayoutManager(new LinearLayoutManager(this));
-		adapter = new EventsAdapter(null, dao);
+		adapter = new EventsAdapter(dao, type);
 		recyclerView.setAdapter(adapter);
 
 		refresh.setOnRefreshListener(this);
@@ -71,7 +91,6 @@ public class EventsActivity extends BaseActivity implements SwipeRefreshLayout.O
 		refresh.setProgressViewOffset(false, 0,
 				(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
 
-		getLoaderManager().initLoader(LOADER_ID, createForceBundle(false), new Callbacks());
 	}
 
 	@Override
@@ -86,16 +105,16 @@ public class EventsActivity extends BaseActivity implements SwipeRefreshLayout.O
 		eventBus.unregister(this);
 	}
 
-	public void onEvent(Events.EventsAndCategoriesStartLoadingEvent event) {
+	public void onEvent(Events.EventsStartLoadingEvent event) {
 		setRefreshing(true);
 	}
 
-	public void onEvent(Events.EventsAndCategoriesLoadedEvent event) {
+	public void onEvent(Events.EventsLoadedEvent event) {
 		getLoaderManager().restartLoader(LOADER_ID, createForceBundle(false), new Callbacks());
 		setRefreshing(false);
 	}
 
-	public void onEvent(Events.EventsAndCategoriesLoadErrorEvent event) {
+	public void onEvent(Events.EventsLoadErrorEvent event) {
 		setRefreshing(false);
 		showErrorDialog(new DialogInterface.OnClickListener() {
 			@Override
@@ -122,13 +141,14 @@ public class EventsActivity extends BaseActivity implements SwipeRefreshLayout.O
 			return new CursorLoader(getApplicationContext()) {
 				@Override
 				public Cursor loadInBackground() {
-					return dataHelper.getEventCategoriesCursor(isForceBundle(args), getContext());
+					return dataHelper.getEventCategoriesCursor(type.getType(), isForceBundle(args), getContext());
 				}
 			};
 		}
 
 		@Override
 		public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+			adapter.setDateType(type);
 			adapter.swapCursor(cursor);
 			adapter.notifyDataSetChanged();
 		}

@@ -11,7 +11,16 @@
 
 		<android.support.v7.widget.Toolbar
 			android:id="@+id/toolbar"
-			style="@style/Toolbar"/>
+			style="@style/Toolbar">
+
+			<Spinner
+				android:id="@+id/spinner"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="right"
+				android:layout_marginRight="@dimen/offset_bigger"/>
+
+			</android.support.v7.widget.Toolbar>
 
 		<android.support.v4.widget.SwipeRefreshLayout
 			android:id="@+id/refresh"

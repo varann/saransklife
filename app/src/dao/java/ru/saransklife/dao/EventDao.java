@@ -26,18 +26,20 @@ public class EventDao extends AbstractDao<Event, Long> {
      * Can be used for QueryBuilder and for referencing column names.
     */
     public static class Properties {
-        public final static Property Id = new Property(0, Long.class, "id", true, "_id");
-        public final static Property Name = new Property(1, String.class, "name", false, "NAME");
-        public final static Property Description = new Property(2, String.class, "description", false, "DESCRIPTION");
-        public final static Property Story = new Property(3, String.class, "story", false, "STORY");
-        public final static Property Start_date = new Property(4, java.util.Date.class, "start_date", false, "START_DATE");
-        public final static Property End_date = new Property(5, java.util.Date.class, "end_date", false, "END_DATE");
-        public final static Property Time_type = new Property(6, String.class, "time_type", false, "TIME_TYPE");
-        public final static Property Is_repeatable = new Property(7, Boolean.class, "is_repeatable", false, "IS_REPEATABLE");
-        public final static Property Photo_author = new Property(8, String.class, "photo_author", false, "PHOTO_AUTHOR");
-        public final static Property Photo_path = new Property(9, String.class, "photo_path", false, "PHOTO_PATH");
-        public final static Property Price = new Property(10, String.class, "price", false, "PRICE");
-        public final static Property Category_id = new Property(11, Long.class, "category_id", false, "CATEGORY_ID");
+        public final static Property Local_id = new Property(0, Long.class, "local_id", true, "LOCAL_ID");
+        public final static Property Id = new Property(1, Long.class, "id", false, "ID");
+        public final static Property Type = new Property(2, String.class, "type", false, "TYPE");
+        public final static Property Name = new Property(3, String.class, "name", false, "NAME");
+        public final static Property Description = new Property(4, String.class, "description", false, "DESCRIPTION");
+        public final static Property Story = new Property(5, String.class, "story", false, "STORY");
+        public final static Property Start_date = new Property(6, java.util.Date.class, "start_date", false, "START_DATE");
+        public final static Property End_date = new Property(7, java.util.Date.class, "end_date", false, "END_DATE");
+        public final static Property Time_type = new Property(8, String.class, "time_type", false, "TIME_TYPE");
+        public final static Property Is_repeatable = new Property(9, Boolean.class, "is_repeatable", false, "IS_REPEATABLE");
+        public final static Property Photo_author = new Property(10, String.class, "photo_author", false, "PHOTO_AUTHOR");
+        public final static Property Photo_path = new Property(11, String.class, "photo_path", false, "PHOTO_PATH");
+        public final static Property Price = new Property(12, String.class, "price", false, "PRICE");
+        public final static Property Category_id = new Property(13, Long.class, "category_id", false, "CATEGORY_ID");
     };
 
     private DaoSession daoSession;
@@ -56,18 +58,20 @@ public class EventDao extends AbstractDao<Event, Long> {
     public static void createTable(SQLiteDatabase db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "'EVENT' (" + //
-                "'_id' INTEGER PRIMARY KEY ," + // 0: id
-                "'NAME' TEXT," + // 1: name
-                "'DESCRIPTION' TEXT," + // 2: description
-                "'STORY' TEXT," + // 3: story
-                "'START_DATE' INTEGER," + // 4: start_date
-                "'END_DATE' INTEGER," + // 5: end_date
-                "'TIME_TYPE' TEXT," + // 6: time_type
-                "'IS_REPEATABLE' INTEGER," + // 7: is_repeatable
-                "'PHOTO_AUTHOR' TEXT," + // 8: photo_author
-                "'PHOTO_PATH' TEXT," + // 9: photo_path
-                "'PRICE' TEXT," + // 10: price
-                "'CATEGORY_ID' INTEGER);"); // 11: category_id
+                "'LOCAL_ID' INTEGER PRIMARY KEY ," + // 0: local_id
+                "'ID' INTEGER," + // 1: id
+                "'TYPE' TEXT," + // 2: type
+                "'NAME' TEXT," + // 3: name
+                "'DESCRIPTION' TEXT," + // 4: description
+                "'STORY' TEXT," + // 5: story
+                "'START_DATE' INTEGER," + // 6: start_date
+                "'END_DATE' INTEGER," + // 7: end_date
+                "'TIME_TYPE' TEXT," + // 8: time_type
+                "'IS_REPEATABLE' INTEGER," + // 9: is_repeatable
+                "'PHOTO_AUTHOR' TEXT," + // 10: photo_author
+                "'PHOTO_PATH' TEXT," + // 11: photo_path
+                "'PRICE' TEXT," + // 12: price
+                "'CATEGORY_ID' INTEGER);"); // 13: category_id
     }
 
     /** Drops the underlying database table. */
@@ -81,64 +85,74 @@ public class EventDao extends AbstractDao<Event, Long> {
     protected void bindValues(SQLiteStatement stmt, Event entity) {
         stmt.clearBindings();
  
+        Long local_id = entity.getLocal_id();
+        if (local_id != null) {
+            stmt.bindLong(1, local_id);
+        }
+ 
         Long id = entity.getId();
         if (id != null) {
-            stmt.bindLong(1, id);
+            stmt.bindLong(2, id);
+        }
+ 
+        String type = entity.getType();
+        if (type != null) {
+            stmt.bindString(3, type);
         }
  
         String name = entity.getName();
         if (name != null) {
-            stmt.bindString(2, name);
+            stmt.bindString(4, name);
         }
  
         String description = entity.getDescription();
         if (description != null) {
-            stmt.bindString(3, description);
+            stmt.bindString(5, description);
         }
  
         String story = entity.getStory();
         if (story != null) {
-            stmt.bindString(4, story);
+            stmt.bindString(6, story);
         }
  
         java.util.Date start_date = entity.getStart_date();
         if (start_date != null) {
-            stmt.bindLong(5, start_date.getTime());
+            stmt.bindLong(7, start_date.getTime());
         }
  
         java.util.Date end_date = entity.getEnd_date();
         if (end_date != null) {
-            stmt.bindLong(6, end_date.getTime());
+            stmt.bindLong(8, end_date.getTime());
         }
  
         String time_type = entity.getTime_type();
         if (time_type != null) {
-            stmt.bindString(7, time_type);
+            stmt.bindString(9, time_type);
         }
  
         Boolean is_repeatable = entity.getIs_repeatable();
         if (is_repeatable != null) {
-            stmt.bindLong(8, is_repeatable ? 1l: 0l);
+            stmt.bindLong(10, is_repeatable ? 1l: 0l);
         }
  
         String photo_author = entity.getPhoto_author();
         if (photo_author != null) {
-            stmt.bindString(9, photo_author);
+            stmt.bindString(11, photo_author);
         }
  
         String photo_path = entity.getPhoto_path();
         if (photo_path != null) {
-            stmt.bindString(10, photo_path);
+            stmt.bindString(12, photo_path);
         }
  
         String price = entity.getPrice();
         if (price != null) {
-            stmt.bindString(11, price);
+            stmt.bindString(13, price);
         }
  
         Long category_id = entity.getCategory_id();
         if (category_id != null) {
-            stmt.bindLong(12, category_id);
+            stmt.bindLong(14, category_id);
         }
     }
 
@@ -158,18 +172,20 @@ public class EventDao extends AbstractDao<Event, Long> {
     @Override
     public Event readEntity(Cursor cursor, int offset) {
         Event entity = new Event( //
-            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // name
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // description
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // story
-            cursor.isNull(offset + 4) ? null : new java.util.Date(cursor.getLong(offset + 4)), // start_date
-            cursor.isNull(offset + 5) ? null : new java.util.Date(cursor.getLong(offset + 5)), // end_date
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // time_type
-            cursor.isNull(offset + 7) ? null : cursor.getShort(offset + 7) != 0, // is_repeatable
-            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // photo_author
-            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // photo_path
-            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // price
-            cursor.isNull(offset + 11) ? null : cursor.getLong(offset + 11) // category_id
+            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // local_id
+            cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // id
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // type
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // name
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // description
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // story
+            cursor.isNull(offset + 6) ? null : new java.util.Date(cursor.getLong(offset + 6)), // start_date
+            cursor.isNull(offset + 7) ? null : new java.util.Date(cursor.getLong(offset + 7)), // end_date
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // time_type
+            cursor.isNull(offset + 9) ? null : cursor.getShort(offset + 9) != 0, // is_repeatable
+            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // photo_author
+            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // photo_path
+            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // price
+            cursor.isNull(offset + 13) ? null : cursor.getLong(offset + 13) // category_id
         );
         return entity;
     }
@@ -177,24 +193,26 @@ public class EventDao extends AbstractDao<Event, Long> {
     /** @inheritdoc */
     @Override
     public void readEntity(Cursor cursor, Event entity, int offset) {
-        entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setName(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setDescription(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setStory(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setStart_date(cursor.isNull(offset + 4) ? null : new java.util.Date(cursor.getLong(offset + 4)));
-        entity.setEnd_date(cursor.isNull(offset + 5) ? null : new java.util.Date(cursor.getLong(offset + 5)));
-        entity.setTime_type(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setIs_repeatable(cursor.isNull(offset + 7) ? null : cursor.getShort(offset + 7) != 0);
-        entity.setPhoto_author(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
-        entity.setPhoto_path(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
-        entity.setPrice(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
-        entity.setCategory_id(cursor.isNull(offset + 11) ? null : cursor.getLong(offset + 11));
+        entity.setLocal_id(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
+        entity.setId(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
+        entity.setType(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setName(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setDescription(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setStory(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setStart_date(cursor.isNull(offset + 6) ? null : new java.util.Date(cursor.getLong(offset + 6)));
+        entity.setEnd_date(cursor.isNull(offset + 7) ? null : new java.util.Date(cursor.getLong(offset + 7)));
+        entity.setTime_type(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setIs_repeatable(cursor.isNull(offset + 9) ? null : cursor.getShort(offset + 9) != 0);
+        entity.setPhoto_author(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
+        entity.setPhoto_path(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
+        entity.setPrice(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
+        entity.setCategory_id(cursor.isNull(offset + 13) ? null : cursor.getLong(offset + 13));
      }
     
     /** @inheritdoc */
     @Override
     protected Long updateKeyAfterInsert(Event entity, long rowId) {
-        entity.setId(rowId);
+        entity.setLocal_id(rowId);
         return rowId;
     }
     
@@ -202,7 +220,7 @@ public class EventDao extends AbstractDao<Event, Long> {
     @Override
     public Long getKey(Event entity) {
         if(entity != null) {
-            return entity.getId();
+            return entity.getLocal_id();
         } else {
             return null;
         }

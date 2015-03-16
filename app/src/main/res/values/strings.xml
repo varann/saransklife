@@ -31,6 +31,12 @@
 
 	<string name="old_event_message">Мероприятие устарело</string>
 
+	<string name="date_type_today">Сегодня</string>
+	<string name="date_type_tomorrow">Завтра</string>
+	<string name="date_type_weekend">Выходные</string>
+	<string name="date_type_week">Неделя</string>
+	<string name="date_type_soon">Скоро</string>
+
 	<string name="title_activity_splash">SplashActivity</string>
 	<string name="hello_blank_fragment">Hello blank fragment</string>
 

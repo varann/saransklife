@@ -102,7 +102,9 @@ public class SaransklifeDaoGenerator {
 
 	private static void addEventEntity(Schema schema, Entity eventCategory) {
 		Entity event = schema.addEntity("Event");
-		event.addIdProperty();
+		event.addLongProperty("local_id").primaryKey();
+		event.addLongProperty("id");
+		event.addStringProperty("type");
 		event.addStringProperty("name");
 		event.addStringProperty("description");
 		event.addStringProperty("story");

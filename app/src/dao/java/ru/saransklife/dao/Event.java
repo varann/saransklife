@@ -9,7 +9,9 @@ import de.greenrobot.dao.DaoException;
  */
 public class Event {
 
+    private Long local_id;
     private Long id;
+    private String type;
     private String name;
     private String description;
     private String story;
@@ -35,12 +37,14 @@ public class Event {
     public Event() {
     }
 
-    public Event(Long id) {
-        this.id = id;
+    public Event(Long local_id) {
+        this.local_id = local_id;
     }
 
-    public Event(Long id, String name, String description, String story, java.util.Date start_date, java.util.Date end_date, String time_type, Boolean is_repeatable, String photo_author, String photo_path, String price, Long category_id) {
+    public Event(Long local_id, Long id, String type, String name, String description, String story, java.util.Date start_date, java.util.Date end_date, String time_type, Boolean is_repeatable, String photo_author, String photo_path, String price, Long category_id) {
+        this.local_id = local_id;
         this.id = id;
+        this.type = type;
         this.name = name;
         this.description = description;
         this.story = story;
@@ -60,12 +64,28 @@ public class Event {
         myDao = daoSession != null ? daoSession.getEventDao() : null;
     }
 
+    public Long getLocal_id() {
+        return local_id;
+    }
+
+    public void setLocal_id(Long local_id) {
+        this.local_id = local_id;
+    }
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getName() {

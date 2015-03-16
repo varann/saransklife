@@ -42,8 +42,8 @@ public interface RestApiClient {
 	@Get("/event/categories")
 	EventCategoriesResponse getEventCategories();
 
-	@Get("/event?date=week&page=1&limit=10")
-	EventsResponse getEvents();
+	@Get("/event?date={type}&page=1&limit=1000")
+	EventsResponse getEvents(String type);
 
 	@Post("/place/{id}/rating?deviceId={deviceId}&rating={rating}")
 	PostResponse setPlaceRating(long id, String deviceId, int rating);

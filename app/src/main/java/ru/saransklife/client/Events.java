@@ -74,13 +74,13 @@ public class Events {
 	}
 
 
-	public static class EventsAndCategoriesStartLoadingEvent {
+	public static class EventsStartLoadingEvent {
 	}
 
-	public static class EventsAndCategoriesLoadedEvent {
+	public static class EventsLoadedEvent {
 	}
 
-	public static class EventsAndCategoriesLoadErrorEvent {
+	public static class EventsLoadErrorEvent {
 	}
 
 

@@ -1,7 +1,6 @@
 package ru.saransklife.client.event;
 
 import android.database.Cursor;
-import android.graphics.drawable.Drawable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,9 +25,10 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 
 	private Cursor cursor;
 	private Dao dao;
+	private DateType dateType;
 
-	public EventsAdapter(Cursor cursor, Dao dao) {
-		this.cursor = cursor;
+	public EventsAdapter(Dao dao, DateType dateType) {
+		this.dateType = dateType;
 		this.dao = dao;
 	}
 
@@ -43,7 +43,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 	@Override
 	public void onBindViewHolder(ViewHolder holder, int i) {
 		cursor.moveToPosition(i);
-		holder.setParams(cursor, dao);
+		holder.setParams(cursor, dao, dateType);
 	}
 
 	@Override
@@ -54,6 +54,10 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 
 	public void swapCursor(Cursor cursor) {
 		this.cursor = cursor;
+	}
+
+	public void setDateType(DateType dateType) {
+		this.dateType = dateType;
 	}
 
 	public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -76,7 +80,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 			indicator.setViewPager(pager);
 		}
 
-		public void setParams(Cursor cursor, Dao dao) {
+		public void setParams(Cursor cursor, Dao dao, DateType dateType) {
 			String name = cursor.getString(cursor.getColumnIndex(EventCategoryDao.Properties.Name.columnName));
 			this.name.setText(name);
 
@@ -90,9 +94,12 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 			}
 
 			long id = cursor.getLong(cursor.getColumnIndex(EventCategoryDao.Properties.Id.columnName));
-			List<Event> events = dao.getEventsByCategory(id);
+			List<Event> events = dao.getEventsByCategory(id, dateType.getType());
 			adapter.setEvents(events);
 			adapter.notifyDataSetChanged();
+			indicator.notifyDataSetChanged();
+			// Обновление размеров индикатора под новые данные пейджера
+			indicator.requestLayout();
 		}
 
 	}

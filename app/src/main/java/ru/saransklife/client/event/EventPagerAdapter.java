@@ -35,6 +35,14 @@ public class EventPagerAdapter extends PagerAdapter {
 	}
 
 	@Override
+	public int getItemPosition(Object object) {
+		/*
+		http://stackoverflow.com/questions/7263291/viewpager-pageradapter-not-updating-the-view
+		 */
+		return POSITION_NONE;
+	}
+
+	@Override
 	public Object instantiateItem(ViewGroup container, int position) {
 		Long id = events.get(position).getId();
 		PagerItemView view = PagerItemView_.build(container.getContext());

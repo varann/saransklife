@@ -19,10 +19,12 @@ import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import ru.saransklife.R;
 import ru.saransklife.client.ui.HazyImageView;
 import ru.saransklife.dao.Event;
+import ru.saransklife.dao.Seance;
 
 /**
  * Created by asavinova on 07/11/14.
@@ -82,7 +84,15 @@ public class Utils {
 	}
 
 	public static String getNearestSeance(Event event) {
-		//TODO
-		return StringUtils.capitalize(dateFormat.format(new Date()));
+		List<Seance> seances = event.getSeances();
+		Date currentDate = new Date();
+		for (Seance seance : seances) {
+			Date date = seance.getDatetime();
+			if (currentDate.before(date)) {
+				return StringUtils.capitalize(dateFormat.format(date));
+			}
+		}
+
+		return null;
 	}
 }

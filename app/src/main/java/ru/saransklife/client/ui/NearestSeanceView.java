@@ -32,6 +32,12 @@ public class NearestSeanceView extends AwesomeIconTextView {
 	}
 
 	public void updateSeanceInfo(Event event) {
-		Utils.setTextWithIcon(this, R.string.calendar, Utils.getNearestSeance(event));
+		String nearestSeance = Utils.getNearestSeance(event);
+		if (nearestSeance == null) {
+			setVisibility(GONE);
+		} else {
+			setVisibility(VISIBLE);
+			Utils.setTextWithIcon(this, R.string.calendar, nearestSeance);
+		}
 	}
 }

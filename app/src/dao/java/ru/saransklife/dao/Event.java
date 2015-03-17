@@ -1,5 +1,6 @@
 package ru.saransklife.dao;
 
+import java.util.List;
 import ru.saransklife.dao.DaoSession;
 import de.greenrobot.dao.DaoException;
 
@@ -33,6 +34,7 @@ public class Event {
     private EventCategory eventCategory;
     private Long eventCategory__resolvedKey;
 
+    private List<Seance> seances;
 
     public Event() {
     }
@@ -199,6 +201,28 @@ public class Event {
             category_id = eventCategory == null ? null : eventCategory.getId();
             eventCategory__resolvedKey = category_id;
         }
+    }
+
+    /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */
+    public List<Seance> getSeances() {
+        if (seances == null) {
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            SeanceDao targetDao = daoSession.getSeanceDao();
+            List<Seance> seancesNew = targetDao._queryEvent_Seances(local_id);
+            synchronized (this) {
+                if(seances == null) {
+                    seances = seancesNew;
+                }
+            }
+        }
+        return seances;
+    }
+
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    public synchronized void resetSeances() {
+        seances = null;
     }
 
     /** Convenient call for {@link AbstractDao#delete(Object)}. Entity must attached to an entity context. */

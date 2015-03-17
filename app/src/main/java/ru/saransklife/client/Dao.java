@@ -37,6 +37,8 @@ import ru.saransklife.dao.Reference;
 import ru.saransklife.dao.ReferenceCategory;
 import ru.saransklife.dao.ReferenceCategoryDao;
 import ru.saransklife.dao.ReferenceDao;
+import ru.saransklife.dao.Seance;
+import ru.saransklife.dao.SeanceDao;
 import ru.saransklife.dao.SectionItem;
 import ru.saransklife.dao.SectionItemDao;
 
@@ -212,14 +214,31 @@ public class Dao {
 
 				PlaceEntityDao placeEntityDao = daoSession.getPlaceEntityDao();
 				EventDao eventDao = daoSession.getEventDao();
+				SeanceDao seanceDao = daoSession.getSeanceDao();
 
+				// Удаляем старые события и сеансы к ним
 				List<Event> oldEvents = eventDao.queryBuilder().where(EventDao.Properties.Type.eq(type)).build().list();
+				for (Event oldEvent : oldEvents) {
+					seanceDao.deleteInTx(oldEvent.getSeances());
+				}
 				eventDao.deleteInTx(oldEvents);
 
 				for (ApiEvent apiEvent : apiEvents) {
-					apiEvent.setType(type);
-					eventDao.insert(apiEvent);
+					// Сохранение категории события
 					setEventCategory(apiEvent.getCategory());
+
+					apiEvent.setType(type);
+					long id = eventDao.insert(apiEvent);
+
+					// Сохранение сеансов
+					List<Seance> seancesObjects = apiEvent.getSeancesData().getSeancesObjects();
+					for (Seance seance : seancesObjects) {
+						seance.setEvent_id(id);
+					}
+					seanceDao.insertOrReplaceInTx(seancesObjects);
+
+					// Сохранение мест
+					// TODO Никогда не удаляются!
 					List<PlaceEntity> places = apiEvent.getPlaces();
 					if (places != null && !places.isEmpty()) {
 						placeEntityDao.insertOrReplaceInTx(places);

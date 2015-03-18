@@ -15,6 +15,7 @@ import ru.saransklife.client.ui.HazyImageView;
 import ru.saransklife.client.ui.ItemNameView;
 import ru.saransklife.client.ui.NearestSeanceView;
 import ru.saransklife.dao.Event;
+import ru.saransklife.client.event.info.EventInfoActivity_;
 
 /**
  * Created by asavinova on 08/11/14.

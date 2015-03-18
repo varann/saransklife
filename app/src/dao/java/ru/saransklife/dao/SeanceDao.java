@@ -1,14 +1,12 @@
 package ru.saransklife.dao;
 
 import java.util.List;
-import java.util.ArrayList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
-import de.greenrobot.dao.internal.SqlUtils;
 import de.greenrobot.dao.internal.DaoConfig;
 import de.greenrobot.dao.query.Query;
 import de.greenrobot.dao.query.QueryBuilder;
@@ -37,8 +35,6 @@ public class SeanceDao extends AbstractDao<Seance, Long> {
         public final static Property Event_id = new Property(6, long.class, "event_id", false, "EVENT_ID");
     };
 
-    private DaoSession daoSession;
-
     private Query<Seance> event_SeancesQuery;
 
     public SeanceDao(DaoConfig config) {
@@ -47,7 +43,6 @@ public class SeanceDao extends AbstractDao<Seance, Long> {
     
     public SeanceDao(DaoConfig config, DaoSession daoSession) {
         super(config, daoSession);
-        this.daoSession = daoSession;
     }
 
     /** Creates the underlying database table. */
@@ -104,12 +99,6 @@ public class SeanceDao extends AbstractDao<Seance, Long> {
             stmt.bindLong(6, placeId);
         }
         stmt.bindLong(7, entity.getEvent_id());
-    }
-
-    @Override
-    protected void attachEntity(Seance entity) {
-        super.attachEntity(entity);
-        entity.__setDaoSession(daoSession);
     }
 
     /** @inheritdoc */
@@ -182,95 +171,4 @@ public class SeanceDao extends AbstractDao<Seance, Long> {
         return query.list();
     }
 
-    private String selectDeep;
-
-    protected String getSelectDeep() {
-        if (selectDeep == null) {
-            StringBuilder builder = new StringBuilder("SELECT ");
-            SqlUtils.appendColumns(builder, "T", getAllColumns());
-            builder.append(',');
-            SqlUtils.appendColumns(builder, "T0", daoSession.getPlaceEntityDao().getAllColumns());
-            builder.append(" FROM SEANCE T");
-            builder.append(" LEFT JOIN PLACE_ENTITY T0 ON T.'PLACE_ID'=T0.'LOCAL_ID'");
-            builder.append(' ');
-            selectDeep = builder.toString();
-        }
-        return selectDeep;
-    }
-    
-    protected Seance loadCurrentDeep(Cursor cursor, boolean lock) {
-        Seance entity = loadCurrent(cursor, 0, lock);
-        int offset = getAllColumns().length;
-
-        PlaceEntity placeEntity = loadCurrentOther(daoSession.getPlaceEntityDao(), cursor, offset);
-        entity.setPlaceEntity(placeEntity);
-
-        return entity;    
-    }
-
-    public Seance loadDeep(Long key) {
-        assertSinglePk();
-        if (key == null) {
-            return null;
-        }
-
-        StringBuilder builder = new StringBuilder(getSelectDeep());
-        builder.append("WHERE ");
-        SqlUtils.appendColumnsEqValue(builder, "T", getPkColumns());
-        String sql = builder.toString();
-        
-        String[] keyArray = new String[] { key.toString() };
-        Cursor cursor = db.rawQuery(sql, keyArray);
-        
-        try {
-            boolean available = cursor.moveToFirst();
-            if (!available) {
-                return null;
-            } else if (!cursor.isLast()) {
-                throw new IllegalStateException("Expected unique result, but count was " + cursor.getCount());
-            }
-            return loadCurrentDeep(cursor, true);
-        } finally {
-            cursor.close();
-        }
-    }
-    
-    /** Reads all available rows from the given cursor and returns a list of new ImageTO objects. */
-    public List<Seance> loadAllDeepFromCursor(Cursor cursor) {
-        int count = cursor.getCount();
-        List<Seance> list = new ArrayList<Seance>(count);
-        
-        if (cursor.moveToFirst()) {
-            if (identityScope != null) {
-                identityScope.lock();
-                identityScope.reserveRoom(count);
-            }
-            try {
-                do {
-                    list.add(loadCurrentDeep(cursor, false));
-                } while (cursor.moveToNext());
-            } finally {
-                if (identityScope != null) {
-                    identityScope.unlock();
-                }
-            }
-        }
-        return list;
-    }
-    
-    protected List<Seance> loadDeepAllAndCloseCursor(Cursor cursor) {
-        try {
-            return loadAllDeepFromCursor(cursor);
-        } finally {
-            cursor.close();
-        }
-    }
-    
-
-    /** A raw-style query where you can pass any WHERE clause and arguments. */
-    public List<Seance> queryDeep(String where, String... selectionArg) {
-        Cursor cursor = db.rawQuery(getSelectDeep() + where, selectionArg);
-        return loadDeepAllAndCloseCursor(cursor);
-    }
- 
 }

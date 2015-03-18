@@ -52,9 +52,9 @@
 						android:id="@+id/category_name"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
+						android:layout_marginTop="@dimen/offset_normal"
 						android:textColor="@color/white"
-						android:textSize="@dimen/event_category_title_size"
-						android:layout_marginTop="@dimen/offset_normal"/>
+						android:textSize="@dimen/event_category_title_size"/>
 
 				</LinearLayout>
 
@@ -83,6 +83,13 @@
 					android:id="@+id/description_view"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"/>
+
+				<ru.saransklife.client.event.info.SeancesView_
+					android:id="@+id/seances_view"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="@dimen/offset_bigger"/>
+
 
 			</LinearLayout>
 		</LinearLayout>

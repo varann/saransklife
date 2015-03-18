@@ -216,10 +216,11 @@ public class Dao {
 				EventDao eventDao = daoSession.getEventDao();
 				SeanceDao seanceDao = daoSession.getSeanceDao();
 
-				// Удаляем старые события и сеансы к ним
+				// Удаляем старые события, сеансы к ним и привязанные места
 				List<Event> oldEvents = eventDao.queryBuilder().where(EventDao.Properties.Type.eq(type)).build().list();
 				for (Event oldEvent : oldEvents) {
 					seanceDao.deleteInTx(oldEvent.getSeances());
+					placeEntityDao.deleteInTx(oldEvent.getPlaces());
 				}
 				eventDao.deleteInTx(oldEvents);
 
@@ -238,11 +239,11 @@ public class Dao {
 					seanceDao.insertOrReplaceInTx(seancesObjects);
 
 					// Сохранение мест
-					// TODO Никогда не удаляются!
 					List<PlaceEntity> places = apiEvent.getPlaces();
-					if (places != null && !places.isEmpty()) {
-						placeEntityDao.insertOrReplaceInTx(places);
+					for (PlaceEntity place : places) {
+						place.setEvent_id(id);
 					}
+					placeEntityDao.insertOrReplaceInTx(places);
 				}
 
 				setLastUpdated(Dao.Request.EVENTS, type);

@@ -27,7 +27,7 @@ public class SaransklifeDaoGenerator {
 		Entity seance = addSeanceEntity(schema, place);
 
 		Entity eventCategory = addEventCategoryEntity(schema);
-		addEventEntity(schema, eventCategory, seance);
+		addEventEntity(schema, eventCategory, seance, place);
 
 		addReferenceCategoryEntity(schema);
 		addReferenceEntity(schema);
@@ -102,10 +102,7 @@ public class SaransklifeDaoGenerator {
 		seance.addStringProperty("hallName");
 		seance.addStringProperty("type");
 		seance.addIntProperty("price");
-
-		//Поле placeId приходит с сервера
-		Property placeId = seance.addLongProperty("placeId").getProperty();
-		seance.addToOne(place, placeId);
+		seance.addLongProperty("placeId");
 
 		return seance;
 	}
@@ -118,7 +115,7 @@ public class SaransklifeDaoGenerator {
 		return eventCategory;
 	}
 
-	private static void addEventEntity(Schema schema, Entity eventCategory, Entity seance) {
+	private static void addEventEntity(Schema schema, Entity eventCategory, Entity seance, Entity place) {
 		Entity event = schema.addEntity("Event");
 		event.addLongProperty("local_id").primaryKey();
 		event.addLongProperty("id");
@@ -136,9 +133,14 @@ public class SaransklifeDaoGenerator {
 
 		Property categoryId = event.addLongProperty("category_id").getProperty();
 		event.addToOne(eventCategory, categoryId);
-
-		Property eventId = seance.addLongProperty("event_id").notNull().getProperty();
-		event.addToMany(seance, eventId).setName("seances");
+		{
+			Property eventId = seance.addLongProperty("event_id").notNull().getProperty();
+			event.addToMany(seance, eventId).setName("seances");
+		}
+		{
+			Property eventId = place.addLongProperty("event_id").notNull().getProperty();
+			event.addToMany(place, eventId).setName("places");
+		}
 	}
 
 	private static void addReferenceCategoryEntity(Schema schema) {

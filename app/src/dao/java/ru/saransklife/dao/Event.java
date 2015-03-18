@@ -35,6 +35,7 @@ public class Event {
     private Long eventCategory__resolvedKey;
 
     private List<Seance> seances;
+    private List<PlaceEntity> places;
 
     public Event() {
     }
@@ -223,6 +224,28 @@ public class Event {
     /** Resets a to-many relationship, making the next get call to query for a fresh result. */
     public synchronized void resetSeances() {
         seances = null;
+    }
+
+    /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */
+    public List<PlaceEntity> getPlaces() {
+        if (places == null) {
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            PlaceEntityDao targetDao = daoSession.getPlaceEntityDao();
+            List<PlaceEntity> placesNew = targetDao._queryEvent_Places(local_id);
+            synchronized (this) {
+                if(places == null) {
+                    places = placesNew;
+                }
+            }
+        }
+        return places;
+    }
+
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    public synchronized void resetPlaces() {
+        places = null;
     }
 
     /** Convenient call for {@link AbstractDao#delete(Object)}. Entity must attached to an entity context. */

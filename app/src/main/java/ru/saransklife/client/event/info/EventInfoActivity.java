@@ -1,8 +1,10 @@
-package ru.saransklife.client.event;
+package ru.saransklife.client.event.info;
 
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -12,6 +14,10 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 import ru.saransklife.R;
 import ru.saransklife.client.BaseActivity;
@@ -23,9 +29,12 @@ import ru.saransklife.client.ui.DescriptionView;
 import ru.saransklife.client.ui.DetailsButton;
 import ru.saransklife.client.ui.HazyImageView;
 import ru.saransklife.client.ui.NearestSeanceView;
+import ru.saransklife.client.ui.SubTitleView;
 import ru.saransklife.client.ui.TitleView;
 import ru.saransklife.dao.Event;
 import ru.saransklife.dao.EventCategory;
+import ru.saransklife.dao.PlaceEntity;
+import ru.saransklife.dao.Seance;
 
 
 @EActivity(R.layout.activity_event_info)
@@ -40,6 +49,8 @@ public class EventInfoActivity extends BaseActivity {
 	@ViewById DescriptionView descriptionView;
 	@ViewById TextView message;
 	@ViewById LinearLayout eventLayout;
+
+	@ViewById SeancesView seancesView;
 
 	@Bean Dao dao;
 	@Extra long id;
@@ -71,6 +82,8 @@ public class EventInfoActivity extends BaseActivity {
 			setText(categoryName, category.getName());
 			titleView.setTitle(event.getName());
 			descriptionView.setText(event.getDescription());
+
+			seancesView.update(event);
 		}
 	}
 
@@ -87,4 +100,5 @@ public class EventInfoActivity extends BaseActivity {
 				.from(DetailsActivity.EVENT)
 				.start();
 	}
+
 }

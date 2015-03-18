@@ -24,6 +24,7 @@ public class PlaceEntity {
     private Float rating;
     private Integer view_count;
     private Integer recommended_count;
+    private long event_id;
 
     public PlaceEntity() {
     }
@@ -32,7 +33,7 @@ public class PlaceEntity {
         this.local_id = local_id;
     }
 
-    public PlaceEntity(Long local_id, Long id, String slug, String name, String address, String phone, String email, String website, Float latitude, Float longitude, String description, String photo_author, String photo_path, String information, String working_time, Float rating, Integer view_count, Integer recommended_count) {
+    public PlaceEntity(Long local_id, Long id, String slug, String name, String address, String phone, String email, String website, Float latitude, Float longitude, String description, String photo_author, String photo_path, String information, String working_time, Float rating, Integer view_count, Integer recommended_count, long event_id) {
         this.local_id = local_id;
         this.id = id;
         this.slug = slug;
@@ -51,6 +52,7 @@ public class PlaceEntity {
         this.rating = rating;
         this.view_count = view_count;
         this.recommended_count = recommended_count;
+        this.event_id = event_id;
     }
 
     public Long getLocal_id() {
@@ -195,6 +197,14 @@ public class PlaceEntity {
 
     public void setRecommended_count(Integer recommended_count) {
         this.recommended_count = recommended_count;
+    }
+
+    public long getEvent_id() {
+        return event_id;
+    }
+
+    public void setEvent_id(long event_id) {
+        this.event_id = event_id;
     }
 
 }

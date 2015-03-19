@@ -5,7 +5,6 @@ import android.content.res.Resources;
 import android.graphics.Point;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +35,7 @@ public class PlaceSeancesView extends LinearLayout {
 
 	@ViewById TextView name;
 	@ViewById AwesomeIconTextView address;
+	@ViewById View delimeter;
 	@ViewById GridLayout seancesGrid;
 
 	public PlaceSeancesView(Context context) {
@@ -46,9 +46,13 @@ public class PlaceSeancesView extends LinearLayout {
 		super(context, attrs);
 	}
 
-	public void setData(PlaceEntity placeEntity, List<Seance> seances) {
+	public void setData(PlaceEntity placeEntity, List<Seance> seances, boolean showPlaceInfo) {
 		name.setText(placeEntity.getName());
 		Utils.setTextWithIcon(address, R.string.map_marker, placeEntity.getAddress());
+
+		name.setVisibility(showPlaceInfo ? VISIBLE : GONE);
+		address.setVisibility(showPlaceInfo ? VISIBLE : GONE);
+		delimeter.setVisibility(showPlaceInfo ? VISIBLE : GONE);
 
 		LayoutInflater inflater = LayoutInflater.from(getContext());
 		seancesGrid.removeAllViews();

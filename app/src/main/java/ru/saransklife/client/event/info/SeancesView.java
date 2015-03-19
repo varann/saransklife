@@ -94,10 +94,11 @@ public class SeancesView extends LinearLayout {
 	private void updateSeances() {
 		seancesPanel.removeAllViews();
 
+		boolean showPlaceInfo = placesMap.size() != 1;
 		HashMap<Long, List<Seance>> places = calendar.get(current);
 		for (Long id : places.keySet()) {
 			PlaceSeancesView view = PlaceSeancesView_.build(getContext());
-			view.setData(placesMap.get(id), places.get(id));
+			view.setData(placesMap.get(id), places.get(id), showPlaceInfo);
 			seancesPanel.addView(view);
 		}
 	}
@@ -131,16 +132,20 @@ public class SeancesView extends LinearLayout {
 			HashMap<Long, List<Seance>> placesMap = new HashMap<>();
 
 			List<Seance> seancesForDate = dateMap.get(date);
-			for (PlaceEntity place : places) {
+			if (places.size() == 1) {
+				placesMap.put(places.get(0).getId(), seancesForDate);
+			} else {
+				for (PlaceEntity place : places) {
 
-				List<Seance> list = new ArrayList<>();
-				for (Seance seance : seancesForDate) {
-					if (seance.getPlaceId() == place.getId()) {
-						list.add(seance);
+					List<Seance> list = new ArrayList<>();
+					for (Seance seance : seancesForDate) {
+						if (seance.getPlaceId() == place.getId()) {
+							list.add(seance);
+						}
 					}
-				}
-				if (!list.isEmpty()) {
-					placesMap.put(place.getId(), list);
+					if (!list.isEmpty()) {
+						placesMap.put(place.getId(), list);
+					}
 				}
 			}
 

@@ -98,19 +98,14 @@ public class EntityActivity extends BaseActivity {
 
 		detailsButton.setVisibility(TextUtils.isEmpty(entity.getInformation()) ? View.GONE : View.VISIBLE);
 
-		setTextWithIcon(photoAuthor, R.string.photo_author, entity.getPhoto_author());
-		setTextWithIcon(addressView, R.string.map_marker, entity.getAddress());
-		setTextWithIcon(phoneView, R.string.phone, entity.getPhone());
-		setTextWithIcon(emailView, R.string.envelope, entity.getEmail());
-		setTextWithIcon(websiteView, R.string.globe, entity.getWebsite());
+		Utils.setTextWithIcon(photoAuthor, R.string.photo_author, entity.getPhoto_author());
+		Utils.setTextWithIcon(addressView, R.string.map_marker, entity.getAddress());
+		Utils.setTextWithIcon(phoneView, R.string.phone, entity.getPhone());
+		Utils.setTextWithIcon(emailView, R.string.envelope, entity.getEmail());
+		Utils.setTextWithIcon(websiteView, R.string.globe, entity.getWebsite());
 
 		getLoaderManager().initLoader(PLACE_VIEW_LOADER_ID, createForceBundle(false), new PlaceViewCallbacks());
 //				.forceLoad();
-	}
-
-	private void setTextWithIcon(TextView view, int icon, String text) {
-		view.setVisibility(TextUtils.isEmpty(text) ? View.GONE : View.VISIBLE);
-		view.setText(TextUtils.isEmpty(text) ? "" : getString(icon) + " " + text);
 	}
 
 	@Click

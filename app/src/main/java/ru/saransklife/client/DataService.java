@@ -9,6 +9,7 @@ import org.androidannotations.annotations.ServiceAction;
 import org.androidannotations.annotations.rest.RestService;
 import org.springframework.web.client.RestClientException;
 
+import ru.saransklife.api.API;
 import ru.saransklife.api.RestApiClient;
 import ru.saransklife.api.model.EventsResponse;
 import ru.saransklife.api.model.MenuResponse;
@@ -28,6 +29,7 @@ public class DataService extends IntentService {
 	@RestService RestApiClient apiClient;
 	@Bean Dao dao;
 	@Bean EventBus eventBus;
+	@Bean API api;
 
 
 	public DataService() {
@@ -117,7 +119,8 @@ public class DataService extends IntentService {
 	@ServiceAction
 	void eventsAction(String type) {
 		try {
-			EventsResponse events = apiClient.getEvents(type);
+//			EventsResponse events = apiClient.getEvents(type);
+			EventsResponse events = api.getEvents(type);
 			dao.setEvents(events.getResponse(), type);
 			eventBus.post(new Events.EventsLoadedEvent());
 		} catch (RestClientException e) {

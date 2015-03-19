@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  android:layout_width="wrap_content"
+			  android:layout_height="wrap_content"
+			  android:orientation="vertical"
+			  android:paddingTop="@dimen/offset_normal"
+			  android:paddingBottom="@dimen/offset_normal"
+			  android:paddingLeft="@dimen/offset_bigger"
+			  android:paddingRight="@dimen/offset_bigger">
+
+	<TextView
+		android:id="@+id/date_view"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:ellipsize="end"
+		android:gravity="center"
+		android:singleLine="true"
+		android:textColor="@color/primary_dark"
+		android:textSize="@dimen/pager_subtitle_size"/>
+
+	<TextView
+		android:id="@+id/day_of_week_view"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:ellipsize="end"
+		android:gravity="center"
+		android:singleLine="true"
+		android:textSize="@dimen/pager_subtitle_size"/>
+
+</LinearLayout>

@@ -13,7 +13,9 @@ import ru.saransklife.client.Dao;
 import ru.saransklife.client.Utils;
 import ru.saransklife.client.ui.HazyImageView;
 import ru.saransklife.client.ui.ItemNameView;
+import ru.saransklife.client.ui.NearestSeanceView;
 import ru.saransklife.dao.Event;
+import ru.saransklife.client.event.info.EventInfoActivity_;
 
 /**
  * Created by asavinova on 08/11/14.
@@ -23,6 +25,7 @@ public class PagerItemView extends FrameLayout implements View.OnClickListener {
 
 	@ViewById HazyImageView photo;
 	@ViewById ItemNameView name;
+	@ViewById NearestSeanceView seance;
 
 	@Bean Dao dao;
 	private long id;
@@ -38,6 +41,8 @@ public class PagerItemView extends FrameLayout implements View.OnClickListener {
 
 		Utils.displayImage(photo, event.getPhoto_path(), null, 200);
 		name.setText(event.getName());
+
+		seance.updateSeanceInfo(event);
 	}
 
 	@Override

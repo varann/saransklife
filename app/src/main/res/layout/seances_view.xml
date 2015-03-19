@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  android:layout_width="match_parent"
+			  android:layout_height="wrap_content"
+			  android:orientation="vertical">
+
+	<ru.saransklife.client.ui.SubTitleView_
+		android:id="@+id/seances_header"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"/>
+
+	<HorizontalScrollView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:fillViewport="true"
+		android:scrollbars="none">
+
+		<LinearLayout
+			android:id="@+id/dates_panel"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"/>
+
+	</HorizontalScrollView>
+
+	<LinearLayout
+		android:id="@+id/seances_panel"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"/>
+
+</LinearLayout>

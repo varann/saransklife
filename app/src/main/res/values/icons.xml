@@ -12,5 +12,7 @@
 	<string name="info">&#xf05a;</string>
 	<string name="tag">&#xf02b;</string>
 	<string name="star">&#xf005;</string>
+	<string name="calendar">&#xf073;</string>
+	<string name="clock">&#xf017;</string>
 
 </resources>

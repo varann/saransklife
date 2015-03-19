@@ -24,4 +24,6 @@
 	<dimen name="external_padding_button">4dp</dimen>
 
 	<dimen name="spinner_item_height">48dp</dimen>
+
+	<dimen name="seance_time_width">70dp</dimen>
 </resources>

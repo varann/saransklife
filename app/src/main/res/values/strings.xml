@@ -37,6 +37,8 @@
 	<string name="date_type_week">Неделя</string>
 	<string name="date_type_soon">Скоро</string>
 
+	<string name="seances_header">Список сеансов</string>
+
 	<string name="title_activity_splash">SplashActivity</string>
 	<string name="hello_blank_fragment">Hello blank fragment</string>
 

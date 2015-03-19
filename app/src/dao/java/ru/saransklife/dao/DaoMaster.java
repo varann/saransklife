@@ -12,6 +12,7 @@ import ru.saransklife.dao.SectionItemDao;
 import ru.saransklife.dao.PageDao;
 import ru.saransklife.dao.PlaceCategoryDao;
 import ru.saransklife.dao.PlaceEntityDao;
+import ru.saransklife.dao.SeanceDao;
 import ru.saransklife.dao.EventCategoryDao;
 import ru.saransklife.dao.EventDao;
 import ru.saransklife.dao.ReferenceCategoryDao;
@@ -31,6 +32,7 @@ public class DaoMaster extends AbstractDaoMaster {
         PageDao.createTable(db, ifNotExists);
         PlaceCategoryDao.createTable(db, ifNotExists);
         PlaceEntityDao.createTable(db, ifNotExists);
+        SeanceDao.createTable(db, ifNotExists);
         EventCategoryDao.createTable(db, ifNotExists);
         EventDao.createTable(db, ifNotExists);
         ReferenceCategoryDao.createTable(db, ifNotExists);
@@ -44,6 +46,7 @@ public class DaoMaster extends AbstractDaoMaster {
         PageDao.dropTable(db, ifExists);
         PlaceCategoryDao.dropTable(db, ifExists);
         PlaceEntityDao.dropTable(db, ifExists);
+        SeanceDao.dropTable(db, ifExists);
         EventCategoryDao.dropTable(db, ifExists);
         EventDao.dropTable(db, ifExists);
         ReferenceCategoryDao.dropTable(db, ifExists);
@@ -84,6 +87,7 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(PageDao.class);
         registerDaoClass(PlaceCategoryDao.class);
         registerDaoClass(PlaceEntityDao.class);
+        registerDaoClass(SeanceDao.class);
         registerDaoClass(EventCategoryDao.class);
         registerDaoClass(EventDao.class);
         registerDaoClass(ReferenceCategoryDao.class);

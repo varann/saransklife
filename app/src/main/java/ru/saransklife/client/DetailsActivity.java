@@ -10,7 +10,7 @@ import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 
 import ru.saransklife.R;
-import ru.saransklife.client.event.EventInfoActivity_;
+import ru.saransklife.client.event.info.EventInfoActivity_;
 import ru.saransklife.client.place.EntityActivity_;
 
 /**

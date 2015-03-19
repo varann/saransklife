@@ -1,6 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 			  android:layout_width="match_parent"
 			  android:layout_height="match_parent"
+			  android:background="@color/white"
 			  android:orientation="vertical">
 
 	<android.support.v7.widget.Toolbar
@@ -20,66 +21,85 @@
 			android:text="@string/old_event_message"
 			android:visibility="gone"/>
 
-		<LinearLayout
-			android:id="@+id/event_layout"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:orientation="vertical">
+		<ScrollView
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:fillViewport="true">
 
-			<FrameLayout
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
+			<LinearLayout
+				android:id="@+id/event_layout"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:orientation="vertical">
 
-				<ru.saransklife.client.ui.HazyImageView_
-					android:id="@+id/photo"
+				<FrameLayout
 					android:layout_width="match_parent"
-					android:layout_height="200dp"
-					android:scaleType="centerCrop"/>
+					android:layout_height="wrap_content">
+
+					<ru.saransklife.client.ui.HazyImageView_
+						android:id="@+id/photo"
+						android:layout_width="match_parent"
+						android:layout_height="200dp"
+						android:scaleType="centerCrop"/>
+
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_gravity="bottom|left"
+						android:orientation="vertical"
+						android:padding="@dimen/offset_normal">
+
+						<ru.saransklife.client.ui.NearestSeanceView_
+							android:id="@+id/seance"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"/>
+
+						<TextView
+							android:id="@+id/category_name"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="@dimen/offset_normal"
+							android:textColor="@color/white"
+							android:textSize="@dimen/event_category_title_size"/>
+
+					</LinearLayout>
+
+					<ru.saransklife.client.ui.DetailsButton
+						android:id="@+id/details_button"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="bottom|right"
+						android:layout_marginBottom="@dimen/offset_normal"
+						android:layout_marginRight="@dimen/offset_big"/>
+
+				</FrameLayout>
 
 				<LinearLayout
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:layout_gravity="bottom|left"
-					android:orientation="vertical"
-					android:padding="@dimen/offset_normal">
+					android:layout_margin="@dimen/offset_normal"
+					android:orientation="vertical">
 
-					<TextView
-						android:id="@+id/category_name"
-						android:layout_width="wrap_content"
+					<ru.saransklife.client.ui.TitleView_
+						android:id="@+id/title_view"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"/>
+
+					<ru.saransklife.client.ui.DescriptionView_
+						android:id="@+id/description_view"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"/>
+
+					<ru.saransklife.client.event.info.SeancesView_
+						android:id="@+id/seances_view"
+						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						android:textColor="@color/white"
-						android:textSize="@dimen/event_category_title_size"/>
+						android:layout_marginTop="@dimen/offset_bigger"/>
+
 
 				</LinearLayout>
-
-				<ru.saransklife.client.ui.DetailsButton
-					android:id="@+id/details_button"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_gravity="bottom|right"
-					android:layout_marginBottom="@dimen/offset_normal"
-					android:layout_marginRight="@dimen/offset_big"/>
-
-			</FrameLayout>
-
-			<LinearLayout
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_margin="@dimen/offset_normal"
-				android:orientation="vertical">
-
-				<ru.saransklife.client.ui.TitleView_
-					android:id="@+id/title_view"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"/>
-
-				<ru.saransklife.client.ui.DescriptionView_
-					android:id="@+id/description_view"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"/>
-
 			</LinearLayout>
-		</LinearLayout>
+		</ScrollView>
 	</FrameLayout>
 
 </LinearLayout>

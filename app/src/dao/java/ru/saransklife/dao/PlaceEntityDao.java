@@ -1,5 +1,6 @@
 package ru.saransklife.dao;
 
+import java.util.List;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
@@ -7,6 +8,8 @@ import android.database.sqlite.SQLiteStatement;
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
 import de.greenrobot.dao.internal.DaoConfig;
+import de.greenrobot.dao.query.Query;
+import de.greenrobot.dao.query.QueryBuilder;
 
 import ru.saransklife.dao.PlaceEntity;
 
@@ -41,8 +44,10 @@ public class PlaceEntityDao extends AbstractDao<PlaceEntity, Long> {
         public final static Property Rating = new Property(15, Float.class, "rating", false, "RATING");
         public final static Property View_count = new Property(16, Integer.class, "view_count", false, "VIEW_COUNT");
         public final static Property Recommended_count = new Property(17, Integer.class, "recommended_count", false, "RECOMMENDED_COUNT");
+        public final static Property Event_id = new Property(18, long.class, "event_id", false, "EVENT_ID");
     };
 
+    private Query<PlaceEntity> event_PlacesQuery;
 
     public PlaceEntityDao(DaoConfig config) {
         super(config);
@@ -73,7 +78,8 @@ public class PlaceEntityDao extends AbstractDao<PlaceEntity, Long> {
                 "'WORKING_TIME' TEXT," + // 14: working_time
                 "'RATING' REAL," + // 15: rating
                 "'VIEW_COUNT' INTEGER," + // 16: view_count
-                "'RECOMMENDED_COUNT' INTEGER);"); // 17: recommended_count
+                "'RECOMMENDED_COUNT' INTEGER," + // 17: recommended_count
+                "'EVENT_ID' INTEGER NOT NULL );"); // 18: event_id
     }
 
     /** Drops the underlying database table. */
@@ -176,6 +182,7 @@ public class PlaceEntityDao extends AbstractDao<PlaceEntity, Long> {
         if (recommended_count != null) {
             stmt.bindLong(18, recommended_count);
         }
+        stmt.bindLong(19, entity.getEvent_id());
     }
 
     /** @inheritdoc */
@@ -205,7 +212,8 @@ public class PlaceEntityDao extends AbstractDao<PlaceEntity, Long> {
             cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // working_time
             cursor.isNull(offset + 15) ? null : cursor.getFloat(offset + 15), // rating
             cursor.isNull(offset + 16) ? null : cursor.getInt(offset + 16), // view_count
-            cursor.isNull(offset + 17) ? null : cursor.getInt(offset + 17) // recommended_count
+            cursor.isNull(offset + 17) ? null : cursor.getInt(offset + 17), // recommended_count
+            cursor.getLong(offset + 18) // event_id
         );
         return entity;
     }
@@ -231,6 +239,7 @@ public class PlaceEntityDao extends AbstractDao<PlaceEntity, Long> {
         entity.setRating(cursor.isNull(offset + 15) ? null : cursor.getFloat(offset + 15));
         entity.setView_count(cursor.isNull(offset + 16) ? null : cursor.getInt(offset + 16));
         entity.setRecommended_count(cursor.isNull(offset + 17) ? null : cursor.getInt(offset + 17));
+        entity.setEvent_id(cursor.getLong(offset + 18));
      }
     
     /** @inheritdoc */
@@ -256,4 +265,18 @@ public class PlaceEntityDao extends AbstractDao<PlaceEntity, Long> {
         return true;
     }
     
+    /** Internal query to resolve the "places" to-many relationship of Event. */
+    public List<PlaceEntity> _queryEvent_Places(long event_id) {
+        synchronized (this) {
+            if (event_PlacesQuery == null) {
+                QueryBuilder<PlaceEntity> queryBuilder = queryBuilder();
+                queryBuilder.where(Properties.Event_id.eq(null));
+                event_PlacesQuery = queryBuilder.build();
+            }
+        }
+        Query<PlaceEntity> query = event_PlacesQuery.forCurrentThread();
+        query.setParameter(0, event_id);
+        return query.list();
+    }
+
 }

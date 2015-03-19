@@ -46,7 +46,7 @@
 			android:launchMode="singleTop"/>
 
 		<activity
-			android:name=".client.event.EventInfoActivity_"
+			android:name=".client.event.info.EventInfoActivity_"
 			android:parentActivityName=".client.event.EventsActivity_"/>
 
 		<activity

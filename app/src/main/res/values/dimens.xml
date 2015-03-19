@@ -26,4 +26,7 @@
 	<dimen name="spinner_item_height">48dp</dimen>
 
 	<dimen name="seance_time_width">70dp</dimen>
+
+	<dimen name="map_height">150dp</dimen>
+
 </resources>

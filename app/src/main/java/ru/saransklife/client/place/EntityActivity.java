@@ -15,11 +15,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.FragmentById;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
@@ -37,6 +41,7 @@ import ru.saransklife.client.place.categories.PlaceCategoriesActivity_;
 import ru.saransklife.client.ui.AwesomeIconTextView;
 import ru.saransklife.client.ui.DescriptionView;
 import ru.saransklife.client.ui.DetailsButton;
+import ru.saransklife.client.ui.GoogleMapFragment;
 import ru.saransklife.client.ui.HazyImageView;
 import ru.saransklife.client.ui.ItemRecommendedInfoView;
 import ru.saransklife.client.ui.RatingView;
@@ -48,7 +53,7 @@ import ru.saransklife.dao.PlaceEntity;
  * A simple {@link Fragment} subclass.
  */
 @EActivity(R.layout.activity_entity)
-public class EntityActivity extends BaseActivity {
+public class EntityActivity extends BaseActivity implements OnMapReadyCallback {
 
 	private static final int PLACE_VIEW_LOADER_ID = 0;
 	private static final int PLACE_RECOMMENDED_LOADER_ID = 1;
@@ -64,6 +69,7 @@ public class EntityActivity extends BaseActivity {
 	@ViewById TextView photoAuthor;
 	@ViewById TitleView titleView;
 	@ViewById DescriptionView descriptionView;
+	@FragmentById GoogleMapFragment map;
 	@ViewById AwesomeIconTextView addressView;
 	@ViewById AwesomeIconTextView phoneView;
 	@ViewById AwesomeIconTextView emailView;
@@ -95,6 +101,8 @@ public class EntityActivity extends BaseActivity {
 
 		titleView.setTitle(entity.getName());
 		descriptionView.setText(entity.getDescription());
+
+		map.getMapAsync(this);
 
 		detailsButton.setVisibility(TextUtils.isEmpty(entity.getInformation()) ? View.GONE : View.VISIBLE);
 
@@ -159,6 +167,12 @@ public class EntityActivity extends BaseActivity {
 		} else {
 			NavUtils.navigateUpFromSameTask(this);
 		}
+	}
+
+	@Override
+	public void onMapReady(GoogleMap googleMap) {
+		map.init();
+		map.setMarkers(entity);
 	}
 
 

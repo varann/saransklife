@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  android:layout_width="@dimen/seance_time_width"
+			  android:layout_height="wrap_content"
+			  android:paddingRight="@dimen/offset_bigger"
+			  android:orientation="horizontal">
+
+	<ru.saransklife.client.ui.AwesomeIconTextView_
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginRight="@dimen/offset_small"
+		android:gravity="center"
+		android:text="@string/clock"
+		android:textSize="@dimen/pager_subtitle_size"/>
+
+	<TextView
+		android:id="@+id/time"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		android:textColor="@color/primary_dark"
+		android:textSize="@dimen/pager_subtitle_size"/>
+
+	<TextView
+		android:id="@+id/type"
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:gravity="top"
+		android:textSize="10sp"/>
+
+</LinearLayout>

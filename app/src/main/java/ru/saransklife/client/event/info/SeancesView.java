@@ -37,6 +37,7 @@ public class SeancesView extends LinearLayout {
 	@ViewById LinearLayout seancesPanel;
 
 	private TreeMap<Date, HashMap<Long, List<Seance>>> calendar;
+	private Map<Long, PlaceEntity> placesMap;
 	private Date current;
 
 	public SeancesView(Context context, AttributeSet attrs) {
@@ -51,6 +52,10 @@ public class SeancesView extends LinearLayout {
 			seancesHeader.setTitle(R.string.calendar, getResources().getString(R.string.seances_header));
 
 			List<PlaceEntity> places = event.getPlaces();
+			placesMap = new HashMap<>();
+			for (PlaceEntity place : places) {
+				placesMap.put(place.getId(), place);
+			}
 
 			createCalendar(seances, places);
 
@@ -83,6 +88,7 @@ public class SeancesView extends LinearLayout {
 
 			datesPanel.addView(dateView);
 		}
+		datesPanel.getChildAt(0).callOnClick();
 	}
 
 	private void updateSeances() {
@@ -90,7 +96,9 @@ public class SeancesView extends LinearLayout {
 
 		HashMap<Long, List<Seance>> places = calendar.get(current);
 		for (Long id : places.keySet()) {
-
+			PlaceSeancesView view = PlaceSeancesView_.build(getContext());
+			view.setData(placesMap.get(id), places.get(id));
+			seancesPanel.addView(view);
 		}
 	}
 
@@ -131,7 +139,9 @@ public class SeancesView extends LinearLayout {
 						list.add(seance);
 					}
 				}
-				placesMap.put(place.getId(), list);
+				if (!list.isEmpty()) {
+					placesMap.put(place.getId(), list);
+				}
 			}
 
 			calendar.put(date, placesMap);

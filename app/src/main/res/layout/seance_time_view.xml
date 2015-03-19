@@ -18,7 +18,7 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:gravity="center"
-		android:textColor="@color/primary_dark"
+		android:textColor="@color/seance_time_color_state"
 		android:textSize="@dimen/pager_subtitle_size"/>
 
 	<TextView

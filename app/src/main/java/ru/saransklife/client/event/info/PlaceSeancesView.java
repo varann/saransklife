@@ -17,6 +17,7 @@ import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import ru.saransklife.R;
@@ -58,6 +59,7 @@ public class PlaceSeancesView extends LinearLayout {
 		seancesGrid.removeAllViews();
 		seancesGrid.setColumnCount(calcColumnCount());
 
+		Date date = new Date();
 		for (Seance seance : seances) {
 			View view = inflater.inflate(R.layout.seance_time_view, null);
 
@@ -66,6 +68,10 @@ public class PlaceSeancesView extends LinearLayout {
 
 			time.setText(timeFormat.format(seance.getDatetime()));
 			type.setText(TextUtils.isEmpty(seance.getType()) ? "" : seance.getType());
+
+			if (date.after(seance.getDatetime())) {
+				time.setEnabled(false);
+			}
 
 			seancesGrid.addView(view);
 		}

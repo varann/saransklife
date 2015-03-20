@@ -107,7 +107,6 @@ public class EventInfoActivity extends BaseActivity implements OnMapReadyCallbac
 		DetailsActivity_.intent(this)
 				.id(id)
 				.text(event.getStory())
-				.from(DetailsActivity.EVENT)
 				.start();
 	}
 

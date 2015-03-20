@@ -1,17 +1,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			  xmlns:app="http://schemas.android.com/apk/res-auto"
 			  xmlns:card_view="http://schemas.android.com/apk/res-auto"
-			  xmlns:tools="http://schemas.android.com/tools"
 			  android:layout_width="match_parent"
 			  android:layout_height="match_parent"
 			  android:background="@color/white"
-			  android:orientation="vertical"
-			  tools:context="ru.saransklife.client.place.EntityActivity">
+			  android:orientation="vertical">
 
 	<android.support.v7.widget.Toolbar
 		android:id="@+id/toolbar"
-		style="@style/Toolbar"
-		app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+		style="@style/Toolbar"/>
 
 	<ScrollView
 		android:id="@+id/scroll"

@@ -71,7 +71,8 @@
 
 		<activity
 			android:name=".client.reference.ReferencesActivity_"
-			android:parentActivityName=".client.reference.ReferenceCategoriesActivity_"/>
+			android:parentActivityName=".client.reference.ReferenceCategoriesActivity_"
+			android:launchMode="singleTop"/>
 
 		<activity
 			android:name=".client.reference.ReferenceInfoActivity_"

@@ -10,8 +10,6 @@ import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 
 import ru.saransklife.R;
-import ru.saransklife.client.event.info.EventInfoActivity_;
-import ru.saransklife.client.place.EntityActivity_;
 
 /**
  * Created by asavinova on 06/02/15.
@@ -19,13 +17,9 @@ import ru.saransklife.client.place.EntityActivity_;
 @EActivity(R.layout.activity_details)
 public class DetailsActivity extends BaseActivity {
 
-	public static final String PLACE = "place";
-	public static final String EVENT = "event";
-
 	@ViewById Toolbar toolbar;
 	@ViewById WebView webView;
 
-	@Extra String from;
 	@Extra String text;
 	@Extra long id;
 
@@ -40,11 +34,6 @@ public class DetailsActivity extends BaseActivity {
 
 	@OptionsItem({R.id.home, android.R.id.home})
 	void upSelected() {
-		if (PLACE.equals(from)) {
-			EntityActivity_.intent(this).id(id).start();
-		}
-		if (EVENT.equals(from)) {
-			EventInfoActivity_.intent(this).id(id).start();
-		}
+		onBackPressed();
 	}
 }

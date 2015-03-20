@@ -160,11 +160,6 @@ public class EntitiesByCategoryActivity extends BaseActivity implements SwipeRef
 		refresh.setRefreshing(refreshing);
 	}
 
-	@OptionsItem
-	void homeSelected() {
-		NavUtils.navigateUpFromSameTask(this);
-	}
-
 	@Override
 	public void onRefresh() {
 		getLoaderManager().restartLoader(ENTITIES_LOADER_ID, createForceBundle(true), new EntitiesCallbacks());

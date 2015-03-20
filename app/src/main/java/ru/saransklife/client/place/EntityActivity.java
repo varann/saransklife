@@ -33,10 +33,8 @@ import ru.saransklife.api.ApiCLient;
 import ru.saransklife.api.model.PostResponse;
 import ru.saransklife.client.BaseActivity;
 import ru.saransklife.client.Dao;
-import ru.saransklife.client.DetailsActivity;
 import ru.saransklife.client.DetailsActivity_;
 import ru.saransklife.client.Utils;
-import ru.saransklife.client.place.categories.PlaceCategoriesActivity_;
 import ru.saransklife.client.ui.AwesomeIconTextView;
 import ru.saransklife.client.ui.DescriptionView;
 import ru.saransklife.client.ui.DetailsButton;
@@ -88,7 +86,7 @@ public class EntityActivity extends BaseActivity implements OnMapReadyCallback {
 
 	@AfterViews
 	void afterViews() {
-		logExtra(new String[]{"id"}, Long.toString(id));
+		logExtra(new String[]{"id", "interesting"}, Long.toString(id), String.valueOf(isInteresting));
 
 		entity = dao.getPlaceEntity(id);
 		toolbar.setTitle(entity.getName());
@@ -128,7 +126,6 @@ public class EntityActivity extends BaseActivity implements OnMapReadyCallback {
 		DetailsActivity_.intent(this)
 				.id(id)
 				.text(entity.getInformation())
-				.from(DetailsActivity.PLACE)
 				.start();
 	}
 
@@ -167,10 +164,10 @@ public class EntityActivity extends BaseActivity implements OnMapReadyCallback {
 		Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
 	}
 
-	@OptionsItem
+	@OptionsItem({R.id.home, android.R.id.home})
 	void homeSelected() {
 		if (isInteresting) {
-			PlaceCategoriesActivity_.intent(this).start();
+			onBackPressed();
 		} else {
 			NavUtils.navigateUpFromSameTask(this);
 		}

@@ -91,6 +91,7 @@ public class ApiCLient {
 				.create();
 
 		RestAdapter restAdapter = new RestAdapter.Builder()
+				.setLogLevel(RestAdapter.LogLevel.FULL)
 				.setEndpoint("http://api.trip.pointresearch.ru/1.0/saransk")
 				.setConverter(new GsonConverter(gson))
 				.build();

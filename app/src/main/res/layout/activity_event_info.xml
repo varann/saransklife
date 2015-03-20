@@ -22,6 +22,7 @@
 			android:visibility="gone"/>
 
 		<ScrollView
+			android:id="@+id/scroll"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:fillViewport="true">
@@ -87,6 +88,24 @@
 
 					<ru.saransklife.client.ui.DescriptionView_
 						android:id="@+id/description_view"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"/>
+
+					<ru.saransklife.client.ui.GoogleMapLayout_
+						android:id="@+id/map_layout"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="@dimen/offset_big"
+						android:layout_marginBottom="@dimen/offset_big" />
+
+					<TextView
+						android:id="@+id/place"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:textColor="@color/primary_dark"/>
+
+					<TextView
+						android:id="@+id/address"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"/>
 

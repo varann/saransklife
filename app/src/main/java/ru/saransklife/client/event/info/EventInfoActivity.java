@@ -3,10 +3,12 @@ package ru.saransklife.client.event.info;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
+
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -15,8 +17,6 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import ru.saransklife.R;
@@ -27,18 +27,17 @@ import ru.saransklife.client.DetailsActivity_;
 import ru.saransklife.client.Utils;
 import ru.saransklife.client.ui.DescriptionView;
 import ru.saransklife.client.ui.DetailsButton;
+import ru.saransklife.client.ui.GoogleMapLayout;
 import ru.saransklife.client.ui.HazyImageView;
 import ru.saransklife.client.ui.NearestSeanceView;
-import ru.saransklife.client.ui.SubTitleView;
 import ru.saransklife.client.ui.TitleView;
 import ru.saransklife.dao.Event;
 import ru.saransklife.dao.EventCategory;
 import ru.saransklife.dao.PlaceEntity;
-import ru.saransklife.dao.Seance;
 
 
 @EActivity(R.layout.activity_event_info)
-public class EventInfoActivity extends BaseActivity {
+public class EventInfoActivity extends BaseActivity implements OnMapReadyCallback {
 
 	@ViewById Toolbar toolbar;
 	@ViewById HazyImageView photo;
@@ -47,10 +46,13 @@ public class EventInfoActivity extends BaseActivity {
 	@ViewById TextView categoryName;
 	@ViewById TitleView titleView;
 	@ViewById DescriptionView descriptionView;
+	@ViewById GoogleMapLayout mapLayout;
+	@ViewById TextView place;
+	@ViewById TextView address;
 	@ViewById TextView message;
 	@ViewById LinearLayout eventLayout;
-
 	@ViewById SeancesView seancesView;
+	@ViewById ScrollView scroll;
 
 	@Bean Dao dao;
 	@Extra long id;
@@ -84,6 +86,14 @@ public class EventInfoActivity extends BaseActivity {
 			descriptionView.setText(event.getDescription());
 
 			seancesView.update(event);
+
+			mapLayout.setListener(new GoogleMapLayout.OnTouchListener() {
+				@Override
+				public void onTouch() {
+					scroll.requestDisallowInterceptTouchEvent(true);
+				}
+			});
+			mapLayout.getMapAsync(this);
 		}
 	}
 
@@ -99,6 +109,23 @@ public class EventInfoActivity extends BaseActivity {
 				.text(event.getStory())
 				.from(DetailsActivity.EVENT)
 				.start();
+	}
+
+	@Override
+	public void onMapReady(GoogleMap googleMap) {
+		mapLayout.init();
+
+		List<PlaceEntity> places = event.getPlaces();
+		mapLayout.setMarkers(places);
+		if (places.size() > 1) {
+			place.setText(R.string.some_places);
+			address.setVisibility(View.GONE);
+		} else {
+			PlaceEntity placeEntity = places.get(0);
+			place.setText(placeEntity.getName());
+			address.setText(placeEntity.getAddress());
+			address.setVisibility(View.VISIBLE);
+		}
 	}
 
 }

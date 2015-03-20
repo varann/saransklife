@@ -11,6 +11,8 @@ import com.google.gson.JsonParseException;
 
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.sharedpreferences.Pref;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Type;
 import java.text.ParseException;
@@ -61,6 +63,8 @@ public class ApiCLient {
 					+ "\". Supported formats: " + Arrays.toString(DATE_FORMATS));
 		}
 	}
+
+	private static Logger L = LoggerFactory.getLogger(ApiCLient.class);
 
 
 	@Pref Preferences_ preferences;
@@ -162,15 +166,27 @@ public class ApiCLient {
 	}
 
 	public PostResponse setPlaceRating(long id, String deviceId, int rating) {
-		return service.setPlaceRating(id, deviceId, rating, preferences.token().get());
+		try {
+			return service.setPlaceRating(id, deviceId, rating, preferences.token().get());
+		} catch (RetrofitError e) {
+			return null;
+		}
 	}
 
 	public PostResponse setPlaceRecommended(long id, String deviceId) {
-		return service.setPlaceRecommended(id, deviceId, preferences.token().get());
+		try {
+			return service.setPlaceRecommended(id, deviceId, preferences.token().get());
+		} catch (RetrofitError e) {
+			return null;
+		}
 	}
 
 	public PostResponse setPlaceView(long id, String deviceId) {
-		return service.setPlaceView(id, deviceId, preferences.token().get());
+		try {
+			return service.setPlaceView(id, deviceId, preferences.token().get());
+		} catch (RetrofitError e) {
+			return null;
+		}
 	}
 
 	public ReferenceCategoriesResponse getReferenceCategories() {

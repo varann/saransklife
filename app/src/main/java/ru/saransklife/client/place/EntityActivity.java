@@ -193,7 +193,6 @@ public class EntityActivity extends BaseActivity implements OnMapReadyCallback {
 
 		@Override
 		public void onLoadFinished(Loader<PostResponse> loader, PostResponse data) {
-			data.isResult();
 		}
 
 		@Override
@@ -215,7 +214,11 @@ public class EntityActivity extends BaseActivity implements OnMapReadyCallback {
 
 		@Override
 		public void onLoadFinished(Loader<PostResponse> loader, PostResponse data) {
-			recommendedUpdate(data.isResult() ? getString(R.string.recommendation_setted) : data.getError());
+			if (data == null) {
+				recommendedUpdate(getString(R.string.loading_error));
+			} else {
+				recommendedUpdate(data.isResult() ? getString(R.string.recommendation_setted) : data.getError());
+			}
 		}
 
 		@Override
@@ -238,7 +241,12 @@ public class EntityActivity extends BaseActivity implements OnMapReadyCallback {
 
 		@Override
 		public void onLoadFinished(Loader<PostResponse> loader, PostResponse data) {
-			ratingUpdate(data.isResult() ? getString(R.string.rating_setted) : data.getError());
+			if (data == null) {
+				ratingUpdate(getString(R.string.loading_error));
+			} else {
+				ratingUpdate(data.isResult() ? getString(R.string.rating_setted) : data.getError());
+			}
+
 		}
 
 		@Override

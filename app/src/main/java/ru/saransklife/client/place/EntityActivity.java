@@ -119,8 +119,8 @@ public class EntityActivity extends BaseActivity implements OnMapReadyCallback {
 		Utils.setTextWithIcon(emailView, R.string.envelope, entity.getEmail());
 		Utils.setTextWithIcon(websiteView, R.string.globe, entity.getWebsite());
 
-		getLoaderManager().initLoader(PLACE_VIEW_LOADER_ID, createForceBundle(false), new PlaceViewCallbacks());
-//				.forceLoad();
+		getLoaderManager().initLoader(PLACE_VIEW_LOADER_ID, createForceBundle(false), new PlaceViewCallbacks())
+				.forceLoad();
 	}
 
 	@Click

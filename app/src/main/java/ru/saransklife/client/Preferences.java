@@ -12,4 +12,5 @@ public interface Preferences {
 	@DefaultBoolean(false)
 	boolean navigationDrawerLearned();
 
+	String token();
 }

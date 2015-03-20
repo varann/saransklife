@@ -1,73 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<android.support.v7.widget.CardView
-	android:id="@+id/card_view"
+<FrameLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:card_view="http://schemas.android.com/apk/res-auto"
 	android:layout_width="match_parent"
-	android:layout_height="200dp"
-	android:layout_gravity="center"
-	card_view:cardCornerRadius="4dp">
+	android:layout_height="200dp">
 
-	<FrameLayout
+	<ru.saransklife.client.ui.HazyImageView_
+		android:id="@+id/photo"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
+		android:layout_height="200dp"
+		android:scaleType="centerCrop"/>
 
-		<ru.saransklife.client.ui.HazyImageView_
-			android:id="@+id/photo"
-			android:layout_width="match_parent"
-			android:layout_height="200dp"
-			android:scaleType="centerCrop"/>
+	<ru.saransklife.client.ui.RatingView_
+		android:id="@+id/rating_view"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="right|top"
+		android:layout_marginRight="@dimen/offset_normal"
+		android:layout_marginTop="@dimen/offset_normal"/>
 
-		<ru.saransklife.client.ui.RatingView_
-			android:id="@+id/rating_view"
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_gravity="bottom"
+		android:layout_marginBottom="@dimen/offset_small"
+		android:layout_marginLeft="@dimen/offset_normal"
+		android:layout_marginRight="@dimen/offset_normal"
+		android:layout_marginTop="@dimen/offset_normal"
+		android:orientation="vertical">
+
+		<ru.saransklife.client.ui.ItemNameView
+			android:id="@+id/name"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_gravity="right|top"
-			android:layout_marginTop="@dimen/offset_normal"
-			android:layout_marginRight="@dimen/offset_normal"/>
+			android:layout_marginBottom="@dimen/offset_small"/>
 
-		<LinearLayout
-			android:layout_width="match_parent"
+		<ru.saransklife.client.ui.ItemAddressView
+			android:id="@+id/address"
+			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:orientation="vertical"
-			android:layout_gravity="bottom"
+			android:maxLines="1"
+			android:textColor="@color/white"
+			android:textSize="@dimen/pager_subtitle_size"/>
+
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="1dp"
+			android:layout_marginBottom="@dimen/offset_small"
 			android:layout_marginTop="@dimen/offset_normal"
-			android:layout_marginLeft="@dimen/offset_normal"
-			android:layout_marginRight="@dimen/offset_normal"
-			android:layout_marginBottom="@dimen/offset_small">
+			android:background="@color/delimiter"/>
 
-			<ru.saransklife.client.ui.ItemNameView
-				android:id="@+id/name"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginBottom="@dimen/offset_small"/>
+		<ru.saransklife.client.ui.ItemRecommendedInfoView
+			android:id="@+id/recommended_info"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:maxLines="1"
+			android:textColor="@color/white"
+			android:textSize="@dimen/pager_subtitle_size"/>
 
-			<ru.saransklife.client.ui.ItemAddressView
-				android:id="@+id/address"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:textSize="@dimen/pager_subtitle_size"
-				android:maxLines="1"
-				android:textColor="@color/white"/>
+	</LinearLayout>
 
-			<View
-				android:layout_width="match_parent"
-				android:layout_height="1dp"
-				android:background="@color/delimiter"
-				android:layout_marginBottom="@dimen/offset_small"
-				android:layout_marginTop="@dimen/offset_normal"/>
-
-			<ru.saransklife.client.ui.ItemRecommendedInfoView
-				android:id="@+id/recommended_info"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:textSize="@dimen/pager_subtitle_size"
-				android:maxLines="1"
-				android:textColor="@color/white"/>
-
-		</LinearLayout>
-
-	</FrameLayout>
-
-</android.support.v7.widget.CardView>
+</FrameLayout>

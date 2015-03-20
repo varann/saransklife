@@ -21,6 +21,9 @@ public class ItemAddressView extends AwesomeIconTextView {
 	}
 
 	public void setAddress(String address) {
+		if (address == null || address.isEmpty()) {
+			setVisibility(GONE);
+		}
 		String marker = getResources().getString(R.string.map_marker);
 		setText(marker + " " + address);
 	}

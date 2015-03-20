@@ -14,6 +14,7 @@
 		app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
 	<ScrollView
+		android:id="@+id/scroll"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent">
 
@@ -106,6 +107,12 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_marginBottom="@dimen/offset_big"/>
+
+				<ru.saransklife.client.ui.GoogleMapLayout_
+					android:id="@+id/map_layout"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="@dimen/offset_big" />
 
 				<ru.saransklife.client.ui.AwesomeIconTextView_
 					android:id="@+id/address_view"

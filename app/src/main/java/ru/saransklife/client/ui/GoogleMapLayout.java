@@ -24,6 +24,7 @@ import ru.saransklife.dao.PlaceEntity;
 
 /**
  * Created by asavinova on 19/03/15.
+ * http://www.londatiga.net/it/programming/android/how-to-make-android-map-scrollable-inside-a-scrollview-layout/
  */
 @EViewGroup(R.layout.google_map_layout)
 public class GoogleMapLayout extends FrameLayout {
@@ -34,7 +35,7 @@ public class GoogleMapLayout extends FrameLayout {
 
 	@FragmentById MapFragment mapFragment;
 
-	private OnTouchListener mListener;
+	private OnTouchListener listener;
 
 	public GoogleMapLayout(Context context) {
 		super(context);
@@ -56,17 +57,17 @@ public class GoogleMapLayout extends FrameLayout {
 	public boolean dispatchTouchEvent(MotionEvent event) {
 		switch (event.getAction()) {
 			case MotionEvent.ACTION_DOWN:
-				if (mListener != null) mListener.onTouch();
+				if (listener != null) listener.onTouch();
 				break;
 			case MotionEvent.ACTION_UP:
-				if (mListener != null) mListener.onTouch();
+				if (listener != null) listener.onTouch();
 				break;
 		}
 		return super.dispatchTouchEvent(event);
 	}
 
 	public void setListener(OnTouchListener listener) {
-		mListener = listener;
+		this.listener = listener;
 	}
 
 

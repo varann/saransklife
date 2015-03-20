@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +24,6 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
-import org.androidannotations.annotations.FragmentById;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
@@ -41,7 +41,7 @@ import ru.saransklife.client.place.categories.PlaceCategoriesActivity_;
 import ru.saransklife.client.ui.AwesomeIconTextView;
 import ru.saransklife.client.ui.DescriptionView;
 import ru.saransklife.client.ui.DetailsButton;
-import ru.saransklife.client.ui.GoogleMapFragment;
+import ru.saransklife.client.ui.GoogleMapLayout;
 import ru.saransklife.client.ui.HazyImageView;
 import ru.saransklife.client.ui.ItemRecommendedInfoView;
 import ru.saransklife.client.ui.RatingView;
@@ -69,7 +69,7 @@ public class EntityActivity extends BaseActivity implements OnMapReadyCallback {
 	@ViewById TextView photoAuthor;
 	@ViewById TitleView titleView;
 	@ViewById DescriptionView descriptionView;
-	@FragmentById GoogleMapFragment map;
+	@ViewById GoogleMapLayout mapLayout;
 	@ViewById AwesomeIconTextView addressView;
 	@ViewById AwesomeIconTextView phoneView;
 	@ViewById AwesomeIconTextView emailView;
@@ -77,6 +77,7 @@ public class EntityActivity extends BaseActivity implements OnMapReadyCallback {
 	@ViewById CardView setRecommended;
 	@ViewById CardView setRating;
 	@ViewById ProgressBar progress;
+	@ViewById ScrollView scroll;
 
 	@Bean Dao dao;
 	@RestService RestApiClient apiClient;
@@ -102,7 +103,13 @@ public class EntityActivity extends BaseActivity implements OnMapReadyCallback {
 		titleView.setTitle(entity.getName());
 		descriptionView.setText(entity.getDescription());
 
-		map.getMapAsync(this);
+		mapLayout.setListener(new GoogleMapLayout.OnTouchListener() {
+			@Override
+			public void onTouch() {
+				scroll.requestDisallowInterceptTouchEvent(true);
+			}
+		});
+		mapLayout.getMapAsync(this);
 
 		detailsButton.setVisibility(TextUtils.isEmpty(entity.getInformation()) ? View.GONE : View.VISIBLE);
 
@@ -171,8 +178,8 @@ public class EntityActivity extends BaseActivity implements OnMapReadyCallback {
 
 	@Override
 	public void onMapReady(GoogleMap googleMap) {
-		map.init();
-		map.setMarkers(entity);
+		mapLayout.init();
+		mapLayout.setMarkers(entity);
 	}
 
 

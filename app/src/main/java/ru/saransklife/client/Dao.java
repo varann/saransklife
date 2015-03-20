@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
-import org.androidannotations.annotations.rest.RestService;
 
 import java.util.Date;
 import java.util.List;
@@ -15,7 +14,6 @@ import java.util.List;
 import de.greenrobot.dao.query.QueryBuilder;
 import de.greenrobot.dao.query.WhereCondition;
 import ru.saransklife.R;
-import ru.saransklife.api.RestApiClient;
 import ru.saransklife.api.model.ApiEvent;
 import ru.saransklife.api.model.ApiSectionItem;
 import ru.saransklife.client.drawer.SectionItemType;
@@ -62,7 +60,6 @@ public class Dao {
 
 	private SQLiteDatabase db;
 	@RootContext Context context;
-	@RestService RestApiClient api;
 
 	private DaoMaster.DevOpenHelper helper;
 	private DaoMaster daoMaster;

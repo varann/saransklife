@@ -27,10 +27,9 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.rest.RestService;
 
 import ru.saransklife.R;
-import ru.saransklife.api.RestApiClient;
+import ru.saransklife.api.ApiCLient;
 import ru.saransklife.api.model.PostResponse;
 import ru.saransklife.client.BaseActivity;
 import ru.saransklife.client.Dao;
@@ -80,7 +79,8 @@ public class EntityActivity extends BaseActivity implements OnMapReadyCallback {
 	@ViewById ScrollView scroll;
 
 	@Bean Dao dao;
-	@RestService RestApiClient apiClient;
+	@Bean ApiCLient api;
+
 	@Extra long id;
 	@Extra boolean isInteresting;
 
@@ -189,7 +189,7 @@ public class EntityActivity extends BaseActivity implements OnMapReadyCallback {
 			return new AsyncTaskLoader<PostResponse>(getApplicationContext()) {
 				@Override
 				public PostResponse loadInBackground() {
-					return apiClient.setPlaceView(EntityActivity.this.id, getDeviceId());
+					return api.setPlaceView(EntityActivity.this.id, getDeviceId());
 				}
 			};
 		}
@@ -211,7 +211,7 @@ public class EntityActivity extends BaseActivity implements OnMapReadyCallback {
 			return new AsyncTaskLoader<PostResponse>(getApplicationContext()) {
 				@Override
 				public PostResponse loadInBackground() {
-					return apiClient.setPlaceRecommended(EntityActivity.this.id, getDeviceId());
+					return api.setPlaceRecommended(EntityActivity.this.id, getDeviceId());
 				}
 			};
 		}
@@ -234,7 +234,7 @@ public class EntityActivity extends BaseActivity implements OnMapReadyCallback {
 				@Override
 				public PostResponse loadInBackground() {
 					int rating = args.getInt(SELECTED_RATING);
-					return apiClient.setPlaceRating(EntityActivity.this.id, getDeviceId(), rating);
+					return api.setPlaceRating(EntityActivity.this.id, getDeviceId(), rating);
 				}
 			};
 		}

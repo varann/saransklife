@@ -7,12 +7,12 @@ import android.widget.TextView;
 
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
-import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import ru.saransklife.R;
+import ru.saransklife.client.Utils;
 
 /**
  * Created by asavinova on 18/03/15.
@@ -38,7 +38,7 @@ public class DateView extends LinearLayout {
 	public void setDate(Date date) {
 		this.date = date;
 		dateView.setText(dateFormat.format(date));
-		dayOfWeekView.setText(StringUtils.capitalize(dayOfWeekFormat.format(date)));
+		dayOfWeekView.setText(Utils.capitalizeString(dayOfWeekFormat.format(date)));
 	}
 
 	public Date getDate() {

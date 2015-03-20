@@ -1,17 +1,16 @@
 package ru.saransklife.api.model;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by asavinova on 26/10/14.
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class PostResponse {
 
 	private boolean result;
 	private String error;
-	@JsonProperty("error_code")
+
+	@SerializedName("error_code")
 	private Integer errorCode;
 
 	public boolean isResult() {

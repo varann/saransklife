@@ -15,7 +15,6 @@ import com.squareup.picasso.Picasso;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -89,10 +88,14 @@ public class Utils {
 		for (Seance seance : seances) {
 			Date date = seance.getDatetime();
 			if (currentDate.before(date)) {
-				return StringUtils.capitalize(dateFormat.format(date));
+				return capitalizeString(dateFormat.format(date));
 			}
 		}
 
 		return null;
+	}
+
+	public static String capitalizeString(String string) {
+		return Character.toUpperCase(string.charAt(0)) + string.substring(1);
 	}
 }

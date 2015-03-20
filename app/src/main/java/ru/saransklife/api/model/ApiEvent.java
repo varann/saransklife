@@ -2,9 +2,6 @@ package ru.saransklife.api.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.annotate.JsonProperty;
-
 import java.util.List;
 
 import ru.saransklife.dao.Event;
@@ -14,18 +11,14 @@ import ru.saransklife.dao.PlaceEntity;
 /**
  * Created by asavinova on 07/11/14.
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class ApiEvent extends Event {
 
-	@JsonProperty(value = "Category")
 	@SerializedName("Category")
 	private EventCategory category;
 
-	@JsonProperty(value = "Places")
 	@SerializedName("Places")
 	private List<PlaceEntity> places;
 
-	@JsonProperty(value = "seances_data")
 	@SerializedName("seances_data")
 	private SeancesData seancesData;
 

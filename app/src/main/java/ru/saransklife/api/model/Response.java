@@ -1,12 +1,10 @@
 package ru.saransklife.api.model;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by asavinova on 26/10/14.
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class Response {
 
 	public class ResponseError {
@@ -32,7 +30,8 @@ public class Response {
 
 	private boolean result;
 	private ResponseError error;
-	@JsonProperty("error_code")
+
+	@SerializedName("error_code")
 	private Integer errorCode;
 
 	public boolean isResult() {

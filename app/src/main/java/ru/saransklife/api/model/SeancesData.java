@@ -1,7 +1,5 @@
 package ru.saransklife.api.model;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-
 import java.util.List;
 
 import ru.saransklife.dao.Seance;
@@ -9,7 +7,6 @@ import ru.saransklife.dao.Seance;
 /**
  * Created by asavinova on 17/03/15.
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class SeancesData {
 
 	private List<Seance> seancesObjects;

@@ -39,13 +39,6 @@ public class SplashActivity extends BaseActivity {
 	@AfterViews
 	void afterViews() {
 		Picasso.with(this).load(R.drawable.saransk_1).into(back);
-
-		String token = preferences.token().get();
-		if (token.isEmpty()) {
-			getLoaderManager().initLoader(LOGIN_LOADER_ID, null, new LoginCallbacks());
-		} else {
-			loadMenu();
-		}
 	}
 
 	private void loadMenu() {
@@ -58,6 +51,13 @@ public class SplashActivity extends BaseActivity {
 	public void onResume() {
 		super.onResume();
 		eventBus.register(this);
+
+		String token = preferences.token().get();
+		if (token.isEmpty()) {
+			getLoaderManager().initLoader(LOGIN_LOADER_ID, null, new LoginCallbacks());
+		} else {
+			loadMenu();
+		}
 	}
 
 	@Override

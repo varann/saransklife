@@ -19,6 +19,7 @@ import ru.saransklife.client.Dao;
 import ru.saransklife.client.Utils;
 import ru.saransklife.client.ui.AwesomeIconTextView;
 import ru.saransklife.client.ui.DescriptionView;
+import ru.saransklife.client.ui.PhoneView;
 import ru.saransklife.client.ui.TitleView;
 import ru.saransklife.client.ui.WebsiteView;
 import ru.saransklife.dao.Reference;
@@ -33,7 +34,7 @@ public class ReferenceInfoActivity extends BaseActivity {
 	@ViewById TitleView titleView;
 	@ViewById DescriptionView descriptionView;
 	@ViewById AwesomeIconTextView addressView;
-	@ViewById AwesomeIconTextView phoneView;
+	@ViewById PhoneView phoneView;
 	@ViewById WebsiteView websiteView;
 	@ViewById TextView information;
 
@@ -55,8 +56,7 @@ public class ReferenceInfoActivity extends BaseActivity {
 		descriptionView.setText(reference.getDescription());
 
 		Utils.setTextWithIcon(addressView, R.string.map_marker, reference.getAddress());
-		Utils.setTextWithIcon(phoneView, R.string.phone, reference.getPhone());
-
+		phoneView.setPhoneNumber(reference.getPhone());
 		websiteView.setUrl(reference.getSite());
 
 		String text = reference.getInformation();

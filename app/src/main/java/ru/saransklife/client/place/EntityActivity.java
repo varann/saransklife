@@ -44,6 +44,7 @@ import ru.saransklife.client.ui.ItemRecommendedInfoView;
 import ru.saransklife.client.ui.RatingView;
 import ru.saransklife.client.ui.SetRatingAlertDialog;
 import ru.saransklife.client.ui.TitleView;
+import ru.saransklife.client.ui.WebsiteView;
 import ru.saransklife.dao.PlaceEntity;
 
 /**
@@ -70,7 +71,7 @@ public class EntityActivity extends BaseActivity implements OnMapReadyCallback {
 	@ViewById AwesomeIconTextView addressView;
 	@ViewById AwesomeIconTextView phoneView;
 	@ViewById AwesomeIconTextView emailView;
-	@ViewById AwesomeIconTextView websiteView;
+	@ViewById WebsiteView websiteView;
 	@ViewById CardView setRecommended;
 	@ViewById CardView setRating;
 	@ViewById ProgressBar progress;
@@ -115,7 +116,7 @@ public class EntityActivity extends BaseActivity implements OnMapReadyCallback {
 		Utils.setTextWithIcon(addressView, R.string.map_marker, entity.getAddress());
 		Utils.setTextWithIcon(phoneView, R.string.phone, entity.getPhone());
 		Utils.setTextWithIcon(emailView, R.string.envelope, entity.getEmail());
-		Utils.setTextWithIcon(websiteView, R.string.globe, entity.getWebsite());
+		websiteView.setUrl(entity.getWebsite());
 
 		getLoaderManager().initLoader(PLACE_VIEW_LOADER_ID, createForceBundle(false), new PlaceViewCallbacks())
 				.forceLoad();

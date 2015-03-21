@@ -40,7 +40,7 @@
 				android:layout_height="wrap_content"
 				android:layout_marginBottom="@dimen/offset_big"/>
 
-			<ru.saransklife.client.ui.AwesomeIconTextView_
+			<ru.saransklife.client.ui.WebsiteView_
 				android:id="@+id/website_view"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"

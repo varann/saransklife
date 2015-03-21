@@ -40,11 +40,10 @@ public class PlaceEntityDao extends AbstractDao<PlaceEntity, Long> {
         public final static Property Photo_author = new Property(11, String.class, "photo_author", false, "PHOTO_AUTHOR");
         public final static Property Photo_path = new Property(12, String.class, "photo_path", false, "PHOTO_PATH");
         public final static Property Information = new Property(13, String.class, "information", false, "INFORMATION");
-        public final static Property Working_time = new Property(14, String.class, "working_time", false, "WORKING_TIME");
-        public final static Property Rating = new Property(15, Float.class, "rating", false, "RATING");
-        public final static Property View_count = new Property(16, Integer.class, "view_count", false, "VIEW_COUNT");
-        public final static Property Recommended_count = new Property(17, Integer.class, "recommended_count", false, "RECOMMENDED_COUNT");
-        public final static Property Event_id = new Property(18, long.class, "event_id", false, "EVENT_ID");
+        public final static Property Rating = new Property(14, Float.class, "rating", false, "RATING");
+        public final static Property View_count = new Property(15, Integer.class, "view_count", false, "VIEW_COUNT");
+        public final static Property Recommended_count = new Property(16, Integer.class, "recommended_count", false, "RECOMMENDED_COUNT");
+        public final static Property Event_id = new Property(17, long.class, "event_id", false, "EVENT_ID");
     };
 
     private Query<PlaceEntity> event_PlacesQuery;
@@ -75,11 +74,10 @@ public class PlaceEntityDao extends AbstractDao<PlaceEntity, Long> {
                 "'PHOTO_AUTHOR' TEXT," + // 11: photo_author
                 "'PHOTO_PATH' TEXT," + // 12: photo_path
                 "'INFORMATION' TEXT," + // 13: information
-                "'WORKING_TIME' TEXT," + // 14: working_time
-                "'RATING' REAL," + // 15: rating
-                "'VIEW_COUNT' INTEGER," + // 16: view_count
-                "'RECOMMENDED_COUNT' INTEGER," + // 17: recommended_count
-                "'EVENT_ID' INTEGER NOT NULL );"); // 18: event_id
+                "'RATING' REAL," + // 14: rating
+                "'VIEW_COUNT' INTEGER," + // 15: view_count
+                "'RECOMMENDED_COUNT' INTEGER," + // 16: recommended_count
+                "'EVENT_ID' INTEGER NOT NULL );"); // 17: event_id
     }
 
     /** Drops the underlying database table. */
@@ -163,26 +161,21 @@ public class PlaceEntityDao extends AbstractDao<PlaceEntity, Long> {
             stmt.bindString(14, information);
         }
  
-        String working_time = entity.getWorking_time();
-        if (working_time != null) {
-            stmt.bindString(15, working_time);
-        }
- 
         Float rating = entity.getRating();
         if (rating != null) {
-            stmt.bindDouble(16, rating);
+            stmt.bindDouble(15, rating);
         }
  
         Integer view_count = entity.getView_count();
         if (view_count != null) {
-            stmt.bindLong(17, view_count);
+            stmt.bindLong(16, view_count);
         }
  
         Integer recommended_count = entity.getRecommended_count();
         if (recommended_count != null) {
-            stmt.bindLong(18, recommended_count);
+            stmt.bindLong(17, recommended_count);
         }
-        stmt.bindLong(19, entity.getEvent_id());
+        stmt.bindLong(18, entity.getEvent_id());
     }
 
     /** @inheritdoc */
@@ -209,11 +202,10 @@ public class PlaceEntityDao extends AbstractDao<PlaceEntity, Long> {
             cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // photo_author
             cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // photo_path
             cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // information
-            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // working_time
-            cursor.isNull(offset + 15) ? null : cursor.getFloat(offset + 15), // rating
-            cursor.isNull(offset + 16) ? null : cursor.getInt(offset + 16), // view_count
-            cursor.isNull(offset + 17) ? null : cursor.getInt(offset + 17), // recommended_count
-            cursor.getLong(offset + 18) // event_id
+            cursor.isNull(offset + 14) ? null : cursor.getFloat(offset + 14), // rating
+            cursor.isNull(offset + 15) ? null : cursor.getInt(offset + 15), // view_count
+            cursor.isNull(offset + 16) ? null : cursor.getInt(offset + 16), // recommended_count
+            cursor.getLong(offset + 17) // event_id
         );
         return entity;
     }
@@ -235,11 +227,10 @@ public class PlaceEntityDao extends AbstractDao<PlaceEntity, Long> {
         entity.setPhoto_author(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
         entity.setPhoto_path(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
         entity.setInformation(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
-        entity.setWorking_time(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
-        entity.setRating(cursor.isNull(offset + 15) ? null : cursor.getFloat(offset + 15));
-        entity.setView_count(cursor.isNull(offset + 16) ? null : cursor.getInt(offset + 16));
-        entity.setRecommended_count(cursor.isNull(offset + 17) ? null : cursor.getInt(offset + 17));
-        entity.setEvent_id(cursor.getLong(offset + 18));
+        entity.setRating(cursor.isNull(offset + 14) ? null : cursor.getFloat(offset + 14));
+        entity.setView_count(cursor.isNull(offset + 15) ? null : cursor.getInt(offset + 15));
+        entity.setRecommended_count(cursor.isNull(offset + 16) ? null : cursor.getInt(offset + 16));
+        entity.setEvent_id(cursor.getLong(offset + 17));
      }
     
     /** @inheritdoc */

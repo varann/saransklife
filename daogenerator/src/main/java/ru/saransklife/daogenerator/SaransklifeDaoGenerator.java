@@ -85,7 +85,6 @@ public class SaransklifeDaoGenerator {
 		entity.addStringProperty("photo_author");
 		entity.addStringProperty("photo_path");
 		entity.addStringProperty("information");
-		entity.addStringProperty("working_time");
 		entity.addFloatProperty("rating");
 		entity.addIntProperty("view_count");
 		entity.addIntProperty("recommended_count");
@@ -123,10 +122,6 @@ public class SaransklifeDaoGenerator {
 		event.addStringProperty("name");
 		event.addStringProperty("description");
 		event.addStringProperty("story");
-		event.addDateProperty("start_date");
-		event.addDateProperty("end_date");
-		event.addStringProperty("time_type");
-		event.addBooleanProperty("is_repeatable");
 		event.addStringProperty("photo_author");
 		event.addStringProperty("photo_path");
 		event.addStringProperty("price");

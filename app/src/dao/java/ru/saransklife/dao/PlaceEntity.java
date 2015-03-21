@@ -20,7 +20,6 @@ public class PlaceEntity {
     private String photo_author;
     private String photo_path;
     private String information;
-    private String working_time;
     private Float rating;
     private Integer view_count;
     private Integer recommended_count;
@@ -33,7 +32,7 @@ public class PlaceEntity {
         this.local_id = local_id;
     }
 
-    public PlaceEntity(Long local_id, Long id, String slug, String name, String address, String phone, String email, String website, Float latitude, Float longitude, String description, String photo_author, String photo_path, String information, String working_time, Float rating, Integer view_count, Integer recommended_count, long event_id) {
+    public PlaceEntity(Long local_id, Long id, String slug, String name, String address, String phone, String email, String website, Float latitude, Float longitude, String description, String photo_author, String photo_path, String information, Float rating, Integer view_count, Integer recommended_count, long event_id) {
         this.local_id = local_id;
         this.id = id;
         this.slug = slug;
@@ -48,7 +47,6 @@ public class PlaceEntity {
         this.photo_author = photo_author;
         this.photo_path = photo_path;
         this.information = information;
-        this.working_time = working_time;
         this.rating = rating;
         this.view_count = view_count;
         this.recommended_count = recommended_count;
@@ -165,14 +163,6 @@ public class PlaceEntity {
 
     public void setInformation(String information) {
         this.information = information;
-    }
-
-    public String getWorking_time() {
-        return working_time;
-    }
-
-    public void setWorking_time(String working_time) {
-        this.working_time = working_time;
     }
 
     public Float getRating() {

@@ -16,10 +16,6 @@ public class Event {
     private String name;
     private String description;
     private String story;
-    private java.util.Date start_date;
-    private java.util.Date end_date;
-    private String time_type;
-    private Boolean is_repeatable;
     private String photo_author;
     private String photo_path;
     private String price;
@@ -44,17 +40,13 @@ public class Event {
         this.local_id = local_id;
     }
 
-    public Event(Long local_id, Long id, String type, String name, String description, String story, java.util.Date start_date, java.util.Date end_date, String time_type, Boolean is_repeatable, String photo_author, String photo_path, String price, Long category_id) {
+    public Event(Long local_id, Long id, String type, String name, String description, String story, String photo_author, String photo_path, String price, Long category_id) {
         this.local_id = local_id;
         this.id = id;
         this.type = type;
         this.name = name;
         this.description = description;
         this.story = story;
-        this.start_date = start_date;
-        this.end_date = end_date;
-        this.time_type = time_type;
-        this.is_repeatable = is_repeatable;
         this.photo_author = photo_author;
         this.photo_path = photo_path;
         this.price = price;
@@ -113,38 +105,6 @@ public class Event {
 
     public void setStory(String story) {
         this.story = story;
-    }
-
-    public java.util.Date getStart_date() {
-        return start_date;
-    }
-
-    public void setStart_date(java.util.Date start_date) {
-        this.start_date = start_date;
-    }
-
-    public java.util.Date getEnd_date() {
-        return end_date;
-    }
-
-    public void setEnd_date(java.util.Date end_date) {
-        this.end_date = end_date;
-    }
-
-    public String getTime_type() {
-        return time_type;
-    }
-
-    public void setTime_type(String time_type) {
-        this.time_type = time_type;
-    }
-
-    public Boolean getIs_repeatable() {
-        return is_repeatable;
-    }
-
-    public void setIs_repeatable(Boolean is_repeatable) {
-        this.is_repeatable = is_repeatable;
     }
 
     public String getPhoto_author() {

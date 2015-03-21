@@ -38,6 +38,7 @@
 		</LinearLayout>
 
 		<ImageView
+			android:id="@+id/phone"
 			android:layout_width="@dimen/category_icon_size"
 			android:layout_height="@dimen/category_icon_size"
 			android:layout_gravity="center_vertical"

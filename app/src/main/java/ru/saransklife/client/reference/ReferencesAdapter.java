@@ -1,9 +1,12 @@
 package ru.saransklife.client.reference;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -49,14 +52,29 @@ public class ReferencesAdapter extends RecyclerView.Adapter<ReferencesAdapter.Vi
 
 		public TextView name;
 		public TextView description;
+		public ImageView phone;
 
 		private Reference reference;
 
 		public ViewHolder(View view) {
 			super(view);
 			view.setOnClickListener(this);
+
 			name = (TextView) view.findViewById(R.id.name);
 			description = (TextView) view.findViewById(R.id.description);
+
+			phone = (ImageView) view.findViewById(R.id.phone);
+			phone.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (reference != null && reference.getPhone() != null) {
+						String uri = "tel:" + reference.getPhone();
+						Intent intent = new Intent(Intent.ACTION_DIAL);
+						intent.setData(Uri.parse(uri));
+						v.getContext().startActivity(intent);
+					}
+				}
+			});
 		}
 
 		@Override

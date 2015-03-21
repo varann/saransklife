@@ -22,10 +22,8 @@ import java.util.List;
 import ru.saransklife.R;
 import ru.saransklife.client.BaseActivity;
 import ru.saransklife.client.Dao;
-import ru.saransklife.client.DetailsActivity;
 import ru.saransklife.client.DetailsActivity_;
 import ru.saransklife.client.Utils;
-import ru.saransklife.client.ui.AwesomeIconTextView;
 import ru.saransklife.client.ui.DescriptionView;
 import ru.saransklife.client.ui.DetailsButton;
 import ru.saransklife.client.ui.GoogleMapLayout;
@@ -35,6 +33,7 @@ import ru.saransklife.client.ui.TitleView;
 import ru.saransklife.client.ui.WhiteTextWithShadowView;
 import ru.saransklife.dao.Event;
 import ru.saransklife.dao.EventCategory;
+import ru.saransklife.dao.EventParams;
 import ru.saransklife.dao.PlaceEntity;
 
 
@@ -81,7 +80,7 @@ public class EventInfoActivity extends BaseActivity implements OnMapReadyCallbac
 
 			Utils.setTextWithIcon(price, R.string.rub, event.getPrice());
 
-			detailsButton.setVisibility(TextUtils.isEmpty(event.getStory()) ? View.GONE : View.VISIBLE);
+			detailsButton.setVisibility(TextUtils.isEmpty(event.getStory()) && event.getParams() == null ? View.GONE : View.VISIBLE);
 
 			seance.updateSeanceInfo(event);
 
@@ -103,19 +102,6 @@ public class EventInfoActivity extends BaseActivity implements OnMapReadyCallbac
 		}
 	}
 
-	private void setText(TextView view, String text) {
-		view.setVisibility(TextUtils.isEmpty(text) ? View.GONE : View.VISIBLE);
-		view.setText(TextUtils.isEmpty(text) ? "" : text);
-	}
-
-	@Click
-	void detailsButtonClicked() {
-		DetailsActivity_.intent(this)
-				.id(id)
-				.text(event.getStory())
-				.start();
-	}
-
 	@Override
 	public void onMapReady(GoogleMap googleMap) {
 		mapLayout.init();
@@ -131,6 +117,52 @@ public class EventInfoActivity extends BaseActivity implements OnMapReadyCallbac
 			address.setText(placeEntity.getAddress());
 			address.setVisibility(View.VISIBLE);
 		}
+	}
+
+	@Click
+	void detailsButtonClicked() {
+		DetailsActivity_.intent(this)
+				.text(getDetailsText())
+				.start();
+	}
+
+	private String getDetailsText() {
+		EventParams params = event.getParams();
+		if (params == null) {
+			return event.getStory();
+		}
+
+		String details = "<table cellspacing=\"10\">";
+		details += getTableRow(params.getCountry(), R.string.params_name);
+		details += getTableRow(params.getDuration(), R.string.params_duration);
+		details += getTableRow(params.getGenre(), R.string.params_genre);
+		details += getTableRow(params.getYear(), R.string.params_year);
+		details += getTableRow(params.getDirector(), R.string.params_director);
+		details += getTableRow(params.getActors(), R.string.params_actors);
+		details += getTableRow(params.getCountry(), R.string.params_country);
+		details += getTableRow(params.getStart_age(), R.string.params_start_age);
+		details += "</table>";
+
+		String info = params.getDescription();
+
+		if (info == null) {
+			info = event.getStory();
+		}
+
+		if (info == null) {
+			info = event.getDescription();
+		}
+
+		if (info != null) {
+			details += "<p>" + info + "</p>";
+		}
+
+		return details;
+	}
+
+	private String getTableRow(String parameter, int nameRes) {
+		return TextUtils.isEmpty(parameter) ? ""
+				: "<tr><td align=\"right\" valign=\"top\">"+ getString(nameRes) + "</td><td>" + parameter + "</td></tr>";
 	}
 
 }

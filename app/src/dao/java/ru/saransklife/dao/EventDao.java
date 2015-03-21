@@ -36,6 +36,7 @@ public class EventDao extends AbstractDao<Event, Long> {
         public final static Property Photo_path = new Property(7, String.class, "photo_path", false, "PHOTO_PATH");
         public final static Property Price = new Property(8, String.class, "price", false, "PRICE");
         public final static Property Category_id = new Property(9, Long.class, "category_id", false, "CATEGORY_ID");
+        public final static Property Params_id = new Property(10, Long.class, "params_id", false, "PARAMS_ID");
     };
 
     private DaoSession daoSession;
@@ -63,7 +64,8 @@ public class EventDao extends AbstractDao<Event, Long> {
                 "'PHOTO_AUTHOR' TEXT," + // 6: photo_author
                 "'PHOTO_PATH' TEXT," + // 7: photo_path
                 "'PRICE' TEXT," + // 8: price
-                "'CATEGORY_ID' INTEGER);"); // 9: category_id
+                "'CATEGORY_ID' INTEGER," + // 9: category_id
+                "'PARAMS_ID' INTEGER);"); // 10: params_id
     }
 
     /** Drops the underlying database table. */
@@ -126,6 +128,11 @@ public class EventDao extends AbstractDao<Event, Long> {
         if (category_id != null) {
             stmt.bindLong(10, category_id);
         }
+ 
+        Long params_id = entity.getParams_id();
+        if (params_id != null) {
+            stmt.bindLong(11, params_id);
+        }
     }
 
     @Override
@@ -153,7 +160,8 @@ public class EventDao extends AbstractDao<Event, Long> {
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // photo_author
             cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // photo_path
             cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // price
-            cursor.isNull(offset + 9) ? null : cursor.getLong(offset + 9) // category_id
+            cursor.isNull(offset + 9) ? null : cursor.getLong(offset + 9), // category_id
+            cursor.isNull(offset + 10) ? null : cursor.getLong(offset + 10) // params_id
         );
         return entity;
     }
@@ -171,6 +179,7 @@ public class EventDao extends AbstractDao<Event, Long> {
         entity.setPhoto_path(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
         entity.setPrice(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
         entity.setCategory_id(cursor.isNull(offset + 9) ? null : cursor.getLong(offset + 9));
+        entity.setParams_id(cursor.isNull(offset + 10) ? null : cursor.getLong(offset + 10));
      }
     
     /** @inheritdoc */
@@ -204,8 +213,11 @@ public class EventDao extends AbstractDao<Event, Long> {
             SqlUtils.appendColumns(builder, "T", getAllColumns());
             builder.append(',');
             SqlUtils.appendColumns(builder, "T0", daoSession.getEventCategoryDao().getAllColumns());
+            builder.append(',');
+            SqlUtils.appendColumns(builder, "T1", daoSession.getEventParamsDao().getAllColumns());
             builder.append(" FROM EVENT T");
             builder.append(" LEFT JOIN EVENT_CATEGORY T0 ON T.'CATEGORY_ID'=T0.'_id'");
+            builder.append(" LEFT JOIN EVENT_PARAMS T1 ON T.'PARAMS_ID'=T1.'_id'");
             builder.append(' ');
             selectDeep = builder.toString();
         }
@@ -218,6 +230,10 @@ public class EventDao extends AbstractDao<Event, Long> {
 
         EventCategory eventCategory = loadCurrentOther(daoSession.getEventCategoryDao(), cursor, offset);
         entity.setEventCategory(eventCategory);
+        offset += daoSession.getEventCategoryDao().getAllColumns().length;
+
+        EventParams params = loadCurrentOther(daoSession.getEventParamsDao(), cursor, offset);
+        entity.setParams(params);
 
         return entity;    
     }

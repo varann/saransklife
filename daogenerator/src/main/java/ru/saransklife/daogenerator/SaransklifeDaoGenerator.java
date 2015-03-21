@@ -27,7 +27,8 @@ public class SaransklifeDaoGenerator {
 		Entity seance = addSeanceEntity(schema, place);
 
 		Entity eventCategory = addEventCategoryEntity(schema);
-		addEventEntity(schema, eventCategory, seance, place);
+		Entity params = addEventParamsEntity(schema);
+		addEventEntity(schema, eventCategory, seance, place, params);
 
 		addReferenceCategoryEntity(schema);
 		addReferenceEntity(schema);
@@ -114,7 +115,24 @@ public class SaransklifeDaoGenerator {
 		return eventCategory;
 	}
 
-	private static void addEventEntity(Schema schema, Entity eventCategory, Entity seance, Entity place) {
+	private static Entity addEventParamsEntity(Schema schema) {
+		Entity params = schema.addEntity("EventParams");
+		params.addIdProperty();
+		params.addStringProperty("english_name");
+		params.addStringProperty("description");
+		params.addStringProperty("country");
+		params.addStringProperty("year");
+		params.addStringProperty("genre");
+		params.addStringProperty("duration");
+		params.addStringProperty("start_age");
+		params.addStringProperty("director");
+		params.addStringProperty("actors");
+		params.addStringProperty("afisha");
+		params.addStringProperty("json_images");
+		return params;
+	}
+
+	private static void addEventEntity(Schema schema, Entity eventCategory, Entity seance, Entity place, Entity params) {
 		Entity event = schema.addEntity("Event");
 		event.addLongProperty("local_id").primaryKey();
 		event.addLongProperty("id");
@@ -135,6 +153,10 @@ public class SaransklifeDaoGenerator {
 		{
 			Property eventId = place.addLongProperty("event_id").notNull().getProperty();
 			event.addToMany(place, eventId).setName("places");
+		}
+		{
+			Property paramsId = event.addLongProperty("params_id").getProperty();
+			event.addToOne(params, paramsId).setName("params");
 		}
 	}
 

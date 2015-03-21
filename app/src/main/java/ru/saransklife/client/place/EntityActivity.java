@@ -124,7 +124,6 @@ public class EntityActivity extends BaseActivity implements OnMapReadyCallback {
 	@Click
 	void detailsButtonClicked() {
 		DetailsActivity_.intent(this)
-				.id(id)
 				.text(entity.getInformation())
 				.start();
 	}

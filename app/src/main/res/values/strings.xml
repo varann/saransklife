@@ -40,6 +40,16 @@
 	<string name="seances_header">Список сеансов</string>
 	<string name="some_places">Несколько мест</string>
 
+	<string name="params_name">Название:</string>
+	<string name="params_duration">Длительность:</string>
+	<string name="params_genre">Жанр:</string>
+	<string name="params_director">Режиссер:</string>
+	<string name="params_year">Год:</string>
+	<string name="params_actors">Актеры:</string>
+	<string name="params_country">Страна:</string>
+	<string name="params_start_age">Возраст:</string>
+
+
 	<string name="title_activity_splash">SplashActivity</string>
 	<string name="hello_blank_fragment">Hello blank fragment</string>
 

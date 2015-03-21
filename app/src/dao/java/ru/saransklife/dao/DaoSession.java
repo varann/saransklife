@@ -15,6 +15,7 @@ import ru.saransklife.dao.PlaceCategory;
 import ru.saransklife.dao.PlaceEntity;
 import ru.saransklife.dao.Seance;
 import ru.saransklife.dao.EventCategory;
+import ru.saransklife.dao.EventParams;
 import ru.saransklife.dao.Event;
 import ru.saransklife.dao.ReferenceCategory;
 import ru.saransklife.dao.Reference;
@@ -26,6 +27,7 @@ import ru.saransklife.dao.PlaceCategoryDao;
 import ru.saransklife.dao.PlaceEntityDao;
 import ru.saransklife.dao.SeanceDao;
 import ru.saransklife.dao.EventCategoryDao;
+import ru.saransklife.dao.EventParamsDao;
 import ru.saransklife.dao.EventDao;
 import ru.saransklife.dao.ReferenceCategoryDao;
 import ru.saransklife.dao.ReferenceDao;
@@ -46,6 +48,7 @@ public class DaoSession extends AbstractDaoSession {
     private final DaoConfig placeEntityDaoConfig;
     private final DaoConfig seanceDaoConfig;
     private final DaoConfig eventCategoryDaoConfig;
+    private final DaoConfig eventParamsDaoConfig;
     private final DaoConfig eventDaoConfig;
     private final DaoConfig referenceCategoryDaoConfig;
     private final DaoConfig referenceDaoConfig;
@@ -57,6 +60,7 @@ public class DaoSession extends AbstractDaoSession {
     private final PlaceEntityDao placeEntityDao;
     private final SeanceDao seanceDao;
     private final EventCategoryDao eventCategoryDao;
+    private final EventParamsDao eventParamsDao;
     private final EventDao eventDao;
     private final ReferenceCategoryDao referenceCategoryDao;
     private final ReferenceDao referenceDao;
@@ -84,6 +88,9 @@ public class DaoSession extends AbstractDaoSession {
         eventCategoryDaoConfig = daoConfigMap.get(EventCategoryDao.class).clone();
         eventCategoryDaoConfig.initIdentityScope(type);
 
+        eventParamsDaoConfig = daoConfigMap.get(EventParamsDao.class).clone();
+        eventParamsDaoConfig.initIdentityScope(type);
+
         eventDaoConfig = daoConfigMap.get(EventDao.class).clone();
         eventDaoConfig.initIdentityScope(type);
 
@@ -102,6 +109,7 @@ public class DaoSession extends AbstractDaoSession {
         placeEntityDao = new PlaceEntityDao(placeEntityDaoConfig, this);
         seanceDao = new SeanceDao(seanceDaoConfig, this);
         eventCategoryDao = new EventCategoryDao(eventCategoryDaoConfig, this);
+        eventParamsDao = new EventParamsDao(eventParamsDaoConfig, this);
         eventDao = new EventDao(eventDaoConfig, this);
         referenceCategoryDao = new ReferenceCategoryDao(referenceCategoryDaoConfig, this);
         referenceDao = new ReferenceDao(referenceDaoConfig, this);
@@ -113,6 +121,7 @@ public class DaoSession extends AbstractDaoSession {
         registerDao(PlaceEntity.class, placeEntityDao);
         registerDao(Seance.class, seanceDao);
         registerDao(EventCategory.class, eventCategoryDao);
+        registerDao(EventParams.class, eventParamsDao);
         registerDao(Event.class, eventDao);
         registerDao(ReferenceCategory.class, referenceCategoryDao);
         registerDao(Reference.class, referenceDao);
@@ -126,6 +135,7 @@ public class DaoSession extends AbstractDaoSession {
         placeEntityDaoConfig.getIdentityScope().clear();
         seanceDaoConfig.getIdentityScope().clear();
         eventCategoryDaoConfig.getIdentityScope().clear();
+        eventParamsDaoConfig.getIdentityScope().clear();
         eventDaoConfig.getIdentityScope().clear();
         referenceCategoryDaoConfig.getIdentityScope().clear();
         referenceDaoConfig.getIdentityScope().clear();
@@ -154,6 +164,10 @@ public class DaoSession extends AbstractDaoSession {
 
     public EventCategoryDao getEventCategoryDao() {
         return eventCategoryDao;
+    }
+
+    public EventParamsDao getEventParamsDao() {
+        return eventParamsDao;
     }
 
     public EventDao getEventDao() {

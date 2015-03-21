@@ -20,6 +20,7 @@ public class Event {
     private String photo_path;
     private String price;
     private Long category_id;
+    private Long params_id;
 
     /** Used to resolve relations */
     private transient DaoSession daoSession;
@@ -29,6 +30,9 @@ public class Event {
 
     private EventCategory eventCategory;
     private Long eventCategory__resolvedKey;
+
+    private EventParams params;
+    private Long params__resolvedKey;
 
     private List<Seance> seances;
     private List<PlaceEntity> places;
@@ -40,7 +44,7 @@ public class Event {
         this.local_id = local_id;
     }
 
-    public Event(Long local_id, Long id, String type, String name, String description, String story, String photo_author, String photo_path, String price, Long category_id) {
+    public Event(Long local_id, Long id, String type, String name, String description, String story, String photo_author, String photo_path, String price, Long category_id, Long params_id) {
         this.local_id = local_id;
         this.id = id;
         this.type = type;
@@ -51,6 +55,7 @@ public class Event {
         this.photo_path = photo_path;
         this.price = price;
         this.category_id = category_id;
+        this.params_id = params_id;
     }
 
     /** called by internal mechanisms, do not call yourself. */
@@ -139,6 +144,14 @@ public class Event {
         this.category_id = category_id;
     }
 
+    public Long getParams_id() {
+        return params_id;
+    }
+
+    public void setParams_id(Long params_id) {
+        this.params_id = params_id;
+    }
+
     /** To-one relationship, resolved on first access. */
     public EventCategory getEventCategory() {
         Long __key = this.category_id;
@@ -161,6 +174,31 @@ public class Event {
             this.eventCategory = eventCategory;
             category_id = eventCategory == null ? null : eventCategory.getId();
             eventCategory__resolvedKey = category_id;
+        }
+    }
+
+    /** To-one relationship, resolved on first access. */
+    public EventParams getParams() {
+        Long __key = this.params_id;
+        if (params__resolvedKey == null || !params__resolvedKey.equals(__key)) {
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            EventParamsDao targetDao = daoSession.getEventParamsDao();
+            EventParams paramsNew = targetDao.load(__key);
+            synchronized (this) {
+                params = paramsNew;
+            	params__resolvedKey = __key;
+            }
+        }
+        return params;
+    }
+
+    public void setParams(EventParams params) {
+        synchronized (this) {
+            this.params = params;
+            params_id = params == null ? null : params.getId();
+            params__resolvedKey = params_id;
         }
     }
 

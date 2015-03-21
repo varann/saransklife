@@ -4,6 +4,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
@@ -15,6 +18,7 @@ import de.greenrobot.dao.query.QueryBuilder;
 import de.greenrobot.dao.query.WhereCondition;
 import ru.saransklife.R;
 import ru.saransklife.api.model.ApiEvent;
+import ru.saransklife.api.model.ApiEventParams;
 import ru.saransklife.api.model.ApiSectionItem;
 import ru.saransklife.client.drawer.SectionItemType;
 import ru.saransklife.dao.CacheInfo;
@@ -25,6 +29,7 @@ import ru.saransklife.dao.Event;
 import ru.saransklife.dao.EventCategory;
 import ru.saransklife.dao.EventCategoryDao;
 import ru.saransklife.dao.EventDao;
+import ru.saransklife.dao.EventParamsDao;
 import ru.saransklife.dao.Page;
 import ru.saransklife.dao.PageDao;
 import ru.saransklife.dao.PlaceCategory;
@@ -64,6 +69,8 @@ public class Dao {
 	private DaoMaster.DevOpenHelper helper;
 	private DaoMaster daoMaster;
 	private DaoSession daoSession;
+
+	private Gson gson = new GsonBuilder().create();
 
 	@AfterInject
 	void init() {
@@ -212,18 +219,31 @@ public class Dao {
 				PlaceEntityDao placeEntityDao = daoSession.getPlaceEntityDao();
 				EventDao eventDao = daoSession.getEventDao();
 				SeanceDao seanceDao = daoSession.getSeanceDao();
+				EventParamsDao paramsDao = daoSession.getEventParamsDao();
 
-				// Удаляем старые события, сеансы к ним и привязанные места
+				// Удаляем старые события с параметрами, сеансы к ним и привязанные места
 				List<Event> oldEvents = eventDao.queryBuilder().where(EventDao.Properties.Type.eq(type)).build().list();
 				for (Event oldEvent : oldEvents) {
+					if (oldEvent.getParams() != null) {
+						paramsDao.delete(oldEvent.getParams());
+					}
 					seanceDao.deleteInTx(oldEvent.getSeances());
 					placeEntityDao.deleteInTx(oldEvent.getPlaces());
+
 				}
 				eventDao.deleteInTx(oldEvents);
 
 				for (ApiEvent apiEvent : apiEvents) {
 					// Сохранение категории события
 					setEventCategory(apiEvent.getCategory());
+
+					// Сохранение параметров
+					ApiEventParams params = apiEvent.getParams();
+					if (params != null) {
+						params.setJson_images(gson.toJson(params.getImagesArray()));
+						long paramsId = paramsDao.insertOrReplace(params);
+						apiEvent.setParams_id(paramsId);
+					}
 
 					apiEvent.setType(type);
 					long id = eventDao.insert(apiEvent);

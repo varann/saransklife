@@ -21,7 +21,6 @@ public class DetailsActivity extends BaseActivity {
 	@ViewById WebView webView;
 
 	@Extra String text;
-	@Extra long id;
 
 	@AfterViews
 	void afterViews() {

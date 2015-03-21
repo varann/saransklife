@@ -6,6 +6,7 @@ import java.util.List;
 
 import ru.saransklife.dao.Event;
 import ru.saransklife.dao.EventCategory;
+import ru.saransklife.dao.EventParams;
 import ru.saransklife.dao.PlaceEntity;
 
 /**
@@ -21,6 +22,9 @@ public class ApiEvent extends Event {
 
 	@SerializedName("seances_data")
 	private SeancesData seancesData;
+
+	@SerializedName("additional_params")
+	private ApiEventParams params;
 
 	public List<PlaceEntity> getPlaces() {
 		return places;
@@ -46,4 +50,12 @@ public class ApiEvent extends Event {
 		this.seancesData = seancesData;
 	}
 
+	@Override
+	public ApiEventParams getParams() {
+		return params;
+	}
+
+	public void setParams(ApiEventParams params) {
+		this.params = params;
+	}
 }

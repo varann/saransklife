@@ -1,8 +1,6 @@
 package ru.saransklife.client.ui;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.UnderlineSpan;
@@ -15,6 +13,7 @@ import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
 
 import ru.saransklife.R;
+import ru.saransklife.client.Utils;
 
 /**
  * Created by asavinova on 03/02/15.
@@ -45,8 +44,6 @@ public class WebsiteView extends LinearLayout implements View.OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		Intent intent = new Intent(Intent.ACTION_VIEW);
-		intent.setData(Uri.parse(url));
-		getContext().startActivity(intent);
+		Utils.openLink(getContext(), url);
 	}
 }

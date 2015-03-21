@@ -1,17 +1,14 @@
 package ru.saransklife.client;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.net.MailTo;
-import android.net.Uri;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -53,15 +50,7 @@ public class AboutActivity extends BaseActivity {
 			public boolean shouldOverrideUrlLoading(WebView view, String url) {
 				if (url.startsWith("mailto:")) {
 					MailTo mailTo = MailTo.parse(url);
-					Intent intent = new Intent(Intent.ACTION_SENDTO);
-					intent.setData(Uri.parse("mailto:" + mailTo.getTo()));
-					intent.putExtra(Intent.EXTRA_EMAIL, new String[]{mailTo.getTo()});
-					intent.putExtra(Intent.EXTRA_SUBJECT, mailTo.getSubject());
-					try {
-						startActivity(Intent.createChooser(intent, getString(R.string.send_email_title)));
-					} catch (android.content.ActivityNotFoundException ex) {
-						Toast.makeText(AboutActivity.this, R.string.no_email_applications_installed, Toast.LENGTH_SHORT).show();
-					}
+					Utils.mailTo(getApplicationContext(), "mailto:" + mailTo.getTo(), mailTo.getSubject());
 					view.reload();
 					return true;
 				} else {

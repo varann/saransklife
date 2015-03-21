@@ -1,7 +1,5 @@
 package ru.saransklife.client.reference;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +10,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import ru.saransklife.R;
+import ru.saransklife.client.Utils;
 import ru.saransklife.dao.Reference;
 
 /**
@@ -68,10 +67,7 @@ public class ReferencesAdapter extends RecyclerView.Adapter<ReferencesAdapter.Vi
 				@Override
 				public void onClick(View v) {
 					if (reference != null && reference.getPhone() != null) {
-						String uri = "tel:" + reference.getPhone();
-						Intent intent = new Intent(Intent.ACTION_DIAL);
-						intent.setData(Uri.parse(uri));
-						v.getContext().startActivity(intent);
+						Utils.call(v.getContext(), reference.getPhone());
 					}
 				}
 			});

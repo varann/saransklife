@@ -19,8 +19,13 @@
 	<string name="rating_setted">Ваша оценка учтена</string>
 
 	<string name="copyright">www.saransklife.ru, 2015 г.</string>
+
 	<string name="send_email_title">Отправка письма</string>
 	<string name="no_email_applications_installed">Нет установленных приложений для отправки писем</string>
+
+	<string name="chooser_title">Что использовать?</string>
+	<string name="no_browsers_installed">Нет установленных приложений для просмотра веб-страниц</string>
+	<string name="no_phone_app_installed">Нет установленных приложений для звонка</string>
 
 	<string name="dialog_ок">OK</string>
 	<string name="dialog_retry">Повторить</string>

@@ -38,6 +38,7 @@ import ru.saransklife.client.Utils;
 import ru.saransklife.client.ui.AwesomeIconTextView;
 import ru.saransklife.client.ui.DescriptionView;
 import ru.saransklife.client.ui.DetailsButton;
+import ru.saransklife.client.ui.EmailView;
 import ru.saransklife.client.ui.GoogleMapLayout;
 import ru.saransklife.client.ui.HazyImageView;
 import ru.saransklife.client.ui.ItemRecommendedInfoView;
@@ -71,7 +72,7 @@ public class EntityActivity extends BaseActivity implements OnMapReadyCallback {
 	@ViewById GoogleMapLayout mapLayout;
 	@ViewById AwesomeIconTextView addressView;
 	@ViewById PhoneView phoneView;
-	@ViewById AwesomeIconTextView emailView;
+	@ViewById EmailView mailtoView;
 	@ViewById WebsiteView websiteView;
 	@ViewById CardView setRecommended;
 	@ViewById CardView setRating;
@@ -116,7 +117,7 @@ public class EntityActivity extends BaseActivity implements OnMapReadyCallback {
 		Utils.setTextWithIcon(photoAuthor, R.string.photo_author, entity.getPhoto_author());
 		Utils.setTextWithIcon(addressView, R.string.map_marker, entity.getAddress());
 		phoneView.setPhoneNumber(entity.getPhone());
-		Utils.setTextWithIcon(emailView, R.string.envelope, entity.getEmail());
+		mailtoView.setEmail(entity.getEmail());
 		websiteView.setUrl(entity.getWebsite());
 
 		getLoaderManager().initLoader(PLACE_VIEW_LOADER_ID, createForceBundle(false), new PlaceViewCallbacks())

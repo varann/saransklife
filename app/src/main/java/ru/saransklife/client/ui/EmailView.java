@@ -18,32 +18,32 @@ import ru.saransklife.client.Utils;
 /**
  * Created by asavinova on 03/02/15.
  */
-@EViewGroup(R.layout.phone_view)
-public class PhoneView extends LinearLayout implements View.OnClickListener {
+@EViewGroup(R.layout.email_view)
+public class EmailView extends LinearLayout implements View.OnClickListener {
 
-	@ViewById TextView phone;
-	private String phoneNumber;
+	@ViewById TextView emailView;
+	private String email;
 
-	public PhoneView(Context context, AttributeSet attrs) {
+	public EmailView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
+	public void setEmail(String email) {
+		this.email = email;
 
-		setVisibility(TextUtils.isEmpty(phoneNumber) ? GONE : VISIBLE);
-		if (!TextUtils.isEmpty(phoneNumber)) {
+		setVisibility(TextUtils.isEmpty(email) ? GONE : VISIBLE);
+		if (!TextUtils.isEmpty(email)) {
 			setOnClickListener(this);
 
-			SpannableString content = new SpannableString(phoneNumber);
+			SpannableString content = new SpannableString(email);
 			content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
-			phone.setText(content);
+			emailView.setText(content);
 		}
 	}
 
 
 	@Override
 	public void onClick(View v) {
-		Utils.call(getContext(), phoneNumber);
+		Utils.mailTo(getContext(), "mailto:" + email, "");
 	}
 }

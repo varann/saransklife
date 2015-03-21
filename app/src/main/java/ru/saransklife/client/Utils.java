@@ -1,8 +1,10 @@
 package ru.saransklife.client;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Point;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Display;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -97,5 +100,46 @@ public class Utils {
 
 	public static String capitalizeString(String string) {
 		return Character.toUpperCase(string.charAt(0)) + string.substring(1);
+	}
+
+	public static void mailTo(Context context, String mailto, String subject) {
+		Intent intent = new Intent(Intent.ACTION_SENDTO);
+		intent.setType("text/plain");
+		intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+		intent.setData(Uri.parse(mailto));
+		Intent chooser = Intent.createChooser(intent, context.getString(R.string.send_email_title));
+		chooser.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		try {
+			context.startActivity(chooser);
+		} catch (android.content.ActivityNotFoundException ex) {
+			Toast.makeText(context, R.string.no_email_applications_installed, Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	public static void openLink(Context context, String url) {
+		Intent intent = new Intent(Intent.ACTION_VIEW);
+		intent.setData(Uri.parse(url));
+
+		Intent chooser = Intent.createChooser(intent, context.getString(R.string.chooser_title));
+		chooser.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		try {
+			context.startActivity(chooser);
+		} catch (android.content.ActivityNotFoundException ex) {
+			Toast.makeText(context, R.string.no_browsers_installed, Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	public static void call(Context context, String number) {
+		String uri = "tel:" + number;
+		Intent intent = new Intent(Intent.ACTION_DIAL);
+		intent.setData(Uri.parse(uri));
+
+		Intent chooser = Intent.createChooser(intent, context.getString(R.string.chooser_title));
+		chooser.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		try {
+			context.startActivity(chooser);
+		} catch (android.content.ActivityNotFoundException ex) {
+			Toast.makeText(context, R.string.no_phone_app_installed, Toast.LENGTH_SHORT).show();
+		}
 	}
 }

@@ -122,8 +122,8 @@
 					android:layout_height="wrap_content"
 					android:layout_marginBottom="@dimen/offset_big"/>
 
-				<ru.saransklife.client.ui.AwesomeIconTextView_
-					android:id="@+id/email_view"
+				<ru.saransklife.client.ui.EmailView_
+					android:id="@+id/mailto_view"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_marginBottom="@dimen/offset_big"/>

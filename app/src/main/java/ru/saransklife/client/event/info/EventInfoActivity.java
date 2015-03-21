@@ -25,12 +25,14 @@ import ru.saransklife.client.Dao;
 import ru.saransklife.client.DetailsActivity;
 import ru.saransklife.client.DetailsActivity_;
 import ru.saransklife.client.Utils;
+import ru.saransklife.client.ui.AwesomeIconTextView;
 import ru.saransklife.client.ui.DescriptionView;
 import ru.saransklife.client.ui.DetailsButton;
 import ru.saransklife.client.ui.GoogleMapLayout;
 import ru.saransklife.client.ui.HazyImageView;
 import ru.saransklife.client.ui.NearestSeanceView;
 import ru.saransklife.client.ui.TitleView;
+import ru.saransklife.client.ui.WhiteTextWithShadowView;
 import ru.saransklife.dao.Event;
 import ru.saransklife.dao.EventCategory;
 import ru.saransklife.dao.PlaceEntity;
@@ -41,9 +43,10 @@ public class EventInfoActivity extends BaseActivity implements OnMapReadyCallbac
 
 	@ViewById Toolbar toolbar;
 	@ViewById HazyImageView photo;
+	@ViewById WhiteTextWithShadowView price;
 	@ViewById DetailsButton detailsButton;
 	@ViewById NearestSeanceView seance;
-	@ViewById TextView categoryName;
+	@ViewById WhiteTextWithShadowView categoryName;
 	@ViewById TitleView titleView;
 	@ViewById DescriptionView descriptionView;
 	@ViewById GoogleMapLayout mapLayout;
@@ -76,12 +79,15 @@ public class EventInfoActivity extends BaseActivity implements OnMapReadyCallbac
 
 			Utils.displayImage(photo, event.getPhoto_path(), null, 200);
 
+			Utils.setTextWithIcon(price, R.string.rub, event.getPrice());
+
 			detailsButton.setVisibility(TextUtils.isEmpty(event.getStory()) ? View.GONE : View.VISIBLE);
 
 			seance.updateSeanceInfo(event);
 
 			EventCategory category = dao.getEventCategoryById(event.getCategory_id());
-			setText(categoryName, category.getName());
+			Utils.setTextWithIcon(categoryName, R.string.tag, category.getName());
+
 			titleView.setTitle(event.getName());
 			descriptionView.setText(event.getDescription());
 

@@ -84,6 +84,7 @@ public class ReferenceCategoriesActivity extends BaseActivity implements SwipeRe
 	public void onPause() {
 		super.onPause();
 		eventBus.unregister(this);
+		setRefreshing(false);
 	}
 
 	public void onEvent(Events.ReferenceCategoriesStartLoadingEvent event) {

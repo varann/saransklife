@@ -88,6 +88,7 @@ public class PlaceCategoriesActivity extends BaseActivity implements SwipeRefres
 	public void onPause() {
 		super.onPause();
 		eventBus.unregister(this);
+		setRefreshing(false);
 	}
 
 	public void onEvent(Events.PlaceCategoriesStartLoadingEvent event) {

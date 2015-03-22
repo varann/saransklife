@@ -115,6 +115,7 @@ public class EntitiesByCategoryActivity extends BaseActivity implements SwipeRef
 	public void onPause() {
 		super.onPause();
 		eventBus.unregister(this);
+		setRefreshing(false);
 	}
 
 	public void onEvent(Events.SubPlaceCategoriesStartLoadingEvent event) {

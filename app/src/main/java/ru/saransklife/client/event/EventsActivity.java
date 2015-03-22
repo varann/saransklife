@@ -103,6 +103,7 @@ public class EventsActivity extends BaseActivity implements SwipeRefreshLayout.O
 	public void onPause() {
 		super.onPause();
 		eventBus.unregister(this);
+		setRefreshing(false);
 	}
 
 	public void onEvent(Events.EventsStartLoadingEvent event) {

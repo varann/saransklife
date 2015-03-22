@@ -47,33 +47,31 @@ public class Utils {
 	public static void displayImage(ImageView view, String path, Integer widthDP, Integer heightDP) {
 		String url = null;
 		if (!TextUtils.isEmpty(path)) {
-			url = getUrl(view, path, widthDP, heightDP);
+			url = getUrl(view.getContext(), path, widthDP, heightDP);
 		}
 
 		Picasso.with(view.getContext())
 				.load(url)
-				.placeholder(R.drawable.bg_nophoto)
-				.error(R.drawable.bg_nophoto)
 				.into(view);
 	}
 
-	private static String getUrl(ImageView view, String path, Integer widthDP, Integer heightDP) {
+	private static String getUrl(Context context, String path, Integer widthDP, Integer heightDP) {
 		int widthPX = 0;
 		int heightPX = 0;
-		WindowManager wm = (WindowManager) view.getContext().getSystemService(Context.WINDOW_SERVICE);
+		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 		Display display = wm.getDefaultDisplay();
 		Point size = new Point();
 		display.getSize(size);
 		if (widthDP == null) {
 			widthPX = size.x;
 		} else {
-			Resources r = view.getResources();
+			Resources r = context.getResources();
 			widthPX = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, widthDP, r.getDisplayMetrics());
 		}
 		if (heightDP == null) {
 			heightPX = size.y;
 		} else {
-			Resources r = view.getResources();
+			Resources r = context.getResources();
 			heightPX = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, heightDP, r.getDisplayMetrics());
 		}
 

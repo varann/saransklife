@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<string name="app_name">Saransklife</string>
+	<string name="app_name">Саранск Лайф</string>
 	<string name="main_menu_item_title">Главная</string>
 	<string name="main_title">Саранск</string>
 	<string name="page_title">О городе</string>
@@ -53,9 +53,5 @@
 	<string name="params_actors">Актеры:</string>
 	<string name="params_country">Страна:</string>
 	<string name="params_start_age">Возраст:</string>
-
-
-	<string name="title_activity_splash">SplashActivity</string>
-	<string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

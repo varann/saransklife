@@ -16,7 +16,10 @@ public enum CategoryType {
 	CITY(R.drawable.icon64_gray_city),
 	MUSEUM(R.drawable.icon64_gray_museum),
 	PARTY(R.drawable.icon64_gray_party),
-	THEATRE(R.drawable.icon64_gray_theatre);
+	THEATRE(R.drawable.icon64_gray_theatre),
+	CONCERT(R.drawable.icon64_gray_concert),
+	SPORT(R.drawable.icon64_gray_sport),
+	EXPOSITION(R.drawable.icon64_gray_exposition);
 
 	private static Logger L = LoggerFactory.getLogger(CategoryType.class);
 

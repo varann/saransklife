@@ -85,6 +85,11 @@ public class Utils {
 
 	public static String getNearestSeance(Event event) {
 		List<Seance> seances = event.getSeances();
+
+		if (seances.isEmpty()) {
+			return null;
+		}
+
 		Date currentDate = new Date();
 		for (Seance seance : seances) {
 			Date date = seance.getDatetime();
@@ -93,7 +98,11 @@ public class Utils {
 			}
 		}
 
-		return null;
+		/**
+		 * Если все сеансы уже прошли, то возвращается последний
+		 */
+		Seance lastSeance = seances.get(seances.size() - 1);
+		return capitalizeString(dateFormat.format(lastSeance.getDatetime()));
 	}
 
 	public static String capitalizeString(String string) {

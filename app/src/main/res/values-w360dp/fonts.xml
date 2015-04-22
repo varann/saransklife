@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<dimen name="event_category_title_size">16sp</dimen>
+	<dimen name="pager_title_size">18sp</dimen>
+	<dimen name="pager_subtitle_size">14sp</dimen>
+	<dimen name="photo_author_size">12sp</dimen>
+	<dimen name="font_size_button">18sp</dimen>
+	<dimen name="item_title_size">18sp</dimen>
+	<dimen name="item_subtitle_size">14sp</dimen>
+	<dimen name="spinner_item_title_size">20sp</dimen>
+	<dimen name="icon_font_size">24sp</dimen>
+
+</resources>
